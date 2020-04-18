@@ -26,7 +26,8 @@ class CreateTransponderTypeTable extends Migration
         DB::table('transponder_type')->insert([
             ['id' => 1, 'name' => 'a_mode', 'label' => 'Mode A'],
             ['id' => 2, 'name' => 's_mode', 'label' => 'Mode S'],
-            ['id' => 3, 'name' => 'c_mode', 'label' => 'Mode C']
+            ['id' => 3, 'name' => 'c_mode', 'label' => 'Mode C'],
+            ['id' => 4, 'name' => 'n_mode', 'label' => 'Mode N'],
         ]);
 
         Schema::create('transponder_type_properties', function (Blueprint $table) {

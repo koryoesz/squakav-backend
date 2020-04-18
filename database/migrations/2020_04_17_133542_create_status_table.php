@@ -40,7 +40,9 @@ INSERT INTO status (`id`,`type_id`,`name`,`label`)
 VALUES 
 (1, 1, 'active', 'Active'),
 (2, 1, 'inactive', 'Inactive'),
-(3, 1, 'removed', 'Removed');
+(3, 1, 'removed', 'Removed'),
+(4, 1, 'flight_approved', 'Flight Approved'),
+(5, 1, 'flight_declined', 'Flight Declined');
         ";
 
         DB::connection()->getPDO()->exec($sql);

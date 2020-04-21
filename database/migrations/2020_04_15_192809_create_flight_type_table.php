@@ -18,8 +18,8 @@ class CreateFlightTypeTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->id();
-            $table->string("name", 10);
-            $table->string("label");
+            $table->string("name", 50);
+            $table->string("label", 50);
             $table->timestamps();
         });
 

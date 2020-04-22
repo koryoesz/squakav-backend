@@ -14,6 +14,8 @@ class CreateAtsFlightSurvivingTable extends Migration
     public function up()
     {
         Schema::create('ats_flight_surviving_equipments', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->bigIncrements();
             $table->unsignedInteger('flight_id');
             $table->tinyInteger('polar')->default(0);

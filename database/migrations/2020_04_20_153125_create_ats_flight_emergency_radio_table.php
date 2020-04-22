@@ -14,8 +14,9 @@ class CreateAtsFlightEmergencyRadioTable extends Migration
     public function up()
     {
         Schema::create('ats_flight_emergency_radio', function (Blueprint $table) {
-            $table->id();
+            $table->engine = 'InnoDB';
 
+            $table->bigIncrements();
             $table->unsignedInteger('flight_id');
             $table->tinyInteger('uhf')->default(0);
             $table->tinyInteger('vhf')->default(0);

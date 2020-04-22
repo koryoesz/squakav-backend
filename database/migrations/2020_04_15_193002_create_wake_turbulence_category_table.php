@@ -15,7 +15,9 @@ class CreateWakeTurbulenceCategoryTable extends Migration
     public function up()
     {
         Schema::create('wake_turbulence_category', function (Blueprint $table) {
-            $table->id();
+            $table->engine = 'InnoDB';
+
+            $table->tinyIncrements();
             $table->string("name", 10);
             $table->string("label", 10);
             $table->timestamps();

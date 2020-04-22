@@ -14,7 +14,9 @@ class CreateAtsFlightJacketsTable extends Migration
     public function up()
     {
         Schema::create('ats_flight_jackets', function (Blueprint $table) {
-            $table->id();
+            $table->engine = 'InnoDB';
+
+            $table->bigIncrements();
             $table->unsignedInteger('flight_id');
             $table->tinyInteger('light')->default(0);
             $table->tinyInteger('fluores')->default(0);

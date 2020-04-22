@@ -14,6 +14,8 @@ class CreateFlightTransponderTable extends Migration
     public function up()
     {
         Schema::create('flight_transponder', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->unsignedInteger('flight_id');
             $table->unsignedInteger('transponder_type_properties_id');
             $table->timestamps();

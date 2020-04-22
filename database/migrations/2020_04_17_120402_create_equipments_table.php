@@ -17,7 +17,7 @@ class CreateEquipmentsTable extends Migration
         Schema::create('equipments', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->id();
+            $table->increments();
             $table->unsignedInteger('equipment_type_id');
             $table->string('name');
             $table->string('label', 2);

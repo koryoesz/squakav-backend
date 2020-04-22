@@ -17,7 +17,7 @@ class CreateAirlineUserTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->id();
-            $table->unsignedInteger("country_id");
+            $table->unsignedInteger("state_id");
             $table->string("username")->unique();
             $table->string("airline_name")->unique();
             $table->string("code_icao")->unique()->nullable();

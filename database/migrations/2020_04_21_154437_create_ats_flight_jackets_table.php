@@ -24,7 +24,7 @@ class CreateAtsFlightJacketsTable extends Migration
             $table->tinyInteger('vhf')->default(0);
             $table->timestamps();
 
-            $table->foreign('flight_id')->references('id')->on('ats_flights');
+            $table->foreign('flight_id')->references('id')->on('flights_ats');
         });
     }
 

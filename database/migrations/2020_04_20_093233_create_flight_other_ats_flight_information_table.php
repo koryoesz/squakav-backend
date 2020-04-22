@@ -18,8 +18,10 @@ class CreateFlightOtherAtsFlightInformationTable extends Migration
 
             $table->unsignedInteger('flight_id');
             $table->unsignedInteger('other_ats_flight_information_id');
-            $table->string('value', 50);
+            $table->string('value', 128);
             $table->timestamps();
+
+            $table->foreign('flight_id')->references('id')->on('flights_ats');
         });
     }
 

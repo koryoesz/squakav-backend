@@ -16,12 +16,12 @@ class CreateFlightOtherAtsFlightInformationTable extends Migration
         Schema::create('flight_other_ats_flight_information', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->unsignedInteger('flight_id');
-            $table->unsignedInteger('other_ats_flight_information_id');
+            $table->unsignedBigInteger('flight_id');
+            $table->unsignedSmallInteger('other_ats_flight_information_id');
             $table->string('value', 128);
             $table->timestamps();
 
-            $table->foreign('flight_id')->references('id')->on('flights_ats');
+            $table->foreign('flight_id')->references('id')->on('flight_ats');
         });
     }
 

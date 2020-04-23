@@ -17,10 +17,10 @@ class CreateTranspondersTable extends Migration
         Schema::create('transponders', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->smallIncrements();
-            $table->unsignedInteger('transponder_type_id');
-            $table->string("name", 128);
-            $table->string("label", 10);
+            $table->smallIncrements('id');
+            $table->unsignedSmallInteger('transponder_type_id');
+            $table->string("name", 10);
+            $table->string("label", 128);
             $table->timestamps();
 
             $table->foreign('transponder_type_id')->references('id')->on('transponder_type');

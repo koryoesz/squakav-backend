@@ -17,7 +17,7 @@ class CreateFlightTypeTable extends Migration
         Schema::create('flight_type', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->smallIncrements();
+            $table->smallIncrements('id');
             $table->string("name", 50);
             $table->string("label", 50);
             $table->timestamps();

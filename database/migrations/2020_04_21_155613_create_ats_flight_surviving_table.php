@@ -16,15 +16,15 @@ class CreateAtsFlightSurvivingTable extends Migration
         Schema::create('ats_flight_surviving_equipments', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->bigIncrements();
-            $table->unsignedInteger('flight_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('flight_id');
             $table->tinyInteger('polar')->default(0);
             $table->tinyInteger('desert')->default(0);
             $table->tinyInteger('maritime')->default(0);
             $table->tinyInteger('jungle')->default(0);
             $table->timestamps();
 
-            $table->foreign('flight_id')->references('id')->on('flights_ats');
+            $table->foreign('flight_id')->references('id')->on('flight_ats');
         });
     }
 

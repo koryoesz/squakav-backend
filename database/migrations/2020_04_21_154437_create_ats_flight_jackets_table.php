@@ -16,15 +16,15 @@ class CreateAtsFlightJacketsTable extends Migration
         Schema::create('ats_flight_jackets', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->bigIncrements();
-            $table->unsignedInteger('flight_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('flight_id');
             $table->tinyInteger('light')->default(0);
             $table->tinyInteger('fluores')->default(0);
             $table->tinyInteger('uhf')->default(0);
             $table->tinyInteger('vhf')->default(0);
             $table->timestamps();
 
-            $table->foreign('flight_id')->references('id')->on('flights_ats');
+            $table->foreign('flight_id')->references('id')->on('flight_ats');
         });
     }
 

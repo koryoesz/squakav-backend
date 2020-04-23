@@ -19,7 +19,7 @@ class CreateTransponderTypeTable extends Migration
 
             $table->smallIncrements('id');
             $table->string('name', 10);
-            $table->string('label', 2);
+            $table->string('label', 50);
             $table->timestamps();
         });
 
@@ -35,8 +35,8 @@ class CreateTransponderTypeTable extends Migration
 
             $table->smallIncrements('id');
             $table->unsignedInteger('transponder_type_id');
-            $table->string('name', 10);
-            $table->string('label', 2);
+            $table->string('name', 2);
+            $table->string('label', 128);
             $table->timestamps();
         });
 

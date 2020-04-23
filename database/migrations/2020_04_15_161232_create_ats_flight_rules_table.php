@@ -19,7 +19,7 @@ class CreateAtsFlightRulesTable extends Migration
 
             $table->smallIncrements('id');
             $table->string('name', 50);
-            $table->string('label', 20);
+            $table->string('label', 50);
             $table->string('code', 2);
             $table->timestamps();
         });

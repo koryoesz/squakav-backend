@@ -16,11 +16,11 @@ class CreateFlightAtsTransponderTable extends Migration
         Schema::create('flight_ats_transponder', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->unsignedInteger('flight_id');
-            $table->unsignedInteger('transponder_type_properties_id');
+            $table->unsignedBigInteger('flight_id');
+            $table->unsignedSmallInteger('transponder_type_properties_id');
             $table->timestamps();
 
-            $table->foreign('flight_id')->references('id')->on('flights_ats');
+            $table->foreign('flight_id')->references('id')->on('flight_ats');
             $table->foreign('transponder_type_properties_id')->references('id')->on('transponder_type_properties');
         });
     }

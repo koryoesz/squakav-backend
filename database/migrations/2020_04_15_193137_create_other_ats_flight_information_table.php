@@ -17,7 +17,7 @@ class CreateOtherAtsFlightInformationTable extends Migration
         Schema::create('other_ats_flight_information', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->smallIncrements();
+            $table->smallIncrements('id');
             $table->string("name", 10);
             $table->string("label", 10);
             $table->timestamps();

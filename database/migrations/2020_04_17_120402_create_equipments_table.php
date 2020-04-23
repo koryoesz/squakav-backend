@@ -17,11 +17,11 @@ class CreateEquipmentsTable extends Migration
         Schema::create('equipments', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->increments();
+            $table->increments('id');
             $table->unsignedInteger('equipment_type_id');
-            $table->string('name');
-            $table->string('label', 2);
-            $table->smallInteger('status_id')->default(1);
+            $table->string('name', 2);
+            $table->string('label', 128);
+            $table->unsignedSmallInteger('status_id')->default(1);
             $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('modified_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 

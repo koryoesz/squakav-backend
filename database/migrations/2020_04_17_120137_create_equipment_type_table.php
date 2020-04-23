@@ -18,8 +18,8 @@ class CreateEquipmentTypeTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->smallIncrements('id');
-            $table->string('name', 10);
-            $table->string('label', 2);
+            $table->string('name', 2);
+            $table->string('label', 20);
             $table->timestamps();
         });
 

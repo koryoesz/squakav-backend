@@ -17,7 +17,7 @@ class CreateTranspondersTable extends Migration
         Schema::create('transponders', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->increments();
+            $table->smallIncrements();
             $table->unsignedInteger('transponder_type_id');
             $table->string("name", 128);
             $table->string("label", 10);

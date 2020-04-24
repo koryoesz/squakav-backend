@@ -13,7 +13,7 @@ class CreateFlightOtherAtsFlightInformationTable extends Migration
      */
     public function up()
     {
-        Schema::create('flight_other_ats_flight_information', function (Blueprint $table) {
+        Schema::create('flight_ats_other_flight_information', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->unsignedBigInteger('flight_id');
@@ -32,6 +32,6 @@ class CreateFlightOtherAtsFlightInformationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flight_other_ats_flight_information');
+        Schema::dropIfExists('flight_ats_other_flight_information');
     }
 }

@@ -13,7 +13,7 @@ class CreateAtsFlightJacketsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ats_flight_jackets', function (Blueprint $table) {
+        Schema::create('flight_ats_jackets', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->bigIncrements('id');
@@ -35,6 +35,6 @@ class CreateAtsFlightJacketsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ats_flight_jackets');
+        Schema::dropIfExists('flight_ats_jackets');
     }
 }

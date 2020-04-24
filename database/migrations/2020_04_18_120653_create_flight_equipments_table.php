@@ -13,7 +13,7 @@ class CreateFlightEquipmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('flight_equipments', function (Blueprint $table) {
+        Schema::create('flight_ats_equipments', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->unsignedBigInteger('flight_id');
@@ -32,6 +32,6 @@ class CreateFlightEquipmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flight_equipments');
+        Schema::dropIfExists('flight_ats_equipments');
     }
 }

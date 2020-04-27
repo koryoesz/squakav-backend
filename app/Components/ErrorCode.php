@@ -1,0 +1,31 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: user
+ * Date: 4/27/2020
+ * Time: 9:45 AM
+ */
+
+namespace App\Components;
+
+
+class ErrorCode
+{
+    const UNKNOWN_ERROR = 'UNKNOWN_ERROR';
+    const INTERNAL_ERROR = 'INTERNAL_ERROR';
+    const RECORD_NOT_EXISTING = 'RECORD_NOT_EXISTING';
+    const RECORD_EXISTING = 'RECORD_EXISTING';
+    const RECORD_NOT_CREATED = 'RECORD_NOT_CREATED';
+    const RECORD_NOT_UPDATED = 'RECORD_NOT_UPDATED';
+    const RECORD_NOT_DELETED = 'RECORD_NOT_DELETED';
+    const EXTERNAL_SOURCE_ERROR = 'EXTERNAL_SOURCE_ERROR';
+    const INVALID_INPUT = 'INVALID_INPUT';
+    const MODEL_INVALID_INPUT = 'MODEL_INVALID_INPUT';
+    const INVALID_CRED = 'INVALID_CRED';
+    const ACCESS_DENIED = 'ACCESS_DENIED';
+    const NO_AUTH = 'NO_AUTH';
+    const ROUTE_NOT_FOUND = 'ROUTE_NOT_FOUND';
+    const UPLOAD_ERROR = 'UPLOAD_ERROR';
+    const CANNOT_PERFORM_ACTION = 'CANNOT_PERFORM_ACTION';
+
+}

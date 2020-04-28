@@ -25,12 +25,12 @@ class AviationEdgeRestClient
      */
     protected $config;
     protected $api_key;
+    protected $base_uri;
 
     public function __construct()
     {
-        $this->http_client = new Client([
-            'base_uri' => env('AVIATION_EDGE_API_BASE_URL')
-        ]);
+        $this->http_client = new Client();
+        $this->base_uri = env('AVIATION_EDGE_API_BASE_URL');
         $this->config = Config::get('aviation_edge_api');
         $this->api_key = env('AVIATION_EDGE_API_KEY');
     }
@@ -62,7 +62,7 @@ class AviationEdgeRestClient
             $this->validateValues($api_param_config, $validation_query);
             $query_key = array_keys($api_param_config['query'])[0];
 
-            $http_url = $api_param_config['url'].'?key='.$this->api_key.'&'.$query_key.'='.$query;
+            $http_url = $this->base_uri.$api_param_config['url'].'?key='.$this->api_key.'&'.$query_key.'='.$query;
         }
 
         return $http_url;
@@ -96,9 +96,10 @@ class AviationEdgeRestClient
     public function request($api_label, $query)
     {
         $uri = $this->prepareRequest($api_label, $query);
+        $http_method = $this->config[$api_label]['http_method'];
 
         try{
-            $response = $this->http_client->request('GET', $uri);
+            $response = $this->http_client->request($http_method, $uri);
             if (in_array($response->getStatusCode(), [200, 201])){
                 return json_decode($response->getBody()->getContents(), true);
             } else if ($response->getStatusCode() == 204) {

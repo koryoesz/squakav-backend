@@ -5,7 +5,7 @@ return [
         'http_method' => 'GET',
         'url' => 'planeTypeDatabase',
         'query' => [
-            'codeIataAircraft' => ['validation' => 'required|integer|max:3']
+            'codeIataAircraft' => ['validation' => 'required|numeric']
         ]
     ],
     'airplanes' => [

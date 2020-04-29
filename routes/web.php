@@ -19,3 +19,6 @@ $router->get('/', function () use ($router) {
 
 // Aircraft Type route
 $router->get('api/aircraftype/{codeIataAircraft}', 'AircraftTypeController@getAircraftType');
+
+// Ats Flight Rule
+$router->get('api/ats/flight-rules', 'AtsFlightRuleController@getAllAtsFlightRule');

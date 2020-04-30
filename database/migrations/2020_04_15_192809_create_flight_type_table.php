@@ -14,7 +14,7 @@ class CreateFlightTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('flight_type', function (Blueprint $table) {
+        Schema::create('flight_types', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->smallIncrements('id');
@@ -24,7 +24,7 @@ class CreateFlightTypeTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('flight_type')->insert([
+        DB::table('flight_types')->insert([
             ['id' => 1, 'label' => 'S - Scheduled Air Transport', 'name' => 'scheduled_air_transport', 'code' => 's'],
             ['id' => 2, 'label' => 'N - Non-Scheduled Air Transport', 'name' => 'non_scheduled_air_transport', 'code' => 'n'],
             ['id' => 3, 'label' => 'G - General Aviation', 'name' => 'general_aviation', 'code' => 'g'],

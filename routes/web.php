@@ -22,3 +22,6 @@ $router->get('api/aircraftype/{codeIataAircraft}', 'AircraftTypeController@getAi
 
 // Ats Flight Rule
 $router->get('api/ats/flight-rules', 'AtsFlightRuleController@getAllAtsFlightRule');
+
+// get flight types
+$router->get('api/flight-types', 'FlightTypeController@getAllFlightType');

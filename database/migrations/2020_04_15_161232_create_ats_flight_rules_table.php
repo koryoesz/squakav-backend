@@ -25,10 +25,10 @@ class CreateAtsFlightRulesTable extends Migration
         });
 
         DB::table('ats_flight_rules')->insert([
-            ['id' => 1, 'name' => 'ifr', 'label' => 'IFR (I) Instrument flight rule', 'code' => 'I'],
-            ['id' => 2, 'name' => 'vhf', 'label' => 'VFR (V) Visual Flight', 'code' => 'V'],
-            ['id' => 3, 'name' => 'ifr/vfr', 'label' => 'IFR/VFR (Y) IFR changing to VFR', 'code' => 'Y'],
-            ['id' => 4, 'name' => 'vfr/ifr', 'label' => 'VFR/IFR (Z) VFR changing to IFR', 'code' => 'Z']
+            ['id' => 1, 'name' => 'ifr', 'label' => 'IFR (I) Instrument flight rule', 'code' => 'i'],
+            ['id' => 2, 'name' => 'vhf', 'label' => 'VFR (V) Visual Flight', 'code' => 'v'],
+            ['id' => 3, 'name' => 'ifr/vfr', 'label' => 'IFR/VFR (Y) IFR changing to VFR', 'code' => 'y'],
+            ['id' => 4, 'name' => 'vfr/ifr', 'label' => 'VFR/IFR (Z) VFR changing to IFR', 'code' => 'z']
         ]);
     }
 

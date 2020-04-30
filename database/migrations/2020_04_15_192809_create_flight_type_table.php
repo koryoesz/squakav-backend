@@ -20,15 +20,16 @@ class CreateFlightTypeTable extends Migration
             $table->smallIncrements('id');
             $table->string("name", 50);
             $table->string("label", 50);
+            $table->string("code", 0);
             $table->timestamps();
         });
 
         DB::table('flight_type')->insert([
-            ['id' => 1, 'label' => 'S - Scheduled Air Transport', 'name' => 'scheduled_air_transport'],
-            ['id' => 2, 'label' => 'N - Non-Scheduled Air Transport', 'name' => 'non_scheduled_air_transport'],
-            ['id' => 3, 'label' => 'G - General Aviation', 'name' => 'general_aviation'],
-            ['id' => 4, 'label' => 'M - Military ', 'name' => 'military'],
-            ['id' => 5, 'label' => 'X - Other', 'name' => 'other'],
+            ['id' => 1, 'label' => 'S - Scheduled Air Transport', 'name' => 'scheduled_air_transport', 'code' => 's'],
+            ['id' => 2, 'label' => 'N - Non-Scheduled Air Transport', 'name' => 'non_scheduled_air_transport', 'code' => 'n'],
+            ['id' => 3, 'label' => 'G - General Aviation', 'name' => 'general_aviation', 'code' => 'g'],
+            ['id' => 4, 'label' => 'M - Military ', 'name' => 'military', 'code' => 'm'],
+            ['id' => 5, 'label' => 'X - Other', 'name' => 'other', 'code' => 'o'],
         ]);
     }
 

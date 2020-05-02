@@ -14,7 +14,7 @@ class CreateEquipmentTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('equipment_type', function (Blueprint $table) {
+        Schema::create('equipment_types', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->smallIncrements('id');
@@ -23,7 +23,7 @@ class CreateEquipmentTypeTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('equipment_type')->insert([
+        DB::table('equipment_types')->insert([
            ['id' => 1, 'name' => 'n', 'label' => 'N - Normal'],
             ['id' => 2, 'name' => 's', 'label' => 'S - Standard'],
             ['id' => 3, 'name' => 'o', 'label' => 'O - Other']
@@ -37,6 +37,6 @@ class CreateEquipmentTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipment_type');
+        Schema::dropIfExists('equipment_types');
     }
 }

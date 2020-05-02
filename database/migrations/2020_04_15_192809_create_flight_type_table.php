@@ -40,6 +40,6 @@ class CreateFlightTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flight_type');
+        Schema::dropIfExists('flight_types');
     }
 }

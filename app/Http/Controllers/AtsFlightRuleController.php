@@ -8,16 +8,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AtsFlightRule;
-use App\Services\AtsFlightRuleService;
-use Illuminate\Http\Request;
+use App\Services\FlightAtsFlightRuleService;
 use App\Components\Response as JsonResponse;
 
 class AtsFlightRuleController
 {
     public function getAllAtsFlightRule()
     {
-        $rules = (new AtsFlightRuleService())->getAllAtsFlightRule();
+        $rules = (new FlightAtsFlightRuleService())->getAllAtsFlightRule();
         return JsonResponse::success($rules);
     }
 }

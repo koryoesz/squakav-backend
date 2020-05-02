@@ -9,7 +9,6 @@
 namespace App\Services;
 
 use App\Models\FlightType;
-use function FastRoute\TestFixtures\empty_options_cached;
 use Illuminate\Support\Facades\Cache;
 
 class FlightTypeService

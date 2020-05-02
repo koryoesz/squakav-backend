@@ -9,7 +9,6 @@
 namespace App\Http\Controllers;
 
 use App\Services\AircraftTypeService;
-use Illuminate\Http\Request;
 use App\Components\Response as JsonResponse;
 
 class AircraftTypeController extends Controller
@@ -19,7 +18,7 @@ class AircraftTypeController extends Controller
 
     }
 
-    public function getAircraftType(Request $request, $codeIataAircraft)
+    public function getAircraftType($codeIataAircraft)
     {
         $type = (new AircraftTypeService())->getAircratType($codeIataAircraft);
         return JsonResponse::success($type);

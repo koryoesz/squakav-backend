@@ -25,3 +25,12 @@ $router->get('api/ats/flight-rules', 'AtsFlightRuleController@getAllAtsFlightRul
 
 // get flight types
 $router->get('api/flight-types', 'FlightTypeController@getAllFlightType');
+
+// wake turbulence category
+$router->get('api/wake-turbulence-category', 'WakeTurbulenceCategoryController@getAllWakeTurbulenceCategory');
+
+// ATS Equipment type
+$router->get('api/equipment-types', 'FlightEquipmentTypeController@getAllFlightEquipmentType');
+
+// ATS equipments
+$router->get('api/equipments', 'FlightEquipmentController@getAllFlightEquipment');

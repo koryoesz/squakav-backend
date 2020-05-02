@@ -14,4 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 class WakeTurbulenceCategory extends Model
 {
   protected $table = "wake_turbulence_category";
+
+  protected $hidden = ['created_at', 'updated_at'];
 }

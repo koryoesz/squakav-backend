@@ -18,7 +18,7 @@ class CreateEquipmentsTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->increments('id');
-            $table->unsignedInteger('equipment_type_id');
+            $table->unsignedSmallInteger('equipment_type_id');
             $table->string('name', 2);
             $table->string('label', 128);
             $table->unsignedSmallInteger('status_id')->default(1);
@@ -26,6 +26,7 @@ class CreateEquipmentsTable extends Migration
             $table->dateTime('modified_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('status_id')->references('id')->on('status');
+            $table->foreign('equipment_type_id')->references('id')->on('equipment_types');
         });
 
         DB::table('equipments')->insert([

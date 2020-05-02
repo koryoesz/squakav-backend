@@ -12,7 +12,7 @@ use App\Models\AtsFlightRule;
 use Illuminate\Support\Facades\Cache;
 
 
-class AtsFlightRuleService
+class FlightAtsFlightRuleService
 {
     public function getAllAtsFlightRule()
     {

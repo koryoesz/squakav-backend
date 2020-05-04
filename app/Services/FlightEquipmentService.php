@@ -17,7 +17,7 @@ class FlightEquipmentService
     {
         $equipments = Cache::get('flight_equipments');
 
-        if(empty($rules))
+        if(empty($equipments))
         {
             $equipments = Equipment::all();
             Cache::put('flight_equipments', $equipments, 180000);

@@ -35,5 +35,9 @@ $router->get('api/equipment-types', 'FlightEquipmentTypeController@getAllFlightE
 // ATS equipments
 $router->get('api/equipments', 'FlightEquipmentController@getAllFlightEquipment');
 
-// Ats transponder
+// Ats transponders
 $router->get('api/transponders', 'AtsTransponderController@getFlightAtsTransponder');
+
+// Transponder types and properties
+$router->get('api/transponder-types', 'FlightTransponderTypeController@getAllTransponderType');
+$router->get('api/transponder-type-properties', 'FlightTransponderTypePropertyController@getAllTransponderTypeProperty');

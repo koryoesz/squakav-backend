@@ -14,7 +14,7 @@ class CreateTransponderTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('transponder_type', function (Blueprint $table) {
+        Schema::create('transponder_types', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->smallIncrements('id');
@@ -23,7 +23,7 @@ class CreateTransponderTypeTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('transponder_type')->insert([
+        DB::table('transponder_types')->insert([
             ['id' => 1, 'name' => 'a_mode', 'label' => 'Mode A'],
             ['id' => 2, 'name' => 's_mode', 'label' => 'Mode S'],
             ['id' => 3, 'name' => 'c_mode', 'label' => 'Mode C'],
@@ -60,7 +60,7 @@ class CreateTransponderTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transponder_type');
+        Schema::dropIfExists('transponder_types');
         Schema::dropIfExists('transponder_type_properties');
     }
 }

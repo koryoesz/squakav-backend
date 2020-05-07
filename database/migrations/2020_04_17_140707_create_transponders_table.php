@@ -23,7 +23,7 @@ class CreateTranspondersTable extends Migration
             $table->string("label", 128);
             $table->timestamps();
 
-            $table->foreign('transponder_type_id')->references('id')->on('transponder_type');
+            $table->foreign('transponder_type_id')->references('id')->on('transponder_types');
         });
 
         DB::table('transponders')->insert([

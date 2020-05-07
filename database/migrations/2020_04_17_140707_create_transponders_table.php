@@ -27,9 +27,9 @@ class CreateTranspondersTable extends Migration
         });
 
         DB::table('transponders')->insert([
-            ['transponder_type_id' => 1, 'name' => 'a_mode', 'label' => 'A - Mode A (4 digits - 4096 codes)'],
-            ['transponder_type_id' => 3, 'name' => 'c_mode', 'label' => 'C - Mode C ()'],
-            ['transponder_type_id' => 2, 'name' => 'e_mode', 'label' => 'E - Mode E ()'],
+            ['transponder_type_id' => 1, 'name' => 'a_mode', 'label' => 'A - Mode A (no altitude reporting)'],
+            ['transponder_type_id' => 3, 'name' => 'c_mode', 'label' => 'C - Mode C '],
+            ['transponder_type_id' => 2, 'name' => 'e_mode', 'label' => 'E - Mode E (with aircraft ID, pressure altitude and ADS-B'],
             ['transponder_type_id' => 2, 'name' => 'h_mode', 'label' => 'H - Mode S, including aircraft identification, pressure-altitude and enhanced surveillance
 capability
 '],

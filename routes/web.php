@@ -34,3 +34,6 @@ $router->get('api/equipment-types', 'FlightEquipmentTypeController@getAllFlightE
 
 // ATS equipments
 $router->get('api/equipments', 'FlightEquipmentController@getAllFlightEquipment');
+
+// Ats transponder
+$router->get('api/transponders', 'AtsTransponderController@getFlightAtsTransponder');

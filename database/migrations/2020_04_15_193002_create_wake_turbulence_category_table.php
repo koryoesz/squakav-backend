@@ -20,13 +20,14 @@ class CreateWakeTurbulenceCategoryTable extends Migration
             $table->tinyIncrements('id');
             $table->string("name", 10);
             $table->string("label", 10);
+            $table->string("code", 1);
             $table->timestamps();
         });
 
         DB::table('wake_turbulence_category')->insert([
-            ['label' => 'Light (L)', 'name' => 'light_l'],
-            ['label' => 'Medium (M)', 'name' => 'medium_m'],
-            ['label' => 'Heavy (H)', 'name' => 'heavy_h']
+            ['label' => 'Light (L)', 'name' => 'light_l', 'code' => 'l'],
+            ['label' => 'Medium (M)', 'name' => 'medium_m', 'code' => 'm'],
+            ['label' => 'Heavy (H)', 'name' => 'heavy_h', 'code' => 'h']
         ]);
     }
 

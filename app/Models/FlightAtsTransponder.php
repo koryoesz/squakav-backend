@@ -12,5 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FlightAtsTransponder extends Model
 {
+    protected $table = "transponders";
 
+    protected $hidden = ['created_at', 'updated_at'];
 }

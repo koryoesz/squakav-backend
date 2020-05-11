@@ -29,7 +29,7 @@ class CreateFlightTypeTable extends Migration
             ['id' => 2, 'label' => 'N - Non-Scheduled Air Transport', 'name' => 'non_scheduled_air_transport', 'code' => 'n'],
             ['id' => 3, 'label' => 'G - General Aviation', 'name' => 'general_aviation', 'code' => 'g'],
             ['id' => 4, 'label' => 'M - Military ', 'name' => 'military', 'code' => 'm'],
-            ['id' => 5, 'label' => 'X - Other', 'name' => 'other', 'code' => 'x'],
+            ['id' => 5, 'label' => 'X - Other', 'name' => 'other', 'code'=> 'x'],
         ]);
     }
 

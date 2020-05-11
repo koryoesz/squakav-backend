@@ -16,7 +16,7 @@ class CreateFlightRplFlightsTable extends Migration
         Schema::create('flight_rpl_flights', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->bigIncrements();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('flight_rpl_id');
             $table->string('aircraft_identification', 7);
             $table->string('type_of_aircraft', 4);

@@ -16,7 +16,7 @@ class CreateFlightRplTable extends Migration
         Schema::create('flight_rpl', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->bigIncrements();
+            $table->bigIncrements('id');
             $table->string('operator', 128);
             $table->date('valid_from');
             $table->date('valid_till');

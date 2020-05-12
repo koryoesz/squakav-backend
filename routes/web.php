@@ -41,3 +41,6 @@ $router->get('api/transponders', 'AtsTransponderController@getFlightAtsTranspond
 // Transponder types and properties
 $router->get('api/transponder-types', 'FlightTransponderTypeController@getAllTransponderType');
 $router->get('api/transponder-type-properties', 'FlightTransponderTypePropertyController@getAllTransponderTypeProperty');
+
+// Other Ats Information
+$router->get('api/ats-other-information', 'OtherAtsInformationController@getAllOtherInformation');

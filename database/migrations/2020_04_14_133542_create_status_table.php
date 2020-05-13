@@ -38,12 +38,13 @@ class CreateStatusTable extends Migration
         $sql = "
 INSERT INTO status (`id`,`type_id`,`name`,`label`) 
 VALUES 
-(1, 1, 'active', 'Active'),
-(2, 1, 'inactive', 'Inactive'),
-(3, 1, 'removed', 'Removed'),
+(1, 1, 'fight_active', 'Flight Active'),
+(2, 1, 'flight_inactive', 'Flight Inactive'),
+(3, 1, 'flight_removed', 'Flight Removed'),
 (4, 1, 'flight_approved', 'Flight Approved'),
-(5, 1, 'flight_declined', 'Flight Declined');
-        ";
+(5, 1, 'flight_declined', 'Flight Declined'),
+(6, 1, 'flight_drafted', 'Flight Drafted'),
+(7, 1, 'flight_resent', 'Flight Resent');";
 
         DB::connection()->getPDO()->exec($sql);
     }

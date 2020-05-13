@@ -97,6 +97,7 @@ $app->configure('app');
 // $app->register(App\Providers\EventServiceProvider::class);
 
 $app->configure('aviation_edge_api');
+$app->configure('constant_system_flight_type');
 
 /*
 |--------------------------------------------------------------------------

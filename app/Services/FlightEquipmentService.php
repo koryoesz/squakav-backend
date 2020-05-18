@@ -10,9 +10,15 @@ namespace App\Services;
 
 use App\Models\Equipment;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Validator;
+use App\Components\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class FlightEquipmentService
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|mixed|static[]
+     */
     public function getAllFlightEquipment()
     {
         $equipments = Cache::get('flight_equipments');
@@ -22,6 +28,30 @@ class FlightEquipmentService
             $equipments = Equipment::all();
             Cache::put('flight_equipments', $equipments, 180000);
         }
+        return $equipments;
+    }
+
+    public function createAtsEquipment($paramsArray)
+    {
+//        dd($paramsArray[0]['flight_equipment_id']);
+        $prepareParams = [];
+        foreach ($paramsArray as $param)
+        {
+            $prepareParams[] = [
+                'flight_equipment_id' => isset($param['flight_equipment_id']) ? $param['flight_equipment_id']: '',
+                'flight_id' => isset($param['flight_id']) ? $param['flight_id']: '',
+            ];
+
+            $validator = Validator::make($param, [
+                'flight_equipment_id' => 'required|exists:equipment_types,id',
+                'flight_id' => 'required|exists:flight_ats,id'
+            ]);
+
+            throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        }
+
+        $equipments = DB::table('flight_ats_equipments')->insert($prepareParams);
         return $equipments;
     }
 

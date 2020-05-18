@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFlightAtsTransponderTable extends Migration
+class CreateFlightAtsTransponderProperties extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateFlightAtsTransponderTable extends Migration
      */
     public function up()
     {
-        Schema::create('flight_ats_transponder', function (Blueprint $table) {
+        Schema::create('flight_ats_transponder_properties', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->unsignedBigInteger('flight_id');
-            $table->unsignedSmallInteger('transponder_id');
+            $table->unsignedSmallInteger('transponder_properties_id');
 
             $table->foreign('flight_id')->references('id')->on('flight_ats');
-            $table->foreign('transponder_id')->references('id')->on('transponders');
+            $table->foreign('transponder_properties_id', 'tq_prop_id')->references('id')->on('transponder_type_properties');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateFlightAtsTransponderTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flight_ats_transponder');
+        Schema::dropIfExists('flight_ats_transponder_properties');
     }
 }

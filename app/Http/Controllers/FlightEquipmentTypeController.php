@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use App\Services\FlightEquipmentTypeService;
 use App\Components\Response as JsonResponse;
 
-class FlightEquipmentTypeController
+class FlightEquipmentTypeController extends Controller
 {
     public function getAllFlightEquipmentType()
     {

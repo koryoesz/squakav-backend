@@ -10,7 +10,7 @@ namespace App\Http\Controllers;
 use App\Services\FlightEquipmentService;
 use App\Components\Response as JsonResponse;
 
-class FlightEquipmentController
+class FlightEquipmentController extends Controller
 {
     public function getAllFlightEquipment()
     {

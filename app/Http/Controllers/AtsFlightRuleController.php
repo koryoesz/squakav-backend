@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use App\Services\AtsFlightRuleService;
 use App\Components\Response as JsonResponse;
 
-class AtsFlightRuleController
+class AtsFlightRuleController extends Controller
 {
     public function getAllAtsFlightRule()
     {

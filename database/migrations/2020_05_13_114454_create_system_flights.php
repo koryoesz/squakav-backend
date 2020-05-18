@@ -15,6 +15,8 @@ class CreateSystemFlights extends Migration
     public function up()
     {
         Schema::create('system_flights', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('system_flight_types_id');
             $table->unsignedBigInteger('flight_id');

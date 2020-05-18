@@ -7,8 +7,5 @@ return [
         'query' => [
             'codeIataAircraft' => ['validation' => 'required|numeric']
         ]
-    ],
-    'airplanes' => [
-
     ]
 ];

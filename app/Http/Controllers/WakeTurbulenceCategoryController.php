@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use App\Services\WakeTurbulenceCategoryService;
 use App\Components\Response as JsonResponse;
 
-class WakeTurbulenceCategoryController
+class WakeTurbulenceCategoryController extends Controller
 {
     public function getAllWakeTurbulenceCategory()
     {

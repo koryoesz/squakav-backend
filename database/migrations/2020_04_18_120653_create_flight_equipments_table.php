@@ -18,7 +18,6 @@ class CreateFlightEquipmentsTable extends Migration
 
             $table->unsignedBigInteger('flight_id');
             $table->unsignedInteger('flight_equipment_id');
-            $table->timestamps();
 
             $table->foreign('flight_id')->references('id')->on('flight_ats');
             $table->foreign('flight_equipment_id')->references('id')->on('equipments');

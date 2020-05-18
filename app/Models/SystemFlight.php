@@ -13,4 +13,5 @@ use Illuminate\Database\Eloquent\Model;
 class SystemFlight extends Model
 {
 
+    protected $fillable = ['flight_id'];
 }

@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use App\Services\TransponderTypeService;
 use App\Components\Response as JsonResponse;
 
-class FlightTransponderTypeController
+class FlightTransponderTypeController extends Controller
 {
     public function getAllTransponderType()
     {

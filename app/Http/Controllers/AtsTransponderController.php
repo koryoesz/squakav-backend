@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use App\Services\AtsTransponderService;
 use App\Components\Response as JsonResponse;
 
-class AtsTransponderController
+class AtsTransponderController extends Controller
 {
     public function getFlightAtsTransponder()
     {

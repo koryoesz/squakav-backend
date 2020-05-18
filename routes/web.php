@@ -44,4 +44,6 @@ $router->get('api/transponder-type-properties', 'FlightTransponderTypePropertyCo
 
 // Other Ats Information
 $router->get('api/ats-other-information', 'OtherAtsInformationController@getAllOtherInformation');
-$router->get('api/test', 'OtherAtsInformationController@test');
+
+// Create Ats
+$router->post('api/flight/ats/create', 'FlightAtsController@create');

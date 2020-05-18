@@ -8,6 +8,10 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
+use App\Components\Exception as MyException;
+use App\Components\Response as MyResponse;
+use App\Components\ErrorCode;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,8 +51,16 @@ class Handler extends ExceptionHandler
      *
      * @throws \Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
-        return parent::render($request, $exception);
+//        return parent::render($request, $exception);
+        if ($e instanceof MyException){
+            return MyResponse::error($e->getSpecialCode(), $e->getMessage(), $e->getData());
+        } else if ($e instanceof NotFoundHttpException){
+            return MyResponse::error(ErrorCode::ROUTE_NOT_FOUND, $e->getMessage());
+        } else {
+            $message = (env('APP_ENV') == 'production') ? 'An unknown error occurred. Please try again later.' : $e->getMessage();
+            return MyResponse::error(ErrorCode::INTERNAL_ERROR, $message);
+        }
     }
 }

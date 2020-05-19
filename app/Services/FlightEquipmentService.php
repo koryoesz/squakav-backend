@@ -33,7 +33,6 @@ class FlightEquipmentService
 
     public function createAtsEquipment($paramsArray)
     {
-//        dd($paramsArray[0]['flight_equipment_id']);
         $prepareParams = [];
         foreach ($paramsArray as $param)
         {

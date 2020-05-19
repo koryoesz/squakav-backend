@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\Types\Array_;
 
 class AtsTransponderService
 {
@@ -51,7 +50,7 @@ class AtsTransponderService
 
             throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        }
+           }
 
         $transponders = DB::table('flight_ats_transponders')->insert($prepareParams);
         return $transponders;

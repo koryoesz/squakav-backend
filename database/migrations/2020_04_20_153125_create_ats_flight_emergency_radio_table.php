@@ -13,7 +13,7 @@ class CreateAtsFlightEmergencyRadioTable extends Migration
      */
     public function up()
     {
-        Schema::create('flight_ats_emergency_radio', function (Blueprint $table) {
+        Schema::create('flight_ats_emergency', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->bigIncrements('id');
@@ -34,6 +34,6 @@ class CreateAtsFlightEmergencyRadioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flight_ats_emergency_radio');
+        Schema::dropIfExists('flight_ats_emergency');
     }
 }

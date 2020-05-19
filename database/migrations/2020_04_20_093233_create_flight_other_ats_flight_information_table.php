@@ -22,6 +22,7 @@ class CreateFlightOtherAtsFlightInformationTable extends Migration
             $table->timestamps();
 
             $table->foreign('flight_id')->references('id')->on('flight_ats');
+            $table->foreign('other_ats_flight_information_id', 'o_f_id')->references('id')->on('other_ats_flight_information');
         });
     }
 

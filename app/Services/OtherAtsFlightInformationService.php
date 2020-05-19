@@ -10,6 +10,9 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
 use App\Models\OtherAtsFlightInformation;
+use Illuminate\Support\Facades\Validator;
+use App\Components\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class OtherAtsFlightInformationService
 {
@@ -24,5 +27,35 @@ class OtherAtsFlightInformationService
         }
 
         return $information;
+    }
+
+    /**
+     * @param $params
+     * @return bool
+     */
+    public function createAtsFlightOtherInformation($paramsArray)
+    {
+        $prepareParams = [];
+        foreach ($paramsArray as $param)
+        {
+            $prepareParams[] = [
+                'other_ats_flight_information_id' => isset($param['other_ats_flight_information_id'])
+                    ? $param['other_ats_flight_information_id']: '',
+                'flight_id' => isset($param['flight_id']) ? $param['flight_id']: '',
+                'value' => isset($param['value']) ? $param['value']: '',
+            ];
+
+            $validator = Validator::make($param, [
+                'other_ats_flight_information_id' => 'required|exists:other_ats_flight_information,id',
+                'flight_id' => 'required|exists:flight_ats,id',
+                'value' => 'required'
+            ]);
+
+            throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        }
+
+        $otherInformationProperties = DB::table('flight_ats_other_flight_information')->insert($prepareParams);
+        return $otherInformationProperties;
     }
 }

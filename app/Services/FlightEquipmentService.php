@@ -31,19 +31,18 @@ class FlightEquipmentService
         return $equipments;
     }
 
-    public function createAtsEquipment($paramsArray)
+    public function createAtsEquipment($paramsArray, $flight_id)
     {
         $prepareParams = [];
         foreach ($paramsArray as $param)
         {
             $prepareParams[] = [
                 'flight_equipment_id' => isset($param['flight_equipment_id']) ? $param['flight_equipment_id']: '',
-                'flight_id' => isset($param['flight_id']) ? $param['flight_id']: '',
+                'flight_id' => isset($flight_id) ? $flight_id: '',
             ];
 
             $validator = Validator::make($param, [
-                'flight_equipment_id' => 'required|exists:equipment_types,id',
-                'flight_id' => 'required|exists:flight_ats,id'
+                'flight_equipment_id' => 'required|exists:equipments,id',
             ]);
 
             throw_if($validator->fails(), ValidationException::class, $validator->errors());

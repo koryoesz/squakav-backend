@@ -18,19 +18,25 @@ class AtsJacketService
      * @param $params
      * @return bool
      */
-    public function createAtsFlightJacket($params)
+    public static function createAtsFlightJacket($params, $flight_id)
     {
+        $prepareParams = [
+            'light' => isset($params['light']) ? $params['light']: '',
+            'fluores' => isset($params['fluores']) ? $params['fluores']: '',
+            'uhf' => isset($params['uhf']) ? $params['uhf']: '',
+            'vhf' => isset($params['vhf']) ? $params['vhf']: '',
+            'flight_id' => isset($flight_id) ? $flight_id : ''
+        ];
+
         $validator = Validator::make($params, [
             'light' => 'required|numeric|bool',
             'fluores' => 'required|numeric|bool',
             'uhf' => 'required|numeric|bool',
             'vhf' => 'required|numeric|bool',
-            'flight_id' => 'required|exists:flight_ats,id'
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        $jacket = DB::table('flight_ats_jackets')->insert($params);
-        return $jacket;
+        $jacket = DB::table('flight_ats_jackets')->insert($prepareParams);
     }
 }

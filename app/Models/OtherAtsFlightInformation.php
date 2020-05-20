@@ -14,4 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 class OtherAtsFlightInformation extends Model
 {
     protected $hidden = ['created_at', 'updated_at'];
+
+    protected $fillable = [
+        'other_ats_flight_information_id', 'flight_id', 'value'
+    ];
 }

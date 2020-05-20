@@ -33,7 +33,7 @@ class OtherAtsFlightInformationService
      * @param $params
      * @return bool
      */
-    public function createAtsFlightOtherInformation($paramsArray)
+    public static function createAtsFlightOtherInformation($paramsArray, $flight_id)
     {
         $prepareParams = [];
         foreach ($paramsArray as $param)
@@ -41,13 +41,12 @@ class OtherAtsFlightInformationService
             $prepareParams[] = [
                 'other_ats_flight_information_id' => isset($param['other_ats_flight_information_id'])
                     ? $param['other_ats_flight_information_id']: '',
-                'flight_id' => isset($param['flight_id']) ? $param['flight_id']: '',
+                'flight_id' => isset($flight_id) ? $flight_id: '',
                 'value' => isset($param['value']) ? $param['value']: '',
             ];
 
             $validator = Validator::make($param, [
                 'other_ats_flight_information_id' => 'required|exists:other_ats_flight_information,id',
-                'flight_id' => 'required|exists:flight_ats,id',
                 'value' => 'required'
             ]);
 
@@ -56,6 +55,5 @@ class OtherAtsFlightInformationService
         }
 
         $otherInformationProperties = DB::table('flight_ats_other_flight_information')->insert($prepareParams);
-        return $otherInformationProperties;
     }
 }

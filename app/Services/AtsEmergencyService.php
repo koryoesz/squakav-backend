@@ -11,6 +11,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
+use App\Models\FlightAtsEmergency;
 
 class AtsEmergencyService
 {
@@ -18,25 +19,24 @@ class AtsEmergencyService
      * @param $params
      * @return bool
      */
-    public function createAtsFlightEmergency($params)
+    public function createAtsFlightEmergency($params, $flight_id)
     {
-//        $prepareParams = [
-//            'uhf' => isset($params['uhf']) ? $params['uhf']: '',
-//            'vhf' => isset($params['vhf']) ? $params['vhf']: '',
-//            'elt' => isset($params['elt']) ? $params['elt']: '',
-//            'flight_id' => isset($params['flight_id']) ? $params['flight_id']: ''
-//        ];
+        $prepareParams = [
+            'uhf' => isset($params['uhf']) ? $params['uhf']: '',
+            'vhf' => isset($params['vhf']) ? $params['vhf']: '',
+            'elt' => isset($params['elt']) ? $params['elt']: '',
+            'flight_id' => isset($flight_id) ? $flight_id : ''
+        ];
 
         $validator = Validator::make($params, [
             'uhf' => 'required|numeric|bool',
             'vhf' => 'required|numeric|bool',
             'elt' => 'required|numeric|bool',
-            'flight_id' => 'required|exists:flight_ats,id'
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        $emergency = DB::table('flight_ats_emergency')->insert($params);
+        $emergency = FlightAtsEmergency::create($prepareParams);
         return $emergency;
     }
 }

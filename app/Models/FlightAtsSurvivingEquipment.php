@@ -12,5 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FlightAtsSurvivingEquipment extends Model
 {
-
+    protected $fillable = [
+        'polar', 'desert', 'maritime', 'jungle', 'flight_id'
+    ];
 }

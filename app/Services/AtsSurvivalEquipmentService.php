@@ -18,20 +18,26 @@ class AtsSurvivalEquipmentService
      * @param $params
      * @return bool
      */
-    public function createAtsFlightSurvivalEquipment($params)
+    public static function createAtsFlightSurvivalEquipment($params, $flight_id)
     {
+
+        $prepareParams = [
+            'polar' => isset($params['polar']) ? $params['polar']: '',
+            'desert' => isset($params['desert']) ? $params['desert']: '',
+            'maritime' => isset($params['maritime']) ? $params['maritime']: '',
+            'jungle' => isset($params['jungle']) ? $params['jungle']: '',
+            'flight_id' => isset($flight_id) ? $flight_id : ''
+        ];
 
         $validator = Validator::make($params, [
             'polar' => 'required|numeric|bool',
             'desert' => 'required|numeric|bool',
             'maritime' => 'required|numeric|bool',
             'jungle' => 'required|numeric|bool',
-            'flight_id' => 'required|exists:flight_ats,id'
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        $survival = DB::table('flight_ats_surviving_equipments')->insert($params);
-        return $survival;
+        $survival = DB::table('flight_ats_surviving_equipments')->insert($prepareParams);
     }
 }

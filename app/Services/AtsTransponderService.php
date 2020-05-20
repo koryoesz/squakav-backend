@@ -32,48 +32,44 @@ class AtsTransponderService
      * @param Array $paramsArray
      * @return bool
      */
-    public function createAtsTransponder($paramsArray)
+    public static function createAtsTransponder($param, $flight_id)
     {
         $prepareParams = [];
-        foreach ($paramsArray as $param)
-        {
-            $prepareParams[] = [
-                'transponder_id' => isset($param['transponder_id'])
-                    ? $param['transponder_id']: '',
-                'flight_id' => isset($param['flight_id']) ? $param['flight_id']: '',
-            ];
 
-            $validator = Validator::make($param, [
-                'transponder_id' => 'required|exists:transponders,id',
-                'flight_id' => 'required|exists:flight_ats,id'
-            ]);
+        $prepareParams = [
+            'transponder_id' => isset($param['transponder_id'])
+                ? $param['transponder_id']: '',
+            'flight_id' => isset($flight_id) ? $flight_id: '',
+        ];
 
-            throw_if($validator->fails(), ValidationException::class, $validator->errors());
+        $validator = Validator::make($prepareParams, [
+            'transponder_id' => 'required|exists:transponders,id',
+        ]);
 
-           }
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        $transponders = DB::table('flight_ats_transponders')->insert($prepareParams);
-        return $transponders;
+
+        $transponders = DB::table('flight_ats_transponder')->insert($prepareParams);
     }
 
     /**
      * @param $paramsArray
      * @return bool
      */
-    public function createAtsTransponderProperties($paramsArray)
+    public static function createAtsTransponderProperties($paramsArray, $flight_id)
     {
         $prepareParams = [];
+
         foreach ($paramsArray as $param)
         {
             $prepareParams[] = [
                 'transponder_properties_id' => isset($param['transponder_properties_id'])
                     ? $param['transponder_properties_id']: '',
-                'flight_id' => isset($param['flight_id']) ? $param['flight_id']: '',
+                'flight_id' => isset($flight_id) ? $flight_id: '',
             ];
 
             $validator = Validator::make($param, [
                 'transponder_properties_id' => 'required|exists:transponder_type_properties,id',
-                'flight_id' => 'required|exists:flight_ats,id'
             ]);
 
             throw_if($validator->fails(), ValidationException::class, $validator->errors());

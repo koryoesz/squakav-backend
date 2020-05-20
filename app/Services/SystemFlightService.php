@@ -8,16 +8,16 @@
 
 namespace App\Services;
 
-use App\Models\SystemFlight;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class SystemFlightService
 {
     /**
      * @param $params
      */
-    public function save($params)
+    public static function save($params)
     {
         $validator = Validator::make($params, [
             'flight_id' => 'numeric',
@@ -26,11 +26,6 @@ class SystemFlightService
         ]);
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        $flight = SystemFlight::create([
-           'flight_id' => 1,
-            'system_flight_types_id'
-        ]);
-
-        return $flight;
+        $system_flight = DB::table('system_flights')->insert($params);
     }
 }

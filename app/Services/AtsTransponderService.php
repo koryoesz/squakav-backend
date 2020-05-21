@@ -8,7 +8,7 @@
 
 namespace App\Services;
 
-use App\Models\FlightAtsTransponder;
+use App\Models\Transponder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
@@ -22,7 +22,7 @@ class AtsTransponderService
 
         if(empty($transponders))
         {
-            $transponders = FlightAtsTransponder::all();
+            $transponders = Transponder::all();
             Cache::put('flight_ats_transponder', $transponders, 180000);
         }
         return $transponders;
@@ -34,7 +34,6 @@ class AtsTransponderService
      */
     public static function createAtsTransponder($param, $flight_id)
     {
-        $prepareParams = [];
 
         $prepareParams = [
             'transponder_id' => isset($param['transponder_id'])

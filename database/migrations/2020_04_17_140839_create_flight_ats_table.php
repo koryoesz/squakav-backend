@@ -21,6 +21,7 @@ class CreateFlightAtsTable extends Migration
             $table->unsignedInteger('ats_flight_rules_id');
             $table->string('aircraft_type', 4);
             $table->unsignedInteger('wake_turbulence_category_id');
+            $table->unsignedSmallInteger('flight_type_id');
             $table->string('departure', 4);
             $table->string('cruising_speed', 5);
             $table->string('level', 5);

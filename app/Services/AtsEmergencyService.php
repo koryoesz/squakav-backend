@@ -10,7 +10,6 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
-use Illuminate\Support\Facades\DB;
 use App\Models\FlightAtsEmergency;
 
 class AtsEmergencyService

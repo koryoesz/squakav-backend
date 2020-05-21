@@ -21,4 +21,10 @@ class FlightAtsController extends Controller
         $flight = (new FlightAtsService())->create(Util::getRequestBody($request));
         return JsonResponse::success($flight);
     }
+
+    public function sentFlights(Request $request)
+    {
+        $flight = (new FlightAtsService())->getAllSent();
+        return JsonResponse::success($flight);
+    }
 }

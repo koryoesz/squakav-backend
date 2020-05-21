@@ -47,3 +47,6 @@ $router->get('api/ats-other-information', 'OtherAtsInformationController@getAllO
 
 // Create Ats
 $router->post('api/flight/ats/create', 'FlightAtsController@create');
+
+// View sent Ats
+$router->get('api/flight/ats/sent', 'FlightAtsController@sentFlights');

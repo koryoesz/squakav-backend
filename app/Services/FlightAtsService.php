@@ -26,7 +26,11 @@ class FlightAtsService
         $this->system_flight = Config::get('constant_system_flight_type');
     }
 
-
+    /**
+     * @param $params
+     * @return mixed
+     * @throws MyException
+     */
     public function create($params)
     {
         $equipments = null;
@@ -55,12 +59,17 @@ class FlightAtsService
             'persons_on_board' => 'required|numeric',
             'filed_by' => 'required|string|max:128',
             'color_markings' => 'required|string|max:128',
-            'pilot_in_command' => 'required|string|max:128'
+            'pilot_in_command' => 'required|string|max:128',
+            'flight_type_id' => 'required|numeric|exists:flight_types,id'
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        return DB::transaction(function () use ($params){
+        return DB::transaction(/**
+         * @return mixed
+         * @throws MyException
+         */
+            function () use ($params){
             // create flight
             $flight = FlightAts::create($params);
 
@@ -79,7 +88,6 @@ class FlightAtsService
 
             $equipments = (new FlightEquipmentService())
                 ->createAtsEquipment($params['equipments'], $flight->id);
-
 
             if(isset($params['transponder']))
             {
@@ -111,7 +119,7 @@ class FlightAtsService
                     ::createAtsFlightSurvivalEquipment($params['survival_equipment'], $flight->id);
             }
 
-            if(isset($params['jackets']))
+                if(isset($params['jackets']))
             {
                 (new AtsJacketService())
                     ::createAtsFlightJacket($params['jackets'], $flight->id);
@@ -120,6 +128,11 @@ class FlightAtsService
             return $flight;
         });
 
+    }
 
+    public function getAllSent()
+    {
+        $sent_flights = FlightAts::all();
+        return $sent_flights;
     }
 }

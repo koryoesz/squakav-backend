@@ -136,4 +136,10 @@ class FlightAtsService
         return $sent_flights;
     }
 
+    public function getOne($id)
+    {
+        $flight = FlightAts::find($id);
+        return $flight;
+    }
+
 }

@@ -135,4 +135,5 @@ class FlightAtsService
         $sent_flights = FlightAts::all();
         return $sent_flights;
     }
+
 }

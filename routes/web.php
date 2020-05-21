@@ -50,3 +50,7 @@ $router->post('api/flight/ats/create', 'FlightAtsController@create');
 
 // View sent Ats
 $router->get('api/flight/ats/sent', 'FlightAtsController@sentFlights');
+
+// System Flights
+$router->get('api/system-flights', 'SystemFlightController@getAll');
+$router->get('api/system-flight/types', 'SystemFlightController@types');

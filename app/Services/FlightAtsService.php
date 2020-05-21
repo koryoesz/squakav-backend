@@ -54,7 +54,7 @@ class FlightAtsService
             'route' => 'required|string|max:128',
             'destination' => 'required|string|min:4|max:4',
             'eet' => 'required|numeric|digits:4',
-            'alternate-one' => 'required|string|min:4|max:4',
+            'alternate_one' => 'required|string|min:4|max:4',
             'endurance' => 'required|numeric|digits:4',
             'persons_on_board' => 'required|numeric',
             'filed_by' => 'required|string|max:128',

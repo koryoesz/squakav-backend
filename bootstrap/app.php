@@ -23,9 +23,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
- $app->withFacades();
+$app->withFacades();
 
- $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -72,10 +72,10 @@ $app->configure('app');
 |
 */
 
- $app->middleware([
+$app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
-//     App\Http\Middleware\CorsMiddleware::class,
- ]);
+    App\Http\Middleware\CorsMiddleware::class,
+]);
 
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
@@ -92,16 +92,12 @@ $app->configure('app');
 |
 */
 
- $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-$app->register(Fruitcake\Cors\CorsServiceProvider::class);
 
 $app->configure('aviation_edge_api');
 $app->configure('constant_system_flight_type');
-$app->register(Fruitcake\Cors\CorsServiceProvider::class);
-
-$app->configure('cors');
 
 /*
 |--------------------------------------------------------------------------

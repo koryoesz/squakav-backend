@@ -42,7 +42,7 @@ class FlightAtsService
 
         $validator = Validator::make($params, [
             'equipments' => 'required|array',
-            'transponder' => 'required|array',
+            'transponder' => 'required',
             'other_information' => 'required|array',
             'aircraft_identification' => 'required|string|min:7|max:7',
             'ats_flight_rules_id' => 'required|numeric|exists:ats_flight_rules,id',

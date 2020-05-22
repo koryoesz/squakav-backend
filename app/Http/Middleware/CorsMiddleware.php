@@ -21,7 +21,7 @@ class CorsMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $allowedDomains = array("http://localhost:8080", "https://koryoesz.gitlab.io/squakav");
+        $allowedDomains = array("http://localhost:8080", "https://koryoesz.gitlab.io/squakav", "https://koryoesz.gitlab.io");
         $origin = $request->server('HTTP_ORIGIN');
         if(in_array($origin, $allowedDomains)){
             //Intercepts OPTIONS requests

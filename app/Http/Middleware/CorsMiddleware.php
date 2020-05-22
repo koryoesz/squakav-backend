@@ -1,4 +1,4 @@
-    <?php
+<?php
 /**
  * Created by PhpStorm.
  * User: user
@@ -28,7 +28,7 @@ class CorsMiddleware
 
         if ($request->isMethod('OPTIONS'))
         {
-            $next($request);
+            $response = response('', 200);
         }
 
         $response = $next($request);

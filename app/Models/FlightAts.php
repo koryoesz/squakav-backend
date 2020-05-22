@@ -20,7 +20,8 @@ class FlightAts extends Model
       'aircraft_identification', 'ats_flight_rules_id', 'aircraft_type', 'wake_turbulence_category_id',
       'departure', 'cruising_speed', 'level', 'route', 'destination', 'eet', 'alternate-one',
       'alternate-two', 'endurance', 'persons_on_board', 'filed_by', 'additional_requirement', 'number',
-      'capacity', 'status_id', 'remarks', 'pilot_in_command', 'color_markings', 'flight_type_id', 'flight_type_id'
+      'capacity', 'status_id', 'remarks', 'pilot_in_command', 'color_markings', 'flight_type_id', 'flight_type_id',
+      'alternate_one', 'alternate_two'
   ];
 
   public function equipments()

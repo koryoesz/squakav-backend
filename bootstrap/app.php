@@ -60,7 +60,7 @@ $app->singleton(
 */
 
 $app->configure('app');
-
+$app->configure('cors');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -74,7 +74,8 @@ $app->configure('app');
 
  $app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
-     App\Http\Middleware\CorsMiddleware::class
+//     App\Http\Middleware\CorsMiddleware::class,
+     \Fruitcake\Cors\HandleCors::class
  ]);
 
 // $app->routeMiddleware([
@@ -98,6 +99,7 @@ $app->configure('app');
 
 $app->configure('aviation_edge_api');
 $app->configure('constant_system_flight_type');
+$app->register(Fruitcake\Cors\CorsServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

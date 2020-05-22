@@ -24,6 +24,7 @@ class CorsMiddleware
         $headers = [
             'Access-Control-Allow-Origin'      => '*',
             'Access-Control-Allow-Methods'     => 'POST, GET, OPTIONS, PUT, DELETE',
+            'Access-Control-Allow-Headers' => ''
         ];
 
         if ($request->isMethod('OPTIONS'))

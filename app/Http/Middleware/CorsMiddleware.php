@@ -1,11 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 5/1/2020
- * Time: 1:47 PM
- */
 
+/**
+ * Location: /app/Http/Middleware
+ */
 namespace App\Http\Middleware;
 
 use Closure;
@@ -21,15 +18,18 @@ class CorsMiddleware
      */
     public function handle($request, Closure $next)
     {
+
         $headers = [
-            'Access-Control-Allow-Origin'      => '*',
+            'Access-Control-Allow-Origin'      => ['*'],
             'Access-Control-Allow-Methods'     => 'POST, GET, OPTIONS, PUT, DELETE',
-            'Access-Control-Allow-Headers' => ''
+            'Access-Control-Allow-Credentials' => 'true',
+            'Access-Control-Max-Age'           => '86400',
+            'Access-Control-Allow-Headers'     => 'Content-Type, Authorization, X-Requested-With'
         ];
 
         if ($request->isMethod('OPTIONS'))
         {
-            $response = response('', 200);
+            return response()->json('{"method":"OPTIONS"}', 200, $headers);
         }
 
         $response = $next($request);

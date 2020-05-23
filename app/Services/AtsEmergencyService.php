@@ -28,9 +28,9 @@ class AtsEmergencyService
         ];
 
         $validator = Validator::make($params, [
-            'uhf' => 'required|numeric|bool',
-            'vhf' => 'required|numeric|bool',
-            'elt' => 'required|numeric|bool',
+            'uhf' => 'required|bool',
+            'vhf' => 'required|bool',
+            'elt' => 'required|bool',
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());

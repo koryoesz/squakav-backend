@@ -29,10 +29,10 @@ class AtsJacketService
         ];
 
         $validator = Validator::make($params, [
-            'light' => 'required|numeric|bool',
-            'fluores' => 'required|numeric|bool',
-            'uhf' => 'required|numeric|bool',
-            'vhf' => 'required|numeric|bool',
+            'light' => 'required|bool',
+            'fluores' => 'required|bool',
+            'uhf' => 'required|bool',
+            'vhf' => 'required|bool',
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());

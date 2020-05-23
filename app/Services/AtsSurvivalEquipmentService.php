@@ -30,10 +30,10 @@ class AtsSurvivalEquipmentService
         ];
 
         $validator = Validator::make($params, [
-            'polar' => 'required|numeric|bool',
-            'desert' => 'required|numeric|bool',
-            'maritime' => 'required|numeric|bool',
-            'jungle' => 'required|numeric|bool',
+            'polar' => 'required|bool',
+            'desert' => 'required|bool',
+            'maritime' => 'required|bool',
+            'jungle' => 'required|bool',
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());

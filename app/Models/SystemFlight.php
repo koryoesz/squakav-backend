@@ -14,4 +14,9 @@ class SystemFlight extends Model
 {
 
     protected $fillable = ['flight_id', 'system_flight_types_id'];
+
+    public function getCreatedAtAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('d-m-Y H:m:i');
+    }
 }

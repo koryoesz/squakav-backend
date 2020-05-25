@@ -58,4 +58,9 @@ class FlightAts extends Model
     {
         return $this->hasMany('App\Models\FlightAtsJacket', 'flight_id');
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('d-m-Y H:m:i');
+    }
 }

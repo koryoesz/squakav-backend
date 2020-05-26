@@ -21,7 +21,7 @@ class FlightAts extends Model
       'departure', 'cruising_speed', 'level', 'route', 'destination', 'eet', 'alternate-one',
       'alternate-two', 'endurance', 'persons_on_board', 'filed_by', 'additional_requirement', 'number',
       'capacity', 'status_id', 'remarks', 'pilot_in_command', 'color_markings', 'flight_type_id', 'flight_type_id',
-      'alternate_one', 'alternate_two'
+      'alternate_one', 'alternate_two', 'time'
   ];
 
   public function equipments()
@@ -31,7 +31,7 @@ class FlightAts extends Model
 
   public function transponders()
   {
-      return $this->hasMany('App\Models\FlightAtsTransponder', 'flight_id');
+      return $this->hasOne('App\Models\FlightAtsTransponder', 'flight_id');
   }
 
    public function transponderProperties()
@@ -46,17 +46,17 @@ class FlightAts extends Model
 
     public function emergency()
     {
-        return $this->hasMany('App\Models\FlightAtsEmergency', 'flight_id');
+        return $this->hasOne('App\Models\FlightAtsEmergency', 'flight_id');
     }
 
     public function survivalEquipment()
     {
-        return $this->hasMany('App\Models\FlightAtsSurvivingEquipment', 'flight_id');
+        return $this->hasOne('App\Models\FlightAtsSurvivingEquipment', 'flight_id');
     }
 
     public function jackets()
     {
-        return $this->hasMany('App\Models\FlightAtsJacket', 'flight_id');
+        return $this->hasOne('App\Models\FlightAtsJacket', 'flight_id');
     }
 
     public function getCreatedAtAttribute($value)

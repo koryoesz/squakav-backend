@@ -17,13 +17,27 @@ class FlightEquipmentTypeService
      */
     public function getAllFlightEquipmentType()
     {
-        $types = Cache::get('flight_equipment_types');
+//        $types = Cache::get('flight_equipment_types');
+//
+//        if(empty($types))
+//        {
+//
+//            $types = EquipmentType::all();
+//            Cache::put('flight_equipment_types', $types, 180000);
+//        }
 
-        if(empty($types))
-        {
-            $types = EquipmentType::all();
-            Cache::put('flight_equipment_types', $types, 180000);
-        }
-        return $types;
+        $arr =  [
+            [
+                "id" =>  1,
+                "name" => "n",
+                "label" => "N - Normal"
+            ],
+            [
+                "id" =>  2,
+                "name" => "s",
+                "label" => "S - Standard"
+            ]
+        ];
+        return $arr;
     }
 }

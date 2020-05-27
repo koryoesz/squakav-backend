@@ -130,16 +130,32 @@ class FlightAtsService
 
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getAllSent()
     {
         $sent_flights = FlightAts::all();
         return $sent_flights;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getOne($id)
     {
         $flight = FlightAts::find($id);
         return $flight;
+    }
+
+    /**
+     * @param $user_id
+     * @param $user_type_id
+     */
+    public function approve($user_id, $user_type_id)
+    {
+
     }
 
 }

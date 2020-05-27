@@ -9,12 +9,17 @@
 namespace App\Services;
 
 use App\Models\FlightAts;
+use App\Models\SystemFlight;
+use App\Models\Status;
+use App\Models\UserType;
+use App\Models\SystemFightType;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
 use App\Components\Exception as MyException;
 use App\Components\ErrorCode;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rule;
 
 class FlightAtsService
 {
@@ -152,10 +157,59 @@ class FlightAtsService
     /**
      * @param $user_id
      * @param $user_type_id
+     * @param $params
+     * @return string
      */
-    public function approve($user_id, $user_type_id)
+    public function approve($user_id, $params)
     {
+        $extra_param = ['user_id' => $user_id,
+                        'remarks' => isset($params['remarks']) ? $params['remarks']: '',
+                        'flight_id' => isset($params['flight_id']) ? $params['flight_id']: ''
+                        ];
 
+        $validator = Validator::make($extra_param, [
+            'user_id' => [
+                'numeric',
+                Rule::exists('ais_users', 'id')
+                ->where('user_type_id', UserType::USER_TYPE_ID)
+                ],
+            'remarks' => 'required',
+            'flight_id' => [
+                    'required',
+                    'numeric',
+                    Rule::exists('system_flights', 'flight_id')
+                        ->where('system_flight_types_id', SystemFightType::ATS)
+                    ]
+        ], [
+            'user_id.exists' => 'User not authorized to approve ATS flight',
+            'flight_id.exists' => 'Invalid Flight'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        $flight = FlightAts::find($params['flight_id']);
+        $system_flight = SystemFlight::where('flight_id', $params['flight_id'])->get();
+
+        if(empty($flight) && empty($system_flight)){
+            throw (new MyException('Flight record not found', ErrorCode::RECORD_NOT_EXISTING));
+        }
+
+        $system_flight[0]->status_id = Status::APPROVED;
+        $flight->status_id = Status::APPROVED;
+
+        $system_flight[0]->save();
+        $flight->save();
+
+        return "ATS Flight Plan Approved.";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function approvedFlights()
+    {
+        $flight = FlightAts::where('status_id', Status::APPROVED)->get();
+        return $flight;
     }
 
 }

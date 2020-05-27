@@ -34,4 +34,10 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flight);
     }
 
+    public function approvedFlights()
+    {
+        $flight = (new FlightAtsService())->approvedFlights();
+        return JsonResponse::success($flight);
+    }
+
 }

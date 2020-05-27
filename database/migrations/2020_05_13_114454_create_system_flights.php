@@ -23,7 +23,7 @@ class CreateSystemFlights extends Migration
             $table->unsignedSmallInteger('status_id')->default(1);
 
             $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->dateTime('modified_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->dateTime('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('system_flight_types_id')->references('id')->on('system_flight_types');
             $table->foreign('status_id')->references('id')->on('status');

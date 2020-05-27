@@ -51,7 +51,11 @@ $router->post('api/flight/ats/create', 'FlightAtsController@create');
 // View Flight Ats
 $router->get('api/flight/ats/sent', 'FlightAtsController@sentFlights');
 $router->get('api/flight/ats/sent/{id}', 'FlightAtsController@getOne');
+    $router->get('api/flight/ats/approved', 'FlightAtsController@approvedFlights');
 
 // System Flights
 $router->get('api/system-flights', 'SystemFlightController@getAll');
 $router->get('api/system-flight/types', 'SystemFlightController@types');
+
+// System Flights
+$router->post('api/ais/ats/approve', 'AisController@approve');

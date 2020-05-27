@@ -2,16 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: user
- * Date: 5/13/2020
- * Time: 2:02 PM
+ * Date: 5/27/2020
+ * Time: 12:13 PM
  */
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SystemFightType extends Model
+class UserType extends Model
 {
-    const ATS = 1;
-    const RPL = 2;
+    const USER_TYPE_ID = 2;
 }

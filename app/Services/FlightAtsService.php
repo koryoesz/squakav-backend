@@ -61,7 +61,7 @@ class FlightAtsService
             'eet' => 'required|numeric|digits:4',
             'alternate_one' => 'required|string|min:4|max:4',
             'endurance' => 'required|numeric|digits:4',
-            'persons_on_board' => 'required|numeric',
+//            'persons_on_board' => 'required|string|min:3|max:3',
             'filed_by' => 'required|string|max:128',
             'color_markings' => 'required|string|max:128',
             'pilot_in_command' => 'required|string|max:128',

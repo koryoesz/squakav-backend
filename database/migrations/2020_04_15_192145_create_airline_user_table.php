@@ -13,11 +13,12 @@ class CreateAirlineUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('airline_user', function (Blueprint $table) {
+        Schema::create('airline_users', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->id();
             $table->unsignedInteger("state_id");
+            $table->unsignedSmallInteger("status_id");
             $table->string("username")->unique();
             $table->string("airline_name")->unique();
             $table->string("code_icao")->unique()->nullable();
@@ -26,6 +27,9 @@ class CreateAirlineUserTable extends Migration
             $table->string("password");
             $table->string("token")->nullable();
             $table->timestamps();
+
+            $table->foreign('state_id')->references('id')->on('states');
+            $table->foreign('status_id')->references('id')->on('status');
         });
     }
 

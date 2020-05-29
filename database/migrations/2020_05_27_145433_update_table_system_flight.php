@@ -14,7 +14,8 @@ class UpdateTableSystemFlight extends Migration
     public function up()
     {
         Schema::table('system_flights', function (Blueprint $table) {
-            $table->renameColumn('modified_at', 'updated_at');
+//            $table->renameColumn('modified_at', 'updated_at');
+            $table->addColumn('date', 'date', ['default' => '2020/05/20']);
         });
     }
 

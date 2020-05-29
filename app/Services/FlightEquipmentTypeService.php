@@ -30,7 +30,7 @@ class FlightEquipmentTypeService
             [
                 "id" =>  1,
                 "name" => "n",
-                "label" => "N - Normal"
+                "label" => "N - Nil"
             ],
             [
                 "id" =>  2,

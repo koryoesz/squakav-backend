@@ -12,5 +12,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserType extends Model
 {
-    const USER_TYPE_ID = 2;
+    const AIS_USER_TYPE_ID = 2;
 }

@@ -55,7 +55,7 @@ class FlightAtsService
             'wake_turbulence_category_id' => 'exists:wake_turbulence_category,id',
             'departure' => 'required|string|min:4|max:4',
             'cruising_speed' => 'required|string|min:5|max:5',
-            'level' => 'required|string|min:5|max:5',
+            'level' => 'required|string|min:4|max:5',
             'route' => 'required|string|max:128',
             'destination' => 'required|string|min:4|max:4',
             'eet' => 'required|numeric|digits:4',
@@ -124,7 +124,7 @@ class FlightAtsService
                     ::createAtsFlightSurvivalEquipment($params['survival_equipment'], $flight->id);
             }
 
-                if(isset($params['jackets']))
+            if(isset($params['jackets']))
             {
                 (new AtsJacketService())
                     ::createAtsFlightJacket($params['jackets'], $flight->id);
@@ -171,7 +171,7 @@ class FlightAtsService
             'user_id' => [
                 'numeric',
                 Rule::exists('ais_users', 'id')
-                ->where('user_type_id', UserType::USER_TYPE_ID)
+                ->where('user_type_id', UserType::AIS_USER_TYPE_ID)
                 ],
             'remarks' => 'required',
             'flight_id' => [
@@ -200,7 +200,7 @@ class FlightAtsService
         $system_flight[0]->save();
         $flight->save();
 
-        return "ATS Flight Plan Approved.";
+        return "ATS Flight Plan Has Been Approved.";
     }
 
     /**

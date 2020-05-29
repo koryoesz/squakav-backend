@@ -24,7 +24,7 @@ class CreateEquipmentTypeTable extends Migration
         });
 
         DB::table('equipment_types')->insert([
-           ['id' => 1, 'name' => 'n', 'label' => 'N - Normal'],
+           ['id' => 1, 'name' => 'n', 'label' => 'N - Nil'],
             ['id' => 2, 'name' => 's', 'label' => 'S - Standard'],
             ['id' => 3, 'name' => 'o', 'label' => 'O - Other']
         ]);

@@ -39,6 +39,6 @@ class CreateAirlineUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('airline_user');
+        Schema::dropIfExists('airline_users');
     }
 }

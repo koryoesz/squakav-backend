@@ -55,7 +55,7 @@ class FlightAtsService
             'level' => 'required|string|min:4|max:5',
             'route' => 'required|string|max:128',
             'destination' => 'required|string|min:3|max:4',
-            'total_eet' => 'required|numeric|digits:4',
+            'total_eet' => 'required|string|min:4|max:4',
             'alternate_one' => 'required|string|min:4|max:4',
             'alternate_two' => 'sometimes|required|string|min:4|max:4',
             'endurance' => 'required|numeric|digits:4',
@@ -64,7 +64,7 @@ class FlightAtsService
             'color_markings' => 'required|string|max:128',
             'pilot_in_command' => 'required|string|max:128',
             'flight_type_id' => 'required|numeric|exists:flight_types,id',
-            'time' => 'required|digits:4',
+            'time' => 'required|string|min:4|max:4',
             'number' => 'sometimes|digits:2',
             'remarks' => 'sometimes|required'
         ]);

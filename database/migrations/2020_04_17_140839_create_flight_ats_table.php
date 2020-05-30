@@ -27,8 +27,8 @@ class CreateFlightAtsTable extends Migration
             $table->string('level', 5);
             $table->string('route', 128);
             $table->string('destination', 4);
-            $table->smallInteger('total_eet');
-            $table->smallInteger('time');
+            $table->string('total_eet', 4);
+            $table->string('time', 4);
             $table->string('alternate_one', 4);
             $table->string('alternate_two', 4)->nullable();
             $table->smallInteger('endurance');

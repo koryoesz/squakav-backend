@@ -18,11 +18,10 @@ class CreateAirlineUserTable extends Migration
 
             $table->id();
             $table->unsignedInteger("state_id");
-            $table->unsignedSmallInteger("status_id");
+            $table->unsignedSmallInteger("status_id")->default(1);
             $table->string("username")->unique();
             $table->string("airline_name")->unique();
             $table->string("code_icao")->unique()->nullable();
-            $table->tinyInteger("status_id")->default(0);
             $table->string("email")->unique();
             $table->string("password");
             $table->string("token")->nullable();

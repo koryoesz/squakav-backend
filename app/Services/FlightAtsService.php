@@ -46,27 +46,27 @@ class FlightAtsService
         }
 
         $validator = Validator::make($params, [
-            'equipments' => 'required|array',
-            'transponder' => 'required',
-            'other_information' => 'required|array',
             'aircraft_identification' => 'required|string|min:7|max:7',
             'ats_flight_rules_id' => 'required|numeric|exists:ats_flight_rules,id',
-            'aircraft_type' => 'required|string|min:4|max:4',
-            'wake_turbulence_category_id' => 'exists:wake_turbulence_category,id',
+            'aircraft_type' => 'sometimes|required|string|min:4|max:4',
+            'wake_turbulence_category_id' => 'required|exists:wake_turbulence_category,id',
             'departure' => 'required|string|min:4|max:4',
             'cruising_speed' => 'required|string|min:5|max:5',
             'level' => 'required|string|min:4|max:5',
             'route' => 'required|string|max:128',
-            'destination' => 'required|string|min:4|max:4',
+            'destination' => 'required|string|min:3|max:4',
             'total_eet' => 'required|numeric|digits:4',
             'alternate_one' => 'required|string|min:4|max:4',
+            'alternate_two' => 'sometimes|required|string|min:4|max:4',
             'endurance' => 'required|numeric|digits:4',
             'persons_on_board' => 'required|string|min:3|max:3',
             'filed_by' => 'required|string|max:128',
             'color_markings' => 'required|string|max:128',
             'pilot_in_command' => 'required|string|max:128',
             'flight_type_id' => 'required|numeric|exists:flight_types,id',
-            'time' => 'required|digits:4'
+            'time' => 'required|digits:4',
+            'number' => 'sometimes|digits:2',
+            'remarks' => 'sometimes|required'
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
@@ -92,9 +92,11 @@ class FlightAtsService
 
             (new SystemFlightService())::save($system_flight_params);
 
-            $equipments = (new FlightEquipmentService())
-                ->createAtsEquipment($params['equipments'], $flight->id);
-
+            if(isset($params['equipments']))
+            {
+                $equipments = (new FlightEquipmentService())
+                    ->createAtsEquipment($params['equipments'], $flight->id);
+            }
             if(isset($params['transponder']))
             {
                 (new AtsTransponderService())

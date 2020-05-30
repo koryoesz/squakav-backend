@@ -20,7 +20,6 @@ class CreateUserTypes extends Migration
             $table->tinyIncrements('id');
             $table->string('name');
             $table->string('label');
-            $table->timestamps();
         });
 
         DB::table('user_types')->insert([

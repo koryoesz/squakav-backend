@@ -18,7 +18,7 @@ class CreateAisUsers extends Migration
             $table->increments('id');
             $table->unsignedSmallInteger('status_id')->default(1);
             $table->unsignedTinyInteger('user_type_id');
-            $table->unsignedInteger('states_id');
+            $table->unsignedSmallInteger('states_id');
             $table->string('airport_name')->nullable();
             $table->string('username', 128);
             $table->string('email',128)->unique();

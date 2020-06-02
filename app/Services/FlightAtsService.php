@@ -133,6 +133,12 @@ class FlightAtsService
                     ::createAtsFlightJacket($params['jackets'], $flight->id);
             }
 
+            if(isset($params['dinghies']))
+            {
+                (new FlightAtsDinghiesService())
+                    ::createAtsDinghies($params['dinghies'], $flight->id);
+            }
+
             return $flight;
         });
 

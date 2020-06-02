@@ -14,7 +14,7 @@ class FlightAts extends Model
 {
 
   protected $with = ['equipments', 'transponders', 'transponderProperties',
-      'otherInformation', 'emergency', 'survivalEquipment', 'jackets'];
+      'otherInformation', 'emergency', 'survivalEquipment', 'jackets', 'dinghies'];
 
   protected $fillable = [
       'aircraft_identification', 'ats_flight_rules_id', 'aircraft_type', 'wake_turbulence_category_id',
@@ -62,5 +62,10 @@ class FlightAts extends Model
     public function getCreatedAtAttribute($value)
     {
         return \Carbon\Carbon::parse($value)->format('d-m-Y H:m:i');
+    }
+
+    public function dinghies()
+    {
+        return $this->hasOne('App\Models\FlightAtsDinghies', 'flight_id');
     }
 }

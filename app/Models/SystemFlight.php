@@ -17,6 +17,6 @@ class SystemFlight extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return \Carbon\Carbon::parse($value)->format('d-m-Y H:m:i');
+        return \Carbon\Carbon::parse($value)->subHours(1)->format('d-m-Y H:m');
     }
 }

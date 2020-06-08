@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\SystemFlight;
 use Illuminate\Support\Facades\Config;
 use \Carbon\Carbon;
+use App\Models\Status;
 
 class SystemFlightService
 {
@@ -33,14 +34,15 @@ class SystemFlightService
         $validator = Validator::make($params, [
             'flight_id' => 'numeric',
             'system_flight_types_id' => 'numeric',
-
         ]);
+
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
         $system_flight = DB::table('system_flights')->insert([
             'flight_id' => $params['flight_id'],
-              'system_flight_types_id' => $params['system_flight_types_id'],
-                'date' => date("Y-m-d")
+            'system_flight_types_id' => $params['system_flight_types_id'],
+            'date' => date("Y-m-d"),
+            'status_id' => isset($params['status_id']) ? $params['status_id'] : 1
         ]);
     }
 
@@ -75,6 +77,41 @@ class SystemFlightService
         return $arr;
     }
 
+    /**
+     * @return array
+     */
+    public function getAllSent()
+    {
+        $flights = SystemFlight::where('status_id', Status::ACTIVE)->get();
+        // get distinct records
+        $dates = DB::table('system_flights')
+            ->where('status_id', Status::ACTIVE)->distinct()
+            ->get(['date']);
+
+        $arr = [];
+
+        foreach($dates as $date){
+            // create temp arr that will store
+            // value of true comparison
+            $temp_flight_arr = [];
+            foreach($flights as $key => $flight){
+                // check if date from distinct is
+                // equals date from flight object
+                if($date->date == $flight->date){
+                    $temp_flight_arr[] = $flight;
+                }
+
+            }
+            // pass all true comparison to be formatted
+            $format_arr = ['date' => $date->date, 'flights' => $temp_flight_arr];
+            $arr[] = $format_arr;
+        }
+        return $arr;
+    }
+
+    /**
+     * @return array|mixed
+     */
     public function types()
     {
         if(isset($this->system_flight))
@@ -82,5 +119,34 @@ class SystemFlightService
             return $this->system_flight;
         }
         return [];
+    }
+
+    public function getAllDraft()
+    {
+        $flights = SystemFlight::where('status_id', Status::DRAFTED)->get();
+        // get distinct records
+        $dates = DB::table('system_flights')
+            ->where('status_id', Status::DRAFTED)->distinct()
+            ->get(['date']);
+
+        $arr = [];
+
+        foreach($dates as $date){
+            // create temp arr that will store
+            // value of true comparison
+            $temp_flight_arr = [];
+            foreach($flights as $key => $flight){
+                // check if date from distinct is
+                // equals date from flight object
+                if($date->date == $flight->date){
+                    $temp_flight_arr[] = $flight;
+                }
+
+            }
+            // pass all true comparison to be formatted
+            $format_arr = ['date' => $date->date, 'flights' => $temp_flight_arr];
+            $arr[] = $format_arr;
+        }
+        return $arr;
     }
 }

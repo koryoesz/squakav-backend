@@ -28,15 +28,27 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flights);
     }
 
-    public function getOne($id)
+    public function getOneSent($id)
     {
-        $flight = (new FlightAtsService())->getOne($id);
+        $flight = (new FlightAtsService())->getOneSent($id);
         return JsonResponse::success($flight);
     }
 
     public function approvedFlights()
     {
         $flight = (new FlightAtsService())->approvedFlights();
+        return JsonResponse::success($flight);
+    }
+
+    public function getOneApproved($id)
+    {
+        $flight = (new FlightAtsService())->getOneApproved($id);
+        return JsonResponse::success($flight);
+    }
+
+    public function draft(Request $request)
+    {
+        $flight = (new FlightAtsService())->draft(Util::getRequestBody($request));
         return JsonResponse::success($flight);
     }
 

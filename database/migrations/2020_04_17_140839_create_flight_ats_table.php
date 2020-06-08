@@ -34,10 +34,10 @@ class CreateFlightAtsTable extends Migration
             $table->string('endurance', 4);
             $table->string('persons_on_board', 3);
             $table->tinyInteger('number')->nullable();
-            $table->smallInteger('capacity')->nullable();
             $table->smallInteger('status_id')->default(1);
             $table->string('color_markings');
             $table->string('remarks', 128)->nullable();
+            $table->string('official_remarks', 128)->nullable();
             $table->string('pilot_in_command', 128);
             $table->string('filed_by', 128);
             $table->string('additional_requirement', 128)->nullable();

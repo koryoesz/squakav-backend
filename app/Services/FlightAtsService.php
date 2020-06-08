@@ -32,11 +32,27 @@ class FlightAtsService
     }
 
     /**
+     * Create Ats flight Plan
+     */
+    public function create($params)
+    {
+        return $this->createFlightPlan($params);
+    }
+
+    /**
+     * Draft Ats Flight Plan
+     */
+    public function draft($params)
+    {
+        $params['status_id'] = Status::DRAFTED;
+        return $this->createFlightPlan($params);
+    }
+    /**
      * @param $params
      * @return mixed
      * @throws MyException
      */
-    public function create($params)
+    private function createFlightPlan($params)
     {
         $equipments = null;
         $emergency = null;
@@ -66,7 +82,7 @@ class FlightAtsService
             'flight_type_id' => 'required|numeric|exists:flight_types,id',
             'time' => 'required|digits:4',
             'number' => 'sometimes|digits:2',
-            'remarks' => 'sometimes|required'
+            'remarks' => 'sometimes|required',
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
@@ -87,7 +103,8 @@ class FlightAtsService
             // build params for system flight ats
             $system_flight_params = [
                 'flight_id' => $flight->id,
-                'system_flight_types_id' => $this->system_flight['ats']['id']
+                'system_flight_types_id' => $this->system_flight['ats']['id'],
+                'status_id' => isset($params['status_id']) ? $params['status_id'] : 1
             ];
 
             (new SystemFlightService())::save($system_flight_params);
@@ -149,17 +166,17 @@ class FlightAtsService
      */
     public function getAllSent()
     {
-        $sent_flights = FlightAts::all();
-        return $sent_flights;
+        $flights = FlightAts::where('status_id', Status::ACTIVE)->get();
+        return $flights;
     }
 
     /**
      * @param $id
      * @return mixed
      */
-    public function getOne($id)
+    public function getOneSent($id)
     {
-        $flight = FlightAts::find($id);
+        $flight = FlightAts::where('id', $id)->where('status_id', Status::ACTIVE);
         return $flight;
     }
 
@@ -171,6 +188,7 @@ class FlightAtsService
      */
     public function approve($user_id, $params)
     {
+        // include routes
         $extra_param = ['user_id' => $user_id,
                         'remarks' => isset($params['remarks']) ? $params['remarks']: '',
                         'flight_id' => isset($params['flight_id']) ? $params['flight_id']: ''
@@ -217,8 +235,66 @@ class FlightAtsService
      */
     public function approvedFlights()
     {
-        $flight = FlightAts::where('status_id', Status::APPROVED)->get();
+        $flights = FlightAts::where('status_id', Status::APPROVED)->get();
+        return $flights;
+    }
+
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getOneApproved($id)
+    {
+        $flight = FlightAts::where('id', $id)->where('status_id', Status::APPROVED)->get();
         return $flight;
+    }
+
+    /**
+     * @param $user_id
+     * @param $params
+     * @return string
+     * @throws MyException
+     */
+    public function decline($user_id, $params)
+    {
+        $extra_param = ['user_id' => $user_id,
+            'remarks' => isset($params['remarks']) ? $params['remarks']: '',
+            'flight_id' => isset($params['flight_id']) ? $params['flight_id']: ''
+        ];
+
+        $validator = Validator::make($extra_param, [
+            'user_id' => [
+                'numeric',
+                Rule::exists('ais_users', 'id')
+                    ->where('user_type_id', UserType::AIS_USER_TYPE_ID)
+            ],
+            'additional_requirement' => 'required',
+            'flight_id' => [
+                'required',
+                'numeric',
+                Rule::exists('system_flights', 'flight_id')
+                    ->where('system_flight_types_id', SystemFightType::ATS)
+            ]
+        ], [
+            'user_id.exists' => 'User not authorized to approve ATS flight',
+            'flight_id.exists' => 'Invalid Flight'
+        ]);
+
+        $flight = FlightAts::find($params['flight_id']);
+        $system_flight = SystemFlight::where('flight_id', $params['flight_id'])->get();
+
+        if(empty($flight) && empty($system_flight)){
+            throw (new MyException('Flight record not found', ErrorCode::RECORD_NOT_EXISTING));
+        }
+
+        $system_flight[0]->status_id = Status::DECLINED;
+        $flight->status_id = Status::DECLINED;
+
+        $system_flight[0]->save();
+        $flight->save();
+
+        return "ATS Flight Plan Has Been Declined.";
     }
 
 }

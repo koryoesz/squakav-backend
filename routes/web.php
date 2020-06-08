@@ -45,17 +45,23 @@ $router->get('api/transponder-type-properties', 'FlightTransponderTypePropertyCo
 // Other Ats Information
 $router->get('api/ats-other-information', 'OtherAtsInformationController@getAllOtherInformation');
 
-// Create Ats
+// Create Ats Flight Plan
 $router->post('api/flight/ats/create', 'FlightAtsController@create');
 
 // View Flight Ats
 $router->get('api/flight/ats/sent', 'FlightAtsController@sentFlights');
-$router->get('api/flight/ats/sent/{id}', 'FlightAtsController@getOne');
-    $router->get('api/flight/ats/approved', 'FlightAtsController@approvedFlights');
+$router->get('api/flight/ats/sent/{id}', 'FlightAtsController@getOneSent');
+$router->get('api/flight/ats/approved', 'FlightAtsController@approvedFlights');
+$router->get('api/flight/ats/approved/{id}', 'FlightAtsController@getOneApproved');
 
 // System Flights
 $router->get('api/system-flights', 'SystemFlightController@getAll');
+$router->get('api/system-flights/sent', 'SystemFlightController@getAllSent');
+$router->get('api/system-flights/draft', 'SystemFlightController@getAllDraft');
 $router->get('api/system-flight/types', 'SystemFlightController@types');
 
 // System Flights
 $router->post('api/ais/ats/approve', 'AisController@approve');
+
+// Create Ats Draft
+$router->post('api/flight/ats/draft', 'FlightAtsController@draft');

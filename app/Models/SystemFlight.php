@@ -12,11 +12,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class SystemFlight extends Model
 {
-
     protected $fillable = ['flight_id', 'system_flight_types_id'];
-
-    public function getCreatedAtAttribute($value)
-    {
-        return \Carbon\Carbon::parse($value)->subHours(1)->format('d-m-Y H:m');
-    }
 }

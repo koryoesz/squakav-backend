@@ -45,7 +45,8 @@ class CreateOtherAtsFlightInformationTable extends Migration
             ['id' => 19, 'name' => 'ralt', 'label' => 'RALT'],
             ['id' => 20, 'name' => 'talt', 'label' => 'TALT'],
             ['id' => 21, 'name' => 'rif', 'label' => 'RIF'],
-            ['id' => 22, 'name' => 'rmk', 'label' => 'RMK']
+            ['id' => 22, 'name' => 'rmk', 'label' => 'RMK'],
+            ['id' => 22, 'name' => 'sur', 'label' => 'SUR']
         ]);
     }
 

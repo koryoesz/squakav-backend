@@ -188,7 +188,7 @@ class FlightAtsService
      */
     public function getOneSent($id)
     {
-        $flight = FlightAts::where('id', $id)->where('status_id', Status::ACTIVE);
+        $flight = FlightAts::where('id', $id)->where('status_id', Status::ACTIVE)->get();
         return $flight;
     }
 

@@ -40,12 +40,23 @@ class FlightAtsService
     }
 
     /**
-     * Draft Ats Flight Plan
-     */
+ * Draft Ats Flight Plan
+ */
     public function draft($params)
     {
         $params['status_id'] = Status::DRAFTED;
         return $this->createFlightPlan($params);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * Return single drafted flight
+     */
+    public function getOneDraft($id)
+    {
+        $flight = FlightAts::where('id', $id)->where('status_id', Status::DRAFTED)->get();
+        return $flight;
     }
     /**
      * @param $params

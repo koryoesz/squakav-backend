@@ -52,4 +52,10 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flight);
     }
 
+    public function getOneDraft($id)
+    {
+        $flight = (new FlightAtsService())->getOneDraft($id);
+        return JsonResponse::success($flight);
+    }
+
 }

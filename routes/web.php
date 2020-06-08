@@ -65,3 +65,4 @@ $router->post('api/ais/ats/approve', 'AisController@approve');
 
 // Create Ats Draft
 $router->post('api/flight/ats/draft', 'FlightAtsController@draft');
+$router->get('api/flight/ats/draft/{id}', 'FlightAtsController@getOneDraft');

@@ -55,7 +55,7 @@ class FlightAtsService
      */
     public function getOneDraft($id)
     {
-        $flight = FlightAts::where('id', $id)->where('status_id', Status::DRAFTED)->get();
+        $flight = FlightAts::where('id', $id)->where('status_id', Status::DRAFTED)->first();
         return $flight;
     }
     /**

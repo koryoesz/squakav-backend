@@ -177,7 +177,8 @@ class FlightAtsService
      */
     public function getAllSent()
     {
-        $flights = FlightAts::where('status_id', Status::ACTIVE)->get();
+        $flights = FlightAts::where('status_id', Status::ACTIVE)
+                    ->orderBy('created_at', 'desc')->get();
         return $flights;
     }
 

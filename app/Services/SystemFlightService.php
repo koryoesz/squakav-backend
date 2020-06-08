@@ -13,7 +13,6 @@ use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
 use App\Models\SystemFlight;
 use Illuminate\Support\Facades\Config;
-use \Carbon\Carbon;
 use App\Models\Status;
 
 class SystemFlightService
@@ -82,7 +81,8 @@ class SystemFlightService
      */
     public function getAllSent()
     {
-        $flights = SystemFlight::where('status_id', Status::ACTIVE)->get();
+        $flights = SystemFlight::where('status_id', Status::ACTIVE)
+            ->orderBy('created_at', 'desc')->get();
         // get distinct records
         $dates = DB::table('system_flights')
             ->where('status_id', Status::ACTIVE)->distinct()
@@ -123,10 +123,12 @@ class SystemFlightService
 
     public function getAllDraft()
     {
-        $flights = SystemFlight::where('status_id', Status::DRAFTED)->get();
+        $flights = SystemFlight::where('status_id', Status::DRAFTED)
+            ->orderBy('created_at', 'desc')->get();
         // get distinct records
         $dates = DB::table('system_flights')
-            ->where('status_id', Status::DRAFTED)->distinct()
+            ->where('status_id', Status::DRAFTED)
+            ->distinct()
             ->get(['date']);
 
         $arr = [];

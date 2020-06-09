@@ -45,7 +45,7 @@ class FlightAtsService
     public function draft($params)
     {
         $params['status_id'] = Status::DRAFTED;
-        return $this->createFlightPlan($params);
+        return $this->draftFlightPlan($params);
     }
 
     /**
@@ -173,6 +173,120 @@ class FlightAtsService
     }
 
     /**
+     * @param $params
+     * @return mixed
+     * @throws MyException
+     */
+    private function draftFlightPlan($params)
+    {
+        $equipments = null;
+        $emergency = null;
+
+        if (empty($this->system_flight)){
+            throw new MyException('Could not find system config', ErrorCode::INTERNAL_ERROR);
+        }
+
+        $validator = Validator::make($params, [
+            'aircraft_identification' => 'required|string|max:7',
+            'ats_flight_rules_id' => 'sometimes|numeric|exists:ats_flight_rules,id',
+            'aircraft_type' => 'sometimes|required|string|min:2|max:4',
+            'wake_turbulence_category_id' => 'sometimes|exists:wake_turbulence_category,id',
+            'departure' => 'sometimes|string|min:3|max:4',
+            'cruising_speed' => 'sometimes|string|min:4|max:5',
+            'level' => 'sometimes|string|min:4|max:5',
+            'route' => 'sometimes|string|max:128',
+            'destination' => 'sometimes|string|min:3|max:4',
+            'total_eet' => 'sometimes|numeric|digits:4',
+            'alternate_one' => 'sometimes|string|min:3|max:4',
+            'alternate_two' => 'sometimes|string|min:3|max:4',
+            'endurance' => 'sometimes|numeric|digits:4',
+            'persons_on_board' => 'sometimes|string|min:3|max:3',
+            'filed_by' => 'sometimes|string|max:128',
+            'color_markings' => 'sometimes|string|max:128',
+            'pilot_in_command' => 'sometimes|string|max:128',
+            'flight_type_id' => 'sometimes|numeric|exists:flight_types,id',
+            'time' => 'sometimes|digits:4',
+            'number' => 'sometimes|digits:2',
+            'remarks' => 'sometimes|required',
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        return DB::transaction(/**
+         * @return mixed
+         * @throws MyException
+         */
+            function () use ($params){
+                // create flight
+                $flight = FlightAts::create($params);
+
+                if(empty($flight)){
+                    throw (new MyException('Create Flight Record Failed', ErrorCode::INTERNAL_ERROR));
+                }
+
+                // store for system flight
+                // build params for system flight ats
+                $system_flight_params = [
+                    'flight_id' => $flight->id,
+                    'system_flight_types_id' => $this->system_flight['ats']['id'],
+                    'status_id' => isset($params['status_id']) ? $params['status_id'] : 1
+                ];
+
+                (new SystemFlightService())::save($system_flight_params);
+
+                if(isset($params['equipments']))
+                {
+                    $equipments = (new FlightEquipmentService())
+                        ->createAtsEquipment($params['equipments'], $flight->id);
+                }
+                if(isset($params['transponder']))
+                {
+                    (new AtsTransponderService())
+                        ::createAtsTransponder($params['transponder'], $flight->id);
+                }
+
+                if(isset($params['transponder_properties']))
+                {
+                    (new AtsTransponderService())
+                        ::createAtsTransponderProperties($params['transponder_properties'], $flight->id);
+                }
+
+                if(isset($params['other_information']))
+                {
+                    (new OtherAtsFlightInformationService())
+                        ::createAtsFlightOtherInformation($params['other_information'], $flight->id);
+                }
+
+                if(isset($params['emergency']))
+                {
+                    $emergency = (new AtsEmergencyService())
+                        ->createAtsFlightEmergency($params['emergency'], $flight->id);
+                }
+
+                if(isset($params['survival_equipment']))
+                {
+                    (new AtsSurvivalEquipmentService())
+                        ::createAtsFlightSurvivalEquipment($params['survival_equipment'], $flight->id);
+                }
+
+                if(isset($params['jackets']))
+                {
+                    (new AtsJacketService())
+                        ::createAtsFlightJacket($params['jackets'], $flight->id);
+                }
+
+                if(isset($params['dinghies']))
+                {
+                    (new FlightAtsDinghiesService())
+                        ::createAtsDinghies($params['dinghies'], $flight->id);
+                }
+
+                return $flight;
+            });
+
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function getAllSent()
@@ -292,6 +406,10 @@ class FlightAtsService
             'user_id.exists' => 'User not authorized to approve ATS flight',
             'flight_id.exists' => 'Invalid Flight'
         ]);
+
+        // validator
+        // fails
+        // where is it ???/??????
 
         $flight = FlightAts::find($params['flight_id']);
         $system_flight = SystemFlight::where('flight_id', $params['flight_id'])->get();

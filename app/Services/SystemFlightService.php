@@ -83,7 +83,7 @@ class SystemFlightService
     {
         $flights = SystemFlight::where('status_id', Status::ACTIVE)
             ->orderBy('created_at', 'desc')->get();
-        // get distinct records
+
         $dates = DB::table('system_flights')
             ->where('status_id', Status::ACTIVE)->distinct()
             ->get(['date']);

@@ -386,6 +386,9 @@ class FlightAtsService
      */
     public function updateDraft($flight_id, $params)
     {
+        $flight = null;
+        $system_flight = null;
+
         $validator = Validator::make(['flight_id' => $flight_id], [
             'flight_id' => [
                 'required',
@@ -399,10 +402,21 @@ class FlightAtsService
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        EaseFlightValidation::validate($params);
+        if(isset($params['send']) && $params['send'] == '1'){
 
-        $flight = FlightAts::find($flight_id);
-        $flight->update($params);
+            EaseFlightValidation::forceValidate($params);
+
+            $params['status_id'] = Status::ACTIVE;
+            $flight = FlightAts::find($flight_id);
+            $flight->update($params);
+        } else{
+            
+            EaseFlightValidation::validate($params);
+
+            $flight = FlightAts::find($flight_id);
+            $flight->update($params);
+        }
+
 
         if(isset($params['equipments']))
         {

@@ -16,6 +16,8 @@ class CreateFlightAtsTransponderTable extends Migration
         Schema::create('flight_ats_transponder', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
+            $table->bigIncrements('id');
+
             $table->unsignedBigInteger('flight_id');
             $table->unsignedSmallInteger('transponder_id');
 

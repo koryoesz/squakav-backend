@@ -16,6 +16,8 @@ class CreateFlightEquipmentsTable extends Migration
         Schema::create('flight_ats_equipments', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
+            $table->bigIncrements('id');
+
             $table->unsignedBigInteger('flight_id');
             $table->unsignedInteger('flight_equipment_id');
 

@@ -163,9 +163,7 @@ class FlightAtsService
             throw new MyException('Could not find system config', ErrorCode::INTERNAL_ERROR);
         }
 
-        $validator = EaseFlightValidation::validate($params);
-
-        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+        EaseFlightValidation::validate($params);
 
         return DB::transaction(/**
          * @return mixed
@@ -392,7 +390,7 @@ class FlightAtsService
             'flight_id' => [
                 'required',
                 'numeric',
-                Rule::exists('system_flights', 'flight_id')
+                Rule::exists('flight_ats', 'id')
                     ->where('status_id', Status::DRAFTED)
             ]
         ],[
@@ -403,8 +401,57 @@ class FlightAtsService
 
         EaseFlightValidation::validate($params);
 
-        
+        $flight = FlightAts::find($flight_id);
+        $flight->update($params);
 
+        if(isset($params['equipments']))
+        {
+            $equipments = (new FlightEquipmentService())
+                ->createAtsEquipment($params['equipments'], $flight->id);
+        }
+        if(isset($params['transponder']))
+        {
+            (new AtsTransponderService())::updateAtsTransponder($params['transponder'], $flight->id);
+
+        }
+
+        if(isset($params['transponder_properties']))
+        {
+            (new AtsTransponderService())::updateAtsTransponderProperties($params['transponder_properties'], $flight->id);
+        }
+//
+//        if(isset($params['other_information']))
+//        {
+//            (new OtherAtsFlightInformationService())
+//                ::createAtsFlightOtherInformation($params['other_information'], $flight->id);
+//        }
+//
+//        if(isset($params['emergency']))
+//        {
+//            $emergency = (new AtsEmergencyService())
+//                ->createAtsFlightEmergency($params['emergency'], $flight->id);
+//        }
+//
+//        if(isset($params['survival_equipment']))
+//        {
+//            (new AtsSurvivalEquipmentService())
+//                ::createAtsFlightSurvivalEquipment($params['survival_equipment'], $flight->id);
+//        }
+//
+//        if(isset($params['jackets']))
+//        {
+//            (new AtsJacketService())
+//                ::createAtsFlightJacket($params['jackets'], $flight->id);
+//        }
+//
+//        if(isset($params['dinghies']))
+//        {
+//            (new FlightAtsDinghiesService())
+//                ::createAtsDinghies($params['dinghies'], $flight->id);
+//        }
+//
+//
+        return $flight->refresh();
     }
 
 }

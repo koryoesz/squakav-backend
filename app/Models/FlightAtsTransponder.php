@@ -14,9 +14,11 @@ class FlightAtsTransponder extends Model
 {
     protected $table = "flight_ats_transponder";
 
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'id'];
 
     protected $fillable = [
         'transponder_id', 'flight_id'
     ];
+
+    public $timestamps = false;
 }

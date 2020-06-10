@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
+use App\Models\FlightAtsTransponder;
+use App\Models\FlightAtsTransponderProperties;
 
 class AtsTransponderService
 {
@@ -34,7 +36,61 @@ class AtsTransponderService
      */
     public static function createAtsTransponder($param, $flight_id)
     {
+        $prepareParams = self::prepareAndValidateTransponder($param, $flight_id);
+        $transponders = DB::table('flight_ats_transponder')->insert($prepareParams);
+    }
 
+    /**
+     * @param $paramsArray
+     * @return bool
+     */
+    public static function createAtsTransponderProperties($paramsArray, $flight_id)
+    {
+        $prepareParams = self::prepareAndValidateTransponderProperties($paramsArray, $flight_id);
+        $properties = DB::table('flight_ats_transponder_properties')->insert($prepareParams);
+    }
+
+    public static function updateAtsTransponder($param, $flight_id)
+    {
+        $prepareParams = self::prepareAndValidateTransponder($param, $flight_id);
+
+        $transponder = FlightAtsTransponder::where('flight_id', $flight_id);
+
+        if($transponder->count() == 0)
+        {
+            return DB::table('flight_ats_transponder')->insert($prepareParams);
+        }
+
+        $transponder->update($prepareParams);
+    }
+
+    public static function updateAtsTransponderProperties($paramsArray, $flight_id)
+    {
+        $prepareParams = self::prepareAndValidateTransponderProperties($paramsArray, $flight_id);
+
+        $properties = FlightAtsTransponderProperties::where('flight_id', $flight_id)->get();
+
+        if($properties->count() == 0)
+        {
+            return DB::table('flight_ats_transponder_properties')->insert($prepareParams);
+        }
+
+        foreach ($properties as $property)
+        {
+            $property->delete();
+        }
+
+        DB::table('flight_ats_transponder_properties')->insert($prepareParams);
+
+    }
+
+    /**
+     * @param $param
+     * @param $flight_id
+     * @return array
+     */
+    protected static function prepareAndValidateTransponder($param, $flight_id)
+    {
         $prepareParams = [
             'transponder_id' => isset($param['transponder_id'])
                 ? $param['transponder_id']: '',
@@ -47,15 +103,15 @@ class AtsTransponderService
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-
-        $transponders = DB::table('flight_ats_transponder')->insert($prepareParams);
+        return $prepareParams;
     }
 
     /**
      * @param $paramsArray
-     * @return bool
+     * @param $flight_id
+     * @return array
      */
-    public static function createAtsTransponderProperties($paramsArray, $flight_id)
+    protected static function prepareAndValidateTransponderProperties($paramsArray, $flight_id)
     {
         $prepareParams = [];
 
@@ -74,8 +130,6 @@ class AtsTransponderService
             throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
         }
-
-        $properties = DB::table('flight_ats_transponder_properties')->insert($prepareParams);
-        return $properties;
+        return $prepareParams;
     }
 }

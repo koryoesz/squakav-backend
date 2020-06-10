@@ -13,4 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 class FlightAtsTransponderProperties extends Model
 {
     protected $table = "flight_ats_transponder_properties";
+
+    protected $hidden = ["id"];
 }

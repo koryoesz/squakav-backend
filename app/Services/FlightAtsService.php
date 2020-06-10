@@ -444,11 +444,9 @@ class FlightAtsService
 
         if(isset($params['dinghies']))
         {
-            (new FlightAtsDinghiesService())
-                ::createAtsDinghies($params['dinghies'], $flight->id);
+            (new FlightAtsDinghiesService())::updateAtsDinghies($params['dinghies'], $flight->id);
         }
 
-//
         return $flight->refresh();
     }
 

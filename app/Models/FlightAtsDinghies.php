@@ -14,4 +14,6 @@ class FlightAtsDinghies extends Model
 {
     protected $table = "flight_ats_dinghies";
 
+    protected $fillable = ['capacity', 'number', 'color'];
+
 }

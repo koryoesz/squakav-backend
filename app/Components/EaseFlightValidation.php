@@ -41,12 +41,12 @@ class EaseFlightValidation
             'remarks' => 'sometimes|required',
         ]);
 
-        return $validator;
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
     }
+
 
     /**
      * @param $params
-     * @return \Illuminate\Contracts\Validation\Validator
      */
     public static function forceValidate($params)
     {
@@ -74,7 +74,7 @@ class EaseFlightValidation
             'remarks' => 'sometimes|required',
         ]);
 
-        return $validator;
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
     }
 
 }

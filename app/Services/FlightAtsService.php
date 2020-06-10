@@ -73,9 +73,7 @@ class FlightAtsService
             throw new MyException('Could not find system config', ErrorCode::INTERNAL_ERROR);
         }
 
-        $validator = EaseFlightValidation::forceValidate($params);
-
-        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+        EaseFlightValidation::forceValidate($params);
 
         return DB::transaction(/**
          * @return mixed
@@ -388,10 +386,24 @@ class FlightAtsService
      * @param $flight_id
      * @param $params
      */
-    public function updateDraft($user_id, $flight_id, $params)
+    public function updateDraft($flight_id, $params)
     {
-        $validator = EaseFlightValidation::validate($params);
+        $validator = Validator::make(['flight_id' => $flight_id], [
+            'flight_id' => [
+                'required',
+                'numeric',
+                Rule::exists('system_flights', 'flight_id')
+                    ->where('status_id', Status::DRAFTED)
+            ]
+        ],[
+            'flight_id.exists' => 'This flight may not exist or it has been approved.'
+        ]);
+
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        EaseFlightValidation::validate($params);
+
+        
 
     }
 

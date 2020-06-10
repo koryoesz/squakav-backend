@@ -13,6 +13,7 @@ use App\Models\OtherAtsFlightInformation;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
+use App\Models\FlightAtsOtherFlightInformation;
 
 class OtherAtsFlightInformationService
 {
@@ -35,6 +36,33 @@ class OtherAtsFlightInformationService
      */
     public static function createAtsFlightOtherInformation($paramsArray, $flight_id)
     {
+        $prepareParams = self::prepareAndValidateAtsFlightOtherInformation($paramsArray, $flight_id);
+
+        $otherInformationProperties = DB::table('flight_ats_other_flight_information')->insert($prepareParams);
+    }
+
+    public static function updateAtsFlightOtherInformation($paramsArray, $flight_id)
+    {
+        $prepareParams =
+            self::prepareAndValidateAtsFlightOtherInformation($paramsArray, $flight_id);
+
+        $otherInformation = FlightAtsOtherFlightInformation::where('flight_id', $flight_id)->get();
+
+        if($otherInformation->count() == 0)
+        {
+            return DB::table('flight_ats_other_flight_information')->insert($prepareParams);
+        }
+
+        foreach ($otherInformation as $obj)
+        {
+            $obj->delete();
+        }
+
+        DB::table('flight_ats_other_flight_information')->insert($prepareParams);
+    }
+
+    protected static function prepareAndValidateAtsFlightOtherInformation($paramsArray, $flight_id)
+    {
         $prepareParams = [];
         foreach ($paramsArray as $param)
         {
@@ -54,6 +82,6 @@ class OtherAtsFlightInformationService
 
         }
 
-        $otherInformationProperties = DB::table('flight_ats_other_flight_information')->insert($prepareParams);
+        return $prepareParams;
     }
 }

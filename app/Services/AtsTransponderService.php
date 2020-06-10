@@ -54,16 +54,21 @@ class AtsTransponderService
     {
         $prepareParams = self::prepareAndValidateTransponder($param, $flight_id);
 
-        $transponder = FlightAtsTransponder::where('flight_id', $flight_id);
+        $transponder = FlightAtsTransponder::where('flight_id', $flight_id)->get();
 
         if($transponder->count() == 0)
         {
             return DB::table('flight_ats_transponder')->insert($prepareParams);
         }
 
-        $transponder->update($prepareParams);
+        $transponder[0]->update($prepareParams);
     }
 
+    /**
+     * @param $paramsArray
+     * @param $flight_id
+     * @return bool
+     */
     public static function updateAtsTransponderProperties($paramsArray, $flight_id)
     {
         $prepareParams = self::prepareAndValidateTransponderProperties($paramsArray, $flight_id);

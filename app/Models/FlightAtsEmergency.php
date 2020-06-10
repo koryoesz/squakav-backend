@@ -17,4 +17,6 @@ class FlightAtsEmergency extends Model
     protected $fillable = [
       'uhf', 'vhf', 'elt', 'flight_id'
     ];
+
+    protected $hidden = ['id'];
 }

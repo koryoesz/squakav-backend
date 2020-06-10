@@ -11,10 +11,30 @@ namespace App\Services;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
+use App\Models\FlightAtsJacket;
 
 class FlightAtsDinghiesService
 {
     public static function createAtsDinghies($params, $flight_id)
+    {
+        $prepareParams = self::prepareAndValidateAtsDinghies($params, $flight_id);
+        $jacket = DB::table('flight_ats_dinghies')->insert($prepareParams);
+    }
+
+    public static function updateAtsDinghies($params, $flight_id)
+    {
+        $prepareParams = self::prepareAndValidateAtsDinghies($params, $flight_id);
+
+        $jacket = FlightAtsJacket::where('flight_id', $flight_id)->get();
+        if($jacket->count() == 0)
+        {
+            return DB::table('flight_ats_dinghies')->insert($prepareParams);
+        }
+        
+        $jacket[0]->update($prepareParams);
+    }
+
+    protected static function prepareAndValidateAtsDinghies()
     {
         $prepareParams = [
             'capacity' => isset($params['capacity']) ? $params['capacity']: '',
@@ -31,6 +51,7 @@ class FlightAtsDinghiesService
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        $jacket = DB::table('flight_ats_dinghies')->insert($prepareParams);
+        return $prepareParams;
     }
+
 }

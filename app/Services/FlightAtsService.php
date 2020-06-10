@@ -419,37 +419,35 @@ class FlightAtsService
         {
             (new AtsTransponderService())::updateAtsTransponderProperties($params['transponder_properties'], $flight->id);
         }
-//
-//        if(isset($params['other_information']))
-//        {
-//            (new OtherAtsFlightInformationService())
-//                ::createAtsFlightOtherInformation($params['other_information'], $flight->id);
-//        }
-//
-//        if(isset($params['emergency']))
-//        {
-//            $emergency = (new AtsEmergencyService())
-//                ->createAtsFlightEmergency($params['emergency'], $flight->id);
-//        }
-//
-//        if(isset($params['survival_equipment']))
-//        {
-//            (new AtsSurvivalEquipmentService())
-//                ::createAtsFlightSurvivalEquipment($params['survival_equipment'], $flight->id);
-//        }
-//
-//        if(isset($params['jackets']))
-//        {
-//            (new AtsJacketService())
-//                ::createAtsFlightJacket($params['jackets'], $flight->id);
-//        }
-//
-//        if(isset($params['dinghies']))
-//        {
-//            (new FlightAtsDinghiesService())
-//                ::createAtsDinghies($params['dinghies'], $flight->id);
-//        }
-//
+
+        if(isset($params['other_information']))
+        {
+            (new OtherAtsFlightInformationService())
+                ::updateAtsFlightOtherInformation($params['other_information'], $flight->id);
+        }
+
+        if(isset($params['emergency']))
+        {
+            $emergency = (new AtsEmergencyService())->updateAtsFlightEmergency($params['emergency'], $flight->id);
+        }
+
+        if(isset($params['survival_equipment']))
+        {
+            (new AtsSurvivalEquipmentService())
+                ::updateAtsFlightSurvivalEquipment($params['survival_equipment'], $flight->id);
+        }
+
+        if(isset($params['jackets']))
+        {
+            (new AtsJacketService())::updateAtsFlightJacket($params['jackets'], $flight->id);
+        }
+
+        if(isset($params['dinghies']))
+        {
+            (new FlightAtsDinghiesService())
+                ::createAtsDinghies($params['dinghies'], $flight->id);
+        }
+
 //
         return $flight->refresh();
     }

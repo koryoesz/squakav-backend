@@ -17,55 +17,58 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-// Aircraft Type route
-$router->get('api/aircraftype/{codeIataAircraft}', 'AircraftTypeController@getAircraftType');
+$router->group(['prefix' => 'api'] , function () use ($router) {
+    // Aircraft Type route
+    $router->get('aircraftype/{codeIataAircraft}', 'AircraftTypeController@getAircraftType');
 
 // Ats Flight Rule
-$router->get('api/ats/flight-rules', 'AtsFlightRuleController@getAllAtsFlightRule');
+    $router->get('ats/flight-rules', 'AtsFlightRuleController@getAllAtsFlightRule');
 
 // get flight types
-$router->get('api/flight-types', 'FlightTypeController@getAllFlightType');
+    $router->get('flight-types', 'FlightTypeController@getAllFlightType');
 
 // wake turbulence category
-$router->get('api/wake-turbulence-category', 'WakeTurbulenceCategoryController@getAllWakeTurbulenceCategory');
+    $router->get('wake-turbulence-category', 'WakeTurbulenceCategoryController@getAllWakeTurbulenceCategory');
 
 // Flight Equipment type
-$router->get('api/equipment-types', 'FlightEquipmentTypeController@getAllFlightEquipmentType');
+    $router->get('equipment-types', 'FlightEquipmentTypeController@getAllFlightEquipmentType');
 
 // ATS equipments
-$router->get('api/equipments', 'FlightEquipmentController@getAllFlightEquipment');
+    $router->get('equipments', 'FlightEquipmentController@getAllFlightEquipment');
 
 // Ats transponders
-$router->get('api/transponders', 'AtsTransponderController@getFlightAtsTransponder');
+    $router->get('transponders', 'AtsTransponderController@getFlightAtsTransponder');
 
 // Transponder types and properties
-$router->get('api/transponder-types', 'FlightTransponderTypeController@getAllTransponderType');
-$router->get('api/transponder-type-properties', 'FlightTransponderTypePropertyController@getAllTransponderTypeProperty');
+    $router->get('transponder-types', 'FlightTransponderTypeController@getAllTransponderType');
+    $router->get('transponder-type-properties', 'FlightTransponderTypePropertyController@getAllTransponderTypeProperty');
 
 // Other Ats Information
-$router->get('api/ats-other-information', 'OtherAtsInformationController@getAllOtherInformation');
+    $router->get('ats-other-information', 'OtherAtsInformationController@getAllOtherInformation');
 
 // Create Ats Flight Plan
-$router->post('api/flight/ats/create', 'FlightAtsController@create');
+    $router->post('flight/ats/create', 'FlightAtsController@create');
 
 // View Flight Ats
-$router->get('api/flight/ats/sent', 'FlightAtsController@sentFlights');
-$router->get('api/flight/ats/sent/{id}', 'FlightAtsController@getOneSent');
-$router->get('api/flight/ats/approved', 'FlightAtsController@approvedFlights');
-$router->get('api/flight/ats/approved/{id}', 'FlightAtsController@getOneApproved');
+    $router->get('flight/ats/sent', 'FlightAtsController@sentFlights');
+    $router->get('flight/ats/sent/{id}', 'FlightAtsController@getOneSent');
+    $router->get('flight/ats/approved', 'FlightAtsController@approvedFlights');
+    $router->get('flight/ats/approved/{id}', 'FlightAtsController@getOneApproved');
 
 // System Flights
-$router->get('api/system-flights', 'SystemFlightController@getAll');
-$router->get('api/system-flights/sent', 'SystemFlightController@getAllSent');
-$router->get('api/system-flights/draft', 'SystemFlightController@getAllDraft');
-$router->get('api/system-flight/types', 'SystemFlightController@types');
+    $router->get('system-flights', 'SystemFlightController@getAll');
+    $router->get('system-flights/sent', 'SystemFlightController@getAllSent');
+    $router->get('system-flights/draft', 'SystemFlightController@getAllDraft');
+    $router->get('system-flight/types', 'SystemFlightController@types');
 
-// System Flights
-$router->post('api/ais/ats/approve', 'AisController@approve');
+// Ais Approve flight
+    $router->post('ais/ats/approve', 'AisController@approve');
 
 // Create Ats Draft
-$router->post('api/flight/ats/draft', 'FlightAtsController@draft');
-$router->get('api/flight/ats/draft/{id}', 'FlightAtsController@getOneDraft');
+    $router->post('flight/ats/draft', 'FlightAtsController@draft');
+    $router->get('flight/ats/draft/{id}', 'FlightAtsController@getOneDraft');
 
 // update Ats draft
-$router->post('api/flight/ats/draft/update/{flight_id}', 'FlightAtsController@updateDraft');
+    $router->post('flight/ats/draft/update/{flight_id}', 'FlightAtsController@updateDraft');
+
+});

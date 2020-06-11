@@ -8,8 +8,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class State
+class State extends Model
 {
-
+    const LAGOS = 24;
+    const KANO = 19;
+    const DELTA = 10;
+    const CROSSRIVER = 9;
+    const KWARA = 23;
+    const ONDO = 28;
 }

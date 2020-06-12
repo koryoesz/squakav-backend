@@ -27,4 +27,17 @@ class State extends Model
     const RIVERS = 32;
     const KEBBI = 21;
     const ENUGU = 14;
+    const FCT = 37;
+    const KADUNA = 18;
+    const KATSINA = 20;
+    const GOMBE = 15;
+    const BENUE = 7;
+    const ADAMAWA = 2;
+    const SOKOTO = 33;
+    const PLATEAU = 31;
+    const BORNO = 8;
+    const BAUCHI = 5;
+    const JIGAWA = 17;
+    const ZAMFARA = 36;
+    const NIGER = 26;
 }

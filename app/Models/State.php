@@ -18,4 +18,13 @@ class State extends Model
     const CROSSRIVER = 9;
     const KWARA = 23;
     const ONDO = 28;
+    const OYO = 30;
+    const ANAMBRA = 3;
+    const IMO = 16;
+    const AKWAIBOM = 4;
+    const BAYELSA = 6;
+    const EDO = 12;
+    const RIVERS = 32;
+    const KEBBI = 21;
+    const ENUGU = 14;
 }

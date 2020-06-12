@@ -24,6 +24,7 @@ class CreateSystemAirportTable extends Migration
             $table->string('label', 50)->nullable();
             $table->string('icao_code', 20);
             $table->string('route_id', 20)->nullable();
+            $table->string('location', 20)->nullable();
             $table->timestamps();
         });
 
@@ -41,6 +42,34 @@ class CreateSystemAirportTable extends Migration
             ['id' => 5, 'state_id' => State::ONDO, 'system_acc_id' => SystemAcc::LAGOS,
                 'name' => 'akure', 'label' => 'Akure',
                 'icao_code' => 'DNAK', 'route_id' => 'AK'],
+            ['id' => 6, 'state_id' => State::OYO, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'ibadan', 'label' => 'Ibadan', 'icao_code' => 'DNIB', 'route_id' => 'IBA/IB'],
+            ['id' => 7, 'state_id' => State::OYO, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'ibadan', 'label' => 'Ibadan', 'icao_code' => 'DNIB', 'route_id' => 'IBA/IB'],
+            ['id' => 8, 'state_id' => State::ENUGU, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'enugu', 'label' => 'Enugu', 'icao_code' => 'DNEN', 'route_id' => 'ENG'],
+            ['id' => 9, 'state_id' => State::DELTA, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'osubi', 'label' => 'Osubi', 'icao_code' => 'DNSU', 'route_id' => 'OSB/OS'],
+            ['id' => 10, 'state_id' => State::DELTA, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'asaba', 'label' => 'Asaba', 'icao_code' => 'DNAS', 'route_id' => 'SAB'],
+            ['id' => 11, 'state_id' => State::DELTA, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'escravos', 'label' => 'Escravos', 'icao_code' => 'DN56/DNES', 'route_id' => 'ESC/ES'],
+            ['id' => 12, 'state_id' => State::IMO, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'owerri', 'label' => 'Owerri', 'icao_code' => 'DNIM', 'route_id' => 'OWR/OW'],
+            ['id' => 13, 'state_id' => State::AKWAIBOM, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'akwaibom', 'label' => 'Akwaibom', 'icao_code' => 'DNAI', 'route_id' => 'AKW'],
+            ['id' => 14, 'state_id' => State::AKWAIBOM, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'eket', 'label' => 'Eket', 'icao_code' => 'DNEK/DN55', 'route_id' => 'EK'],
+            ['id' => 15, 'state_id' => State::BAYELSA, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'yenagoa', 'label' => 'Yenagoa', 'icao_code' => 'DNBY', 'route_id' => 'BY'],
+            ['id' => 15, 'state_id' => State::EDO, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'benin', 'label' => 'Benin', 'icao_code' => 'DNBE', 'route_id' => 'BEN/BC'],
+            ['id' => 16, 'state_id' => State::RIVERS, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'finima', 'label' => 'Finima', 'icao_code' => 'DNFB', 'route_id' => 'FB'],
+            ['id' => 17, 'state_id' => State::KEBBI, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'bebbi', 'label' => 'Bebbi', 'icao_code' => 'DNBB', 'route_id' => 'BEB'],
+            ['id' => 18, 'state_id' => State::RIVERS, 'system_acc_id' => SystemAcc::LAGOS,
+                'name' => 'portharcourt_nafbase', 'label' => 'Portharcourt Nafbase', 'icao_code' => 'DNPM'],
         ]);
     }
 

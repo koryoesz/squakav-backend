@@ -35,7 +35,7 @@ class CreateStates extends Migration
             ["id" => 11, "name" => "Ebonyi"],
             ["id" => 12, "name" => "Edo"],
             ["id" => 13, "name" => "Ekiti"],
-            ["id" => 14, "name" => "FCT - Abuja"],
+            ["id" => 14, "name" => "Enugu"],
             ["id" => 15, "name" => "Gombe"],
             ["id" => 16, "name" => "Imo"],
             ["id" => 17, "name" => "Jigawa"],

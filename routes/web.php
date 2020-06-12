@@ -71,4 +71,7 @@ $router->group(['prefix' => 'api'] , function () use ($router) {
 // update Ats draft
     $router->post('flight/ats/draft/update/{flight_id}', 'FlightAtsController@updateDraft');
 
+    // SYstem Airports
+    $router->get('system-airports', 'SystemAirportController@getAll');
+
 });

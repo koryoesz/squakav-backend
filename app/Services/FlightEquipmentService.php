@@ -33,6 +33,33 @@ class FlightEquipmentService
 
     public function createAtsEquipment($paramsArray, $flight_id)
     {
+        $prepareParams = $this->prepareAndValidateAtsEquipment($paramsArray, $flight_id);
+        $equipments = DB::table('flight_ats_equipments')->insert($prepareParams);
+        return $equipments;
+    }
+
+    public function updateAtsEquipment($paramsArray, $flight_id)
+    {
+        $prepareParams = $this->prepareAndValidateAtsEquipment($paramsArray, $flight_id);
+
+        $equipments = Equipment::where('flight_id', $flight_id)->get();
+
+        if($equipments->count() == 0)
+        {
+            return DB::table('flight_ats_equipments')->insert($prepareParams);
+        }
+
+        foreach ($equipments as $equipment)
+        {
+            $equipment->delete();
+        }
+
+        return DB::table('flight_ats_equipments')->insert($prepareParams);
+
+    }
+
+    protected function prepareAndValidateAtsEquipment($paramsArray, $flight_id)
+    {
         $prepareParams = [];
         foreach ($paramsArray as $param)
         {
@@ -49,8 +76,7 @@ class FlightEquipmentService
 
         }
 
-        $equipments = DB::table('flight_ats_equipments')->insert($prepareParams);
-        return $equipments;
+        return $prepareParams;
     }
 
 }

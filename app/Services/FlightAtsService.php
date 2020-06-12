@@ -424,7 +424,7 @@ class FlightAtsService
         if(isset($params['equipments']))
         {
             $equipments = (new FlightEquipmentService())
-                ->createAtsEquipment($params['equipments'], $flight->id);
+                ->updateAtsEquipment($params['equipments'], $flight->id);
         }
         if(isset($params['transponder']))
         {

@@ -57,7 +57,8 @@ class CreateStates extends Migration
             ["id" => 33, "name" => "Sokoto"],
             ["id" => 34, "name" => "Taraba"],
             ["id" => 35, "name" => "Yobe"],
-            ["id" => 36, "name" => "Zamfara"]
+            ["id" => 36, "name" => "Zamfara"],
+            ["id" => 37, "name" => "FCT - Abuja"]
         ]);
 
 

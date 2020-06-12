@@ -20,6 +20,7 @@ class CreateAccTable extends Migration
             $table->unsignedSmallInteger('state_id');
             $table->string('name', 50);
             $table->string('label', 50)->nullable();
+            $table->string('icao_code', 20)->nullable();
             $table->timestamps();
 
             $table->foreign('state_id')->references('id')->on('states');

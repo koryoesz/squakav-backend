@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
+use App\Models\FlightAtsEquipment;
 
 class FlightEquipmentService
 {
@@ -42,7 +43,7 @@ class FlightEquipmentService
     {
         $prepareParams = $this->prepareAndValidateAtsEquipment($paramsArray, $flight_id);
 
-        $equipments = Equipment::where('flight_id', $flight_id)->get();
+        $equipments = FlightAtsEquipment::where('flight_id', $flight_id)->get();
 
         if($equipments->count() == 0)
         {

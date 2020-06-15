@@ -20,6 +20,7 @@ class CreateFlightAtsTable extends Migration
             $table->string('aircraft_identification', 7)->nullable();
             $table->unsignedInteger('ats_flight_rules_id')->nullable();
             $table->string('aircraft_type', 4)->nullable();
+            $table->unsignedInteger('operator_id');
             $table->unsignedInteger('wake_turbulence_category_id')->nullable();
             $table->unsignedSmallInteger('flight_type_id')->nullable();
             $table->string('departure', 4)->nullable();
@@ -45,6 +46,8 @@ class CreateFlightAtsTable extends Migration
             $table->timestamp('accepted_date')->nullable();
             $table->unsignedInteger('accepted_by')->nullable();
             $table->string('serial_number',15)->nullable();
+
+            $table->foreign('operator_id')->references('id')->on('operators');
         });
     }
 

@@ -20,13 +20,15 @@ class CreateUserTypes extends Migration
             $table->tinyIncrements('id');
             $table->string('name');
             $table->string('label');
+            $table->string('class');
         });
 
         DB::table('user_types')->insert([
-            ['id' => 1, 'name' => 'airline', 'label' => 'For Airlines'],
-            ['id' => 2, 'name' => 'ais', 'label' => 'For AIS'],
-            ['id' => 3, 'name' => 'tower', 'label' => 'For Tower'],
-            ['id' => 4, 'name' => 'acc', 'label' => 'For ACC'],
+            ['id' => 1, 'name' => 'operator', 'label' => 'For Airlines', 'class' => 'App\Models\Operator'],
+            ['id' => 2, 'name' => 'ais', 'label' => 'For AIS', 'class' => 'App\Models\Ais'],
+            ['id' => 3, 'name' => 'tower', 'label' => 'For Tower', 'class' => 'App\Models\Tower'],
+            ['id' => 4, 'name' => 'acc', 'label' => 'For ACC', 'class' => 'App\Models\Acc'],
+            ['id' => 5, 'name' => 'admin', 'label' => 'For Admin', 'class' => 'App\Models\Admin']
         ]);
     }
 

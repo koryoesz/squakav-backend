@@ -52,7 +52,7 @@ class CreateSystemAirportTable extends Migration
             ['id' => 4, 'tower_id' => 4, 'ais_id' => 4, 'state_id' => State::KWARA, 'system_acc_id' => SystemAcc::LAGOS,
                 'name' => 'ilorin', 'label' => 'Ilorin',
                 'icao_code' => 'DNIL', 'route_id' => 'ILR/IL'],
-            
+
             ['id' => 5, 'tower_id' => 5, 'ais_id' => 5, 'state_id' => State::ONDO, 'system_acc_id' => SystemAcc::LAGOS,
                 'name' => 'akure', 'label' => 'Akure',
                 'icao_code' => 'DNAK', 'route_id' => 'AK'],

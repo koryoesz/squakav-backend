@@ -3,7 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
+use App\Components\Auth;
+use App\Components\Response as MyResponse;
+use App\Components\ErrorCode;
+use Illuminate\Http\Request;
 
 class Authenticate
 {
@@ -20,9 +23,9 @@ class Authenticate
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @return void
      */
-    public function __construct(Auth $auth)
+    public function __construct()
     {
-        $this->auth = $auth;
+        //
     }
 
     /**
@@ -33,12 +36,17 @@ class Authenticate
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next, $scope = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
-        }
+        $access_token = $request->header('Access-Token');
+        $user_type = $request->route('user_type');
+        if (!empty($access_token)){
 
+//            $auth = new Auth($access_token);
+            return $next($request);
+        }
+        app()->instance('App\Components\Auth', null);
         return $next($request);
+//        return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
     }
 }

@@ -9,6 +9,8 @@
 namespace App\Components;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use IcyApril\CryptoLib;
 
 class Util
 {
@@ -24,5 +26,29 @@ class Util
             return [];
         }
         return $data;
+    }
+
+    public static function generateToken($prefix = '', $email = '' , $max_tries = 5)
+    {
+        for ($i = 0; $i < $max_tries; $i++){
+            $token = $email . CryptoLib::randomString(40) . uniqid();
+
+            $data = Cache::get($prefix . $token);
+            if (empty($data)){
+                return $token;
+            }
+        }
+
+        return null;
+    }
+
+    public static function camelCaseToSnakeCase($input)
+    {
+        preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
+        $ret = $matches[0];
+        foreach ($ret as &$match) {
+            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+        }
+        return implode('_', $ret);
     }
 }

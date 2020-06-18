@@ -17,6 +17,11 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->group(['middleware' => ['auth']] , function () use ($router) {
+
+    $router->post('api/auth/local/{user_type}/authenticate', ['uses' => 'AuthController@authenticate']);
+});
+
 $router->group(['prefix' => 'api'] , function () use ($router) {
     // Aircraft Type route
     $router->get('aircraftype/{codeIataAircraft}', 'AircraftTypeController@getAircraftType');

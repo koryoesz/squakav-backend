@@ -21,7 +21,6 @@ class CreateAisTable extends Migration
             $table->unsignedSmallInteger("status_id")->default(1);
             $table->unsignedInteger('role_id');
             $table->unsignedInteger('system_airport_id');
-            $table->string("email")->unique();
             $table->string("first_name");
             $table->string("last_name")->nullable();
             $table->string('avatar')->nullable();
@@ -34,7 +33,7 @@ class CreateAisTable extends Migration
         });
 
         DB::table('ais')->insert([
-            'id' => 1, 'state_id' => 24, 'role_id' => 1, 'first_name' => 'Yomi', 'email' => 'british@email.com',
+            'id' => 1, 'state_id' => 24, 'role_id' => 1, 'first_name' => 'Yomi',
              'last_name' => 'Kolawole', 'avatar' => 'empty', 'system_airport_id' => 1
         ]);
     }

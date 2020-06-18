@@ -6,12 +6,13 @@ require_once __DIR__.'/../vendor/autoload.php';
     dirname(__DIR__)
 ))->bootstrap();
 
-date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
+date_default_timezone_set('Africa/Lagos');
+\Carbon\Carbon::useMonthsOverflow(false);
 
 /*
 |--------------------------------------------------------------------------
 | Create The Application
-|--------------------------------------------------------------------------
+|-------------------------------------------------  -------------------------
 |
 | Here we will load the environment and create the application instance
 | that serves as the central piece of this framework. We'll use this
@@ -20,8 +21,10 @@ date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 */
 
 $app = new Laravel\Lumen\Application(
-    dirname(__DIR__)
+//    dirname(__DIR__)
+    realpath(__DIR__.'/../')
 );
+
 
 $app->withFacades();
 
@@ -77,9 +80,9 @@ $app->middleware([
     App\Http\Middleware\CorsMiddleware::class,
 ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+ $app->routeMiddleware([
+     'auth' => App\Http\Middleware\Authenticate::class,
+ ]);
 
 /*
 |--------------------------------------------------------------------------
@@ -95,9 +98,13 @@ $app->middleware([
 $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+//$app->register(Laravel\Passport\PassportServiceProvider::class);
+//$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 $app->configure('aviation_edge_api');
 $app->configure('constant_system_flight_type');
+//$app->configure('auth');
+
 
 /*
 |--------------------------------------------------------------------------

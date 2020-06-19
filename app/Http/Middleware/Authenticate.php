@@ -7,6 +7,7 @@ use App\Components\Auth;
 use App\Components\Response as MyResponse;
 use App\Components\ErrorCode;
 use Illuminate\Http\Request;
+use App\Models\UserType;
 
 class Authenticate
 {
@@ -36,17 +37,34 @@ class Authenticate
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $scope = null)
+    public function handle($request, Closure $next, $user_type, $scope = null)
     {
         $access_token = $request->header('Access-Token');
-        $user_type = $request->route('user_type');
-        if (!empty($access_token)){
 
-//            $auth = new Auth($access_token);
-            return $next($request);
+        if (!empty($access_token)){
+            $auth = new Auth($access_token);
+            $user_type_list = explode('&', $user_type);
+
+            if ($auth->isLoaded() && (in_array($auth->getTypeName(), $user_type_list)))
+            {
+
+                switch ($auth->getType()){
+                    case UserType::TYPE_ADMIN:
+                    case UserType::TYPE_ACC:
+                    case UserType::TYPE_TOWER:
+                    case UserType::TYPE_AIS:
+                    case UserType::TYPE_OPERATOR:
+                    break;
+                    default:
+                    return MyResponse::error(ErrorCode::ACCESS_DENIED, 'Access Denied.');
+                }
+                app()->instance('App\Components\Auth', $auth);
+                return $next($request);
+            }
+
         }
-        app()->instance('App\Components\Auth', null);
-        return $next($request);
-//        return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
+
+        return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
+
     }
 }

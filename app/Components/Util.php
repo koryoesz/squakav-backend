@@ -28,10 +28,10 @@ class Util
         return $data;
     }
 
-    public static function generateToken($prefix = '', $email = '' , $max_tries = 5)
+    public static function generateToken($prefix = '',$identifier  = '' , $max_tries = 5)
     {
         for ($i = 0; $i < $max_tries; $i++){
-            $token = $email . CryptoLib::randomString(40) . uniqid();
+            $token = $identifier . CryptoLib::randomString(40) . uniqid();
 
             $data = Cache::get($prefix . $token);
             if (empty($data)){

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\SystemFlight;
 use Illuminate\Support\Facades\Config;
 use App\Models\Status;
+use App\Components\Auth;
 
 class SystemFlightService
 {
@@ -28,11 +29,11 @@ class SystemFlightService
      * @param $params
      */
 
-    public static function save($params)
+    public static function save($params, Auth $auth)
     {
         $validator = Validator::make($params, [
             'flight_id' => 'numeric',
-            'system_flight_types_id' => 'numeric',
+            'system_flight_types_id' => 'numeric'
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
@@ -40,6 +41,7 @@ class SystemFlightService
         $system_flight = DB::table('system_flights')->insert([
             'flight_id' => $params['flight_id'],
             'system_flight_types_id' => $params['system_flight_types_id'],
+            'operator_id' => $auth->getId(),
             'date' => date("Y-m-d"),
             'status_id' => isset($params['status_id']) ? $params['status_id'] : 1
         ]);

@@ -22,7 +22,7 @@ class FlightAts extends Model
       'departure', 'cruising_speed', 'level', 'route', 'destination', 'total_eet', 'alternate_one',
       'alternate_two', 'endurance', 'persons_on_board', 'filed_by', 'additional_requirement', 'number',
       'capacity', 'status_id', 'remarks', 'pilot_in_command', 'color_markings', 'flight_type_id', 'flight_type_id',
-      'alternate_one', 'alternate_two', 'time', 'official_remarks'
+      'alternate_one', 'alternate_two', 'time', 'official_remarks', 'operator_id'
   ];
 
   public function equipments()

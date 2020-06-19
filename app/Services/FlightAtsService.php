@@ -21,6 +21,7 @@ use App\Components\ErrorCode;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 use App\Components\EaseFlightValidation;
+use App\Components\Auth;
 
 class FlightAtsService
 {
@@ -35,9 +36,9 @@ class FlightAtsService
     /**
      * Create Ats flight Plan
      */
-    public function create($params)
+    public function create($params, Auth $auth)
     {
-        return $this->createFlightPlan($params);
+        return $this->createFlightPlan($params, $auth);
     }
 
     /**
@@ -59,12 +60,14 @@ class FlightAtsService
         $flight = FlightAts::where('id', $id)->where('status_id', Status::DRAFTED)->first();
         return $flight;
     }
+
     /**
      * @param $params
+     * @param Auth $auth
      * @return mixed
      * @throws MyException
      */
-    private function createFlightPlan($params)
+    private function createFlightPlan($params, Auth $auth)
     {
         $equipments = null;
         $emergency = null;
@@ -79,8 +82,10 @@ class FlightAtsService
          * @return mixed
          * @throws MyException
          */
-            function () use ($params){
+            function () use ($params, $auth){
             // create flight
+
+            $params['operator_id'] = $auth->getId();
             $flight = FlightAts::create($params);
 
             if(empty($flight)){
@@ -95,7 +100,7 @@ class FlightAtsService
                 'status_id' => isset($params['status_id']) ? $params['status_id'] : 1
             ];
 
-            (new SystemFlightService())::save($system_flight_params);
+            (new SystemFlightService())::save($system_flight_params, $auth);
 
             if(isset($params['equipments']))
             {

@@ -14,12 +14,13 @@ use App\Services\FlightAtsService;
 use App\Components\Response as JsonResponse;
 use Illuminate\Http\Request;
 use App\Components\Util;
+use App\Components\Auth;
 
 class FlightAtsController extends Controller
 {
-    public function create(Request $request)
+    public function create(Request $request, Auth $auth)
     {
-        $flight = (new FlightAtsService())->create(Util::getRequestBody($request));
+        $flight = (new FlightAtsService())->create(Util::getRequestBody($request), $auth);
         return JsonResponse::success($flight);
     }
 

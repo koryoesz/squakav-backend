@@ -19,7 +19,7 @@ use App\Models\LocalAuth;
 class Auth
 {
     const CACHE_PREFIX = 't_token.';
-    const DEFAULT_TIMEOUT = 5; // in minutes
+    const DEFAULT_TIMEOUT = 3000; // in minutes
 
     const LABEL_ID = 'id';
     const LABEL_EMAIL = 'email';
@@ -71,6 +71,11 @@ class Auth
         return $this->type;
     }
 
+    public function getTypeName()
+    {
+        return UserType::$label_map[$this->getType()];
+    }
+
     /**
      * @return integer
      */
@@ -78,6 +83,7 @@ class Auth
     {
         return UserType::$type_map[$this->getType()];
     }
+
 
     public function getEmail()
     {
@@ -152,6 +158,7 @@ class Auth
     protected function load($extend_life = true)
     {
         $json_data = Cache::get($this->getFullToken());
+
         if (empty($json_data)){
             $this->loaded = false;
             return false;
@@ -159,7 +166,7 @@ class Auth
 
         if ($this->fill(json_decode($json_data, true))){
             if ($extend_life) {
-                Cache::put($this->getFullToken(), $json_data, env('AUTH_TIMEOUT', self::DEFAULT_TIMEOUT));
+                Cache::put($this->getFullToken(), $json_data, self::DEFAULT_TIMEOUT);
             }
             $this->loaded = true;
             return true;
@@ -174,7 +181,7 @@ class Auth
     protected function save()
     {
         $json_data = json_encode($this->getData());
-        Cache::put($this->getFullToken(), $json_data, env('AUTH_TIMEOUT', self::DEFAULT_TIMEOUT));
+        Cache::put($this->getFullToken(), $json_data, self::DEFAULT_TIMEOUT);
     }
 
 
@@ -213,6 +220,7 @@ class Auth
     {
         $identifier = $data[self::LABEL_TYPE] . '.' . $data[self::LABEL_TYPE_NAME] . '.';
         $token = Util::generateToken(self::CACHE_PREFIX, $identifier);
+
         if (empty($token)){
             return null;
         }

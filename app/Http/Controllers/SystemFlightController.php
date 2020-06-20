@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Services\SystemFlightService;
 use App\Components\Response as JsonResponse;
+use App\Components\Auth;
 
 class SystemFlightController extends Controller
 {
@@ -19,15 +20,15 @@ class SystemFlightController extends Controller
         return JsonResponse::success($system_flights);
     }
 
-    public function getAllSent()
+    public function getAllSent(Auth $auth)
     {
-        $system_flights = (new SystemFlightService())->getAllSent();
+        $system_flights = (new SystemFlightService())->getAllSent($auth);
         return JsonResponse::success($system_flights);
     }
 
-    public function getAllDraft()
+    public function getAllDraft(Auth $auth)
     {
-        $system_flights = (new SystemFlightService())->getAllDraft();
+        $system_flights = (new SystemFlightService())->getAllDraft($auth);
         return JsonResponse::success($system_flights);
     }
 

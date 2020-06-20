@@ -55,9 +55,12 @@ class FlightAtsService
      * @return mixed
      * Return single drafted flight
      */
-    public function getOneDraft($id)
+    public function getOneDraft(Auth $auth, $id)
     {
-        $flight = FlightAts::where('id', $id)->where('status_id', Status::DRAFTED)->first();
+        $flight = FlightAts::where('id', $id)
+            ->where('status_id', Status::DRAFTED)
+            ->where('operator_id', $auth->getId())
+            ->first();
         return $flight;
     }
 
@@ -259,9 +262,12 @@ class FlightAtsService
      * @param $id
      * @return mixed
      */
-    public function getOneSent($id)
+    public function getOneSent(Auth $auth, $id)
     {
-        $flight = FlightAts::where('id', $id)->where('status_id', Status::ACTIVE)->first();
+        $flight = FlightAts::where('id', $id)
+            ->where('status_id', Status::ACTIVE)
+            ->where('operator_id', $auth->getId())
+            ->first();
         return $flight;
     }
 

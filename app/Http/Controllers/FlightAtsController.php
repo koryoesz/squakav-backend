@@ -30,9 +30,9 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flights);
     }
 
-    public function getOneSent($id)
+    public function getOneSent(Auth $auth, $id)
     {
-        $flight = (new FlightAtsService())->getOneSent($id);
+        $flight = (new FlightAtsService())->getOneSent($auth, $id);
         return JsonResponse::success($flight);
     }
 
@@ -54,9 +54,9 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flight);
     }
 
-    public function getOneDraft($id)
+    public function getOneDraft(Auth $auth, $id)
     {
-        $flight = (new FlightAtsService())->getOneDraft($id);
+        $flight = (new FlightAtsService())->getOneDraft($auth, $id);
         return JsonResponse::success($flight);
     }
 

@@ -15,6 +15,8 @@ use App\Models\SystemFlight;
 use Illuminate\Support\Facades\Config;
 use App\Models\Status;
 use App\Components\Auth;
+use App\Components\Response as MyResponse;
+use App\Components\ErrorCode;
 
 class SystemFlightService
 {
@@ -59,14 +61,14 @@ class SystemFlightService
 
         $arr = [];
 
-        foreach($dates as $date){
+        foreach ($dates as $date) {
             // create temp arr that will store
             // value of true comparison
             $temp_flight_arr = [];
-            foreach($flights as $key => $flight){
+            foreach ($flights as $key => $flight) {
                 // check if date from distinct is
                 // equals date from flight object
-                if($date->date == $flight->date){
+                if ($date->date == $flight->date) {
                     $temp_flight_arr[] = $flight;
                 }
 
@@ -76,39 +78,45 @@ class SystemFlightService
             $arr[] = $format_arr;
         }
         return $arr;
+
     }
 
     /**
      * @return array
      */
-    public function getAllSent()
+    public function getAllSent(Auth $auth)
     {
-        $flights = SystemFlight::where('status_id', Status::ACTIVE)
-            ->orderBy('created_at', 'desc')->get();
+        if(!empty($auth)) {
+            $flights = SystemFlight::where('status_id', Status::ACTIVE)
+                ->where('operator_id', $auth->getId())
+                ->orderBy('created_at', 'desc')->get();
 
-        $dates = DB::table('system_flights')
-            ->where('status_id', Status::ACTIVE)->distinct()
-            ->get(['date']);
+            $dates = DB::table('system_flights')
+                ->where('status_id', Status::ACTIVE)->distinct()
+                ->get(['date']);
 
-        $arr = [];
+            $arr = [];
 
-        foreach($dates as $date){
-            // create temp arr that will store
-            // value of true comparison
-            $temp_flight_arr = [];
-            foreach($flights as $key => $flight){
-                // check if date from distinct is
-                // equals date from flight object
-                if($date->date == $flight->date){
-                    $temp_flight_arr[] = $flight;
+            foreach ($dates as $date) {
+                // create temp arr that will store
+                // value of true comparison
+                $temp_flight_arr = [];
+                foreach ($flights as $key => $flight) {
+                    // check if date from distinct is
+                    // equals date from flight object
+                    if ($date->date == $flight->date) {
+                        $temp_flight_arr[] = $flight;
+                    }
+
                 }
-
+                // pass all true comparison to be formatted
+                $format_arr = ['date' => $date->date, 'flights' => $temp_flight_arr];
+                $arr[] = $format_arr;
             }
-            // pass all true comparison to be formatted
-            $format_arr = ['date' => $date->date, 'flights' => $temp_flight_arr];
-            $arr[] = $format_arr;
+            return $arr;
         }
-        return $arr;
+
+        return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
     }
 
     /**
@@ -123,34 +131,42 @@ class SystemFlightService
         return [];
     }
 
-    public function getAllDraft()
+    public function getAllDraft(Auth $auth)
     {
-        $flights = SystemFlight::where('status_id', Status::DRAFTED)
-            ->orderBy('created_at', 'desc')->get();
-        // get distinct records
-        $dates = DB::table('system_flights')
-            ->where('status_id', Status::DRAFTED)
-            ->distinct()
-            ->get(['date']);
+        if(!empty($auth)) {
 
-        $arr = [];
 
-        foreach($dates as $date){
-            // create temp arr that will store
-            // value of true comparison
-            $temp_flight_arr = [];
-            foreach($flights as $key => $flight){
-                // check if date from distinct is
-                // equals date from flight object
-                if($date->date == $flight->date){
-                    $temp_flight_arr[] = $flight;
+            $flights = SystemFlight::where('status_id', Status::DRAFTED)
+                ->where('operator_id', $auth->getId())
+                ->orderBy('created_at', 'desc')->get();
+            // get distinct records
+            $dates = DB::table('system_flights')
+                ->where('status_id', Status::DRAFTED)
+                ->where('operator_id', $auth->getId())
+                ->distinct()
+                ->get(['date']);
+
+            $arr = [];
+
+            foreach ($dates as $date) {
+                // create temp arr that will store
+                // value of true comparison
+                $temp_flight_arr = [];
+                foreach ($flights as $key => $flight) {
+                    // check if date from distinct is
+                    // equals date from flight object
+                    if ($date->date == $flight->date) {
+                        $temp_flight_arr[] = $flight;
+                    }
+
                 }
-
+                // pass all true comparison to be formatted
+                $format_arr = ['date' => $date->date, 'flights' => $temp_flight_arr];
+                $arr[] = $format_arr;
             }
-            // pass all true comparison to be formatted
-            $format_arr = ['date' => $date->date, 'flights' => $temp_flight_arr];
-            $arr[] = $format_arr;
+            return $arr;
         }
-        return $arr;
+
+        return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
     }
 }

@@ -47,7 +47,6 @@ class Authenticate
 
             if ($auth->isLoaded() && (in_array($auth->getTypeName(), $user_type_list)))
             {
-
                 switch ($auth->getType()){
                     case UserType::TYPE_ADMIN:
                     case UserType::TYPE_ACC:

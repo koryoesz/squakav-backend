@@ -16,6 +16,7 @@ class Operator extends User
 {
     protected $table = "operators";
 
+    protected $with = ['state', 'organisation'];
 
     public static function getUsingLoginInfo($params)
     {
@@ -37,5 +38,15 @@ class Operator extends User
     public function getTypeName()
     {
         return UserType::LABEL_OPERATOR;
+    }
+
+    public function state()
+    {
+        return $this->hasOne('App\Models\State', 'id', 'state_id');
+    }
+
+    public function organisation()
+    {
+        return $this->hasOne('App\Models\Organisation', 'id', 'organisation_id');
     }
 }

@@ -38,7 +38,14 @@ class UserType extends Model
         self::TYPE_AIS => self::LABEL_AIS,
         self::TYPE_ACC => self::LABEL_ACC,
         self::TYPE_TOWER => self::LABEL_TOWER,
-        self::TYPE_ADMIN => self::LABEL_ADMIN
+        self::LABEL_ADMIN => self::TYPE_ADMIN
     ];
 
+    public static function getClassById($id)
+    {
+        if(!isset($id)){ return [];}
+        $type = self::find($id);
+        $class =  empty($type->class) ? [] : $type->class;
+        return $class;
+    }
 }

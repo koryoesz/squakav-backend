@@ -48,9 +48,9 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flight);
     }
 
-    public function draft(Request $request)
+    public function draft(Request $request, Auth $auth)
     {
-        $flight = (new FlightAtsService())->draft(Util::getRequestBody($request));
+        $flight = (new FlightAtsService())->draft(Util::getRequestBody($request), $auth);
         return JsonResponse::success($flight);
     }
 

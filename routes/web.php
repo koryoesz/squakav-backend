@@ -76,4 +76,6 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
     // SYstem Airports
     $router->get('system-airports', 'SystemAirportController@getAll');
 
+    // Get Authenticated User
+    $router->get('user', 'UsersController@getUserInfo');
 });

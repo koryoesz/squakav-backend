@@ -19,7 +19,7 @@ use App\Models\LocalAuth;
 class Auth
 {
     const CACHE_PREFIX = 't_token.';
-    const DEFAULT_TIMEOUT = 3000; // in minutes
+    const DEFAULT_TIMEOUT = 30000; // in minutes
 
     const LABEL_ID = 'id';
     const LABEL_EMAIL = 'email';

@@ -13,12 +13,13 @@ use Illuminate\Http\Request;
 use App\Services\LocalAuthService;
 use App\Components\Auth;
 use App\Models\User;
+use App\Components\Util;
 
 class AuthController extends Controller
 {
     public function authenticate(Request $request, $user_type)
     {
-        $data = (new LocalAuthService())->authenticate($user_type, $request->all());
+        $data = (new LocalAuthService())->authenticate($user_type, Util::getRequestBody($request));
 
         $auth = Auth::createForUser($data['user'], $data['auth']);
 

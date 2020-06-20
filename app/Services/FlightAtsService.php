@@ -44,10 +44,10 @@ class FlightAtsService
     /**
  * Draft Ats Flight Plan
  */
-    public function draft($params)
+    public function draft($params, Auth $auth)
     {
         $params['status_id'] = Status::DRAFTED;
-        return $this->draftFlightPlan($params);
+        return $this->draftFlightPlan($params,  $auth);
     }
 
     /**
@@ -159,7 +159,7 @@ class FlightAtsService
      * @return mixed
      * @throws MyException
      */
-    private function draftFlightPlan($params)
+    private function draftFlightPlan($params, Auth $auth)
     {
         $equipments = null;
         $emergency = null;
@@ -174,8 +174,9 @@ class FlightAtsService
          * @return mixed
          * @throws MyException
          */
-            function () use ($params){
+            function () use ($params, $auth){
                 // create flight
+                $params['operator_id'] = $auth->getId();
                 $flight = FlightAts::create($params);
 
                 if(empty($flight)){
@@ -187,10 +188,10 @@ class FlightAtsService
                 $system_flight_params = [
                     'flight_id' => $flight->id,
                     'system_flight_types_id' => $this->system_flight['ats']['id'],
-                    'status_id' => isset($params['status_id']) ? $params['status_id'] : 1
+                    'status_id' => isset($params['status_id']) ? $params['status_id'] : Status::DRAFTED
                 ];
 
-                (new SystemFlightService())::save($system_flight_params);
+                (new SystemFlightService())::save($system_flight_params, $auth);
 
                 if(isset($params['equipments']))
                 {

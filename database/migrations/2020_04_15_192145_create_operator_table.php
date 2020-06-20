@@ -34,11 +34,6 @@ class CreateOperatorTable extends Migration
             $table->foreign('organisation_id')->references('id')->on('organisations');
         });
 
-        DB::table('operators')->insert([
-           'id' => 1, 'state_id' => 24, 'role_id' => 1, 'first_name' => 'Yomi', 'email' => 'british@email.com',
-            'organisation_id' => 1, 'last_name' => 'Kolawole', 'avatar' => ''
-        ]);
-
     }
 
     /**

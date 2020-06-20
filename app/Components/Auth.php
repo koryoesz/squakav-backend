@@ -137,7 +137,6 @@ class Auth
             self::LABEL_ID => 'required|numeric',
             self::LABEL_EMAIL => 'email',
             self::LABEL_TYPE => 'required',
-            self::LABEL_ORGANISATION_ID => 'required'
         ]);
 
         if ($validation->fails()){
@@ -148,7 +147,7 @@ class Auth
         $this->id = $data[self::LABEL_ID];
         $this->email = $data[self::LABEL_EMAIL];
         $this->type = $data[self::LABEL_TYPE];
-        $this->organisation_id = $data[self::LABEL_ORGANISATION_ID];
+        $this->organisation_id = empty($data[self::LABEL_ORGANISATION_ID]) ? null : $data[self::LABEL_ORGANISATION_ID];
         $this->role = (empty($data[self::LABEL_ROLE])) ? null : $data[self::LABEL_ROLE];
 
         $this->filled = true;

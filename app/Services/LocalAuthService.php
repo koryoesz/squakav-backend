@@ -49,7 +49,7 @@ class LocalAuthService
             Auth::LABEL_EMAIL => $user->email,
             Auth::LABEL_TYPE => $user->getType(),
             Auth::LABEL_ROLE => $user->getRole(),
-            Auth::LABEL_ORGANISATION_ID => $user->organisation_id
+            Auth::LABEL_ORGANISATION_ID => isset($user->organisation_id) ? isset($user->organisation_id) : null
         ]);
 
 

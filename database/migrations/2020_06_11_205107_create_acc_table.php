@@ -16,6 +16,8 @@ class CreateAccTable extends Migration
     public function up()
     {
         Schema::create('system_acc', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->integerIncrements('id');
             $table->unsignedSmallInteger('state_id');
             $table->string('name', 50);

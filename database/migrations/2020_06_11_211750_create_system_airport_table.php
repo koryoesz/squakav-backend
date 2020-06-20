@@ -17,6 +17,8 @@ class CreateSystemAirportTable extends Migration
     public function up()
     {
         Schema::create('system_airports', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->integerIncrements('id');
             $table->unsignedSmallInteger('state_id');
             $table->unsignedInteger('system_acc_id');

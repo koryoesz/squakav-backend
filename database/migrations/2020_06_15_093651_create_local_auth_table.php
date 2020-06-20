@@ -15,6 +15,8 @@ class CreateLocalAuthTable extends Migration
     public function up()
     {
         Schema::create('local_auth', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->integerIncrements('id');
             $table->unsignedSmallInteger('status_id')->default(1);
             $table->unsignedTinyInteger('user_type_id');

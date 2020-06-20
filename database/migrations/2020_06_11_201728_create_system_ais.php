@@ -15,6 +15,8 @@ class CreateSystemAis extends Migration
     public function up()
     {
         Schema::create('system_ais', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->integerIncrements('id');
             $table->unsignedSmallInteger('status_id')->default(1);
             $table->string('name', 100)->nullable();

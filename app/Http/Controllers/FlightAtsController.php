@@ -36,12 +36,6 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flight);
     }
 
-    public function approvedFlights()
-    {
-        $flight = (new FlightAtsService())->approvedFlights();
-        return JsonResponse::success($flight);
-    }
-
     public function getOneApproved($id)
     {
         $flight = (new FlightAtsService())->getOneApproved($id);
@@ -60,7 +54,7 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flight);
     }
 
-    public function updateDraft( Request $request, $flight_id)
+    public function updateDraft( Request $request, $flight_id, Auth $auth)
     {
         $flight = (new FlightAtsService())->updateDraft($flight_id, Util::getRequestBody($request), $auth);
         return JsonResponse::success($flight);

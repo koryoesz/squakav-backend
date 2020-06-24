@@ -32,6 +32,12 @@ class SystemFlightController extends Controller
         return JsonResponse::success($system_flights);
     }
 
+    public function getAllApproved(Auth $auth)
+    {
+        $system_flights = (new SystemFlightService())->getAllApproved($auth);
+        return JsonResponse::success($system_flights);
+    }
+
     public function types()
     {
         $types = (new SystemFlightService())->types();

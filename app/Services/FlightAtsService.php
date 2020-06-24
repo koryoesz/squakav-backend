@@ -335,22 +335,13 @@ class FlightAtsService
     }
 
     /**
-     * @return mixed
-     */
-    public function approvedFlights()
-    {
-        $flights = FlightAts::where('status_id', Status::APPROVED)->get();
-        return $flights;
-    }
-
-
-    /**
      * @param $id
      * @return mixed
      */
     public function getOneApproved($id)
     {
-        $flight = FlightAts::where('id', $id)->where('status_id', Status::APPROVED)->get();
+        $flight = FlightAts::where('id', $id)->where('status_id', Status::APPROVED)
+            ->get();
         return $flight;
     }
 

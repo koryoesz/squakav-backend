@@ -21,4 +21,10 @@ class AisController extends Controller
         $response = (new FlightAtsService())->approve($auth, $request->all());
         return JsonResponse::success($response);
     }
+
+    public function approvedFlights()
+    {
+        $flight = (new FlightAtsService())->approvedFlights();
+        return JsonResponse::success($flight);
+    }
 }

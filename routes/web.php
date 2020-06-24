@@ -62,6 +62,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
     $router->get('system-flights/sent', 'SystemFlightController@getAllSent');
     $router->get('system-flights/draft', 'SystemFlightController@getAllDraft');
     $router->get('system-flight/types', 'SystemFlightController@types');
+    $router->get('system-flights/approved', 'SystemFlightController@getAllApproved');
 
 // Ais Approve flight
     $router->post('ais/ats/approve', 'AisController@approve');

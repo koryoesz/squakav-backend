@@ -62,7 +62,7 @@ class FlightAtsController extends Controller
 
     public function updateDraft( Request $request, $flight_id)
     {
-        $flight = (new FlightAtsService())->updateDraft($flight_id, Util::getRequestBody($request));
+        $flight = (new FlightAtsService())->updateDraft($flight_id, Util::getRequestBody($request), $auth);
         return JsonResponse::success($flight);
     }
 

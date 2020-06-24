@@ -8,6 +8,8 @@
 
 namespace App\Services;
 
+use App\Models\Ais;
+use App\Models\UserType;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
@@ -86,16 +88,46 @@ class SystemFlightService
      */
     public function getAllSent(Auth $auth)
     {
+        $flights = null;
+        $dates = null;
+        $arr = [];
+
         if(!empty($auth)) {
-            $flights = SystemFlight::where('status_id', Status::ACTIVE)
-                ->where('operator_id', $auth->getId())
-                ->orderBy('created_at', 'desc')->get();
 
-            $dates = DB::table('system_flights')
-                ->where('status_id', Status::ACTIVE)->distinct()
-                ->get(['date']);
+            if ($auth->getType() == UserType::TYPE_AIS) {
 
-            $arr = [];
+                $dates = DB::table('system_flights')
+                    ->where('status_id', Status::ACTIVE)->distinct()
+                    ->get(['date']);
+
+                if($dates->count() == 0){
+                    return [];
+                }
+
+                $user = Ais::find($auth->getId());
+
+                $flights = $flights = SystemFlight::whereHas('operator', function ($query) use ($user) {
+                    $query->whereHas('state', function ($query) use ($user) {
+                        $query->where('id', $user->state->id);
+                    });
+                })->orderBy('created_at', 'desc')->get();
+
+            } else {
+
+                $dates = DB::table('system_flights')
+                    ->where('status_id', Status::ACTIVE)->distinct()
+                    ->get(['date']);
+
+                if($dates->count() == 0){
+                    return [];
+                }
+
+                $flights = SystemFlight::where('status_id', Status::ACTIVE)
+                    ->where('operator_id', $auth->getId())
+                    ->orderBy('created_at', 'desc')->get();
+
+            }
+
 
             foreach ($dates as $date) {
                 // create temp arr that will store

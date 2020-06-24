@@ -11,13 +11,14 @@ namespace App\Http\Controllers;
 use App\Services\FlightAtsService;
 use App\Components\Response as JsonResponse;
 use Illuminate\Http\Request;
+use App\Components\Auth;
 
 class AisController extends Controller
 {
 
-    public function approve(Request $request)
+    public function approve(Request $request, Auth $auth)
     {
-        $response = (new FlightAtsService())->approve(1, $request->all());
+        $response = (new FlightAtsService())->approve($auth, $request->all());
         return JsonResponse::success($response);
     }
 }

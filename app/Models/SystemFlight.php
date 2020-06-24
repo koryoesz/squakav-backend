@@ -13,6 +13,7 @@ use Carbon\Carbon;
 
 class SystemFlight extends Model
 {
+
     protected $fillable = ['flight_id', 'system_flight_types_id', 'operator_id'];
 
     public $timestamps =  false;
@@ -20,6 +21,11 @@ class SystemFlight extends Model
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format("Y-m-d H:m");
+    }
+
+    public function operator()
+    {
+        return $this->hasOne('App\Models\Operator', 'id', 'operator_id');
     }
 
 }

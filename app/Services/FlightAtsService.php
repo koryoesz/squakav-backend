@@ -265,6 +265,13 @@ class FlightAtsService
      */
     public function getOneSent(Auth $auth, $id)
     {
+        if($auth->getType() == UserType::TYPE_AIS)
+        {
+            $flight = FlightAts::where('id', $id)
+                ->where('status_id', Status::ACTIVE)
+                ->first();
+            return $flight;
+        }
         $flight = FlightAts::where('id', $id)
             ->where('status_id', Status::ACTIVE)
             ->where('operator_id', $auth->getId())

@@ -110,7 +110,9 @@ class SystemFlightService
                     $query->whereHas('state', function ($query) use ($user) {
                         $query->where('id', $user->state->id);
                     });
-                })->where('status_id', Status::ACTIVE)->with('operator')->orderBy('created_at', 'desc')->get();
+                })->where('status_id', Status::ACTIVE)
+                    ->with('operator')
+                    ->orderBy('created_at', 'desc')->get();
 
             } else {
 

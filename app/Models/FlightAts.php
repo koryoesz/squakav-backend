@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class FlightAts extends Model
 {
@@ -63,5 +64,10 @@ class FlightAts extends Model
     public function dinghies()
     {
         return $this->hasOne('App\Models\FlightAtsDinghies', 'flight_id');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format("Y-m-d H:m");
     }
 }

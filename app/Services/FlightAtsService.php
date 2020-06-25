@@ -490,4 +490,18 @@ class FlightAtsService
         return $flight->refresh();
     }
 
+    public function getAllApproved(Auth $auth)
+    {
+        if($auth->getType() == UserType::TYPE_AIS)
+        {
+            $flight = FlightAts::where('status_id', Status::APPROVED)
+                ->orderBy('created_at', 'desc')->get();
+            return $flight;
+        }
+
+        $flights = FlightAts::where('status_id', Status::APPROVED)
+            ->where('operator_id', $auth->getId())
+            ->orderBy('created_at', 'desc')->get();
+        return $flights;
+    }
 }

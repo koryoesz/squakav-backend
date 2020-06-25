@@ -60,4 +60,9 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flight);
     }
 
+    public function getAllApproved(Auth $auth)
+    {
+        $flights = (new FlightAtsService())->getAllApproved($auth);
+        return JsonResponse::success($flights);
+    }
 }

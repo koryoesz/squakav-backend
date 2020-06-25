@@ -54,7 +54,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
 // View Flight Ats
     $router->get('flight/ats/sent', 'FlightAtsController@sentFlights');
     $router->get('flight/ats/sent/{id}', 'FlightAtsController@getOneSent');
-    $router->get('flight/ats/approved', 'FlightAtsController@approvedFlights');
+    $router->get('flight/ats/approved', 'FlightAtsController@getAllApproved');
     $router->get('flight/ats/approved/{id}', 'FlightAtsController@getOneApproved');
 
 // System Flights

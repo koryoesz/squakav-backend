@@ -18,6 +18,8 @@ class CreateFlightRplFlightsTable extends Migration
 
             $table->bigIncrements('id');
             $table->unsignedBigInteger('flight_rpl_id');
+            $table->unsignedBigInteger('flight_rpl_days_id');
+            $table->unsignedSmallInteger('status_id')->default(1);
             $table->string('aircraft_identification', 7)->nullable();
             $table->string('aircraft_reg', 10)->nullable();
             $table->string('aircraft_type', 4)->nullable();
@@ -28,13 +30,14 @@ class CreateFlightRplFlightsTable extends Migration
             $table->string('destination', 4)->nullable();
             $table->string('total_eet', 4)->nullable();
             $table->string('time', 4)->nullable();
-            $table->smallInteger('status_id')->default(1);
             $table->string('remarks', 128)->nullable();
             $table->string('pilot_in_command', 128)->nullable();
             $table->string('additional_requirement', 128)->nullable();
             $table->timestamps();
 
             $table->foreign('flight_rpl_id')->references('id')->on('flight_rpl');
+            $table->foreign('flight_rpl_days_id')->references('id')->on('flight_rpl_days');
+            $table->foreign('status_id')->references('id')->on('status');
 
         });
     }

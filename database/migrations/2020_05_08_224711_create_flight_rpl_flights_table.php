@@ -18,17 +18,24 @@ class CreateFlightRplFlightsTable extends Migration
 
             $table->bigIncrements('id');
             $table->unsignedBigInteger('flight_rpl_id');
-            $table->string('aircraft_identification', 7);
-            $table->string('type_of_aircraft', 4);
-            $table->unsignedTinyInteger('wake_turbulence_category_id');
-            $table->smallInteger('number');
-            $table->string('cruising_speed', 5);
-            $table->string('level', 5);
-            $table->string('route', 128);
-            $table->string('destination_aerodrome', 4);
-            $table->smallInteger('total_eet');
-            $table->string('remarks')->nullable();
+            $table->string('aircraft_identification', 7)->nullable();
+            $table->string('aircraft_reg', 10)->nullable();
+            $table->string('aircraft_type', 4)->nullable();
+            $table->unsignedInteger('wake_turbulence_category_id')->nullable();
+            $table->string('cruising_speed', 5)->nullable();
+            $table->string('level', 5)->nullable();
+            $table->string('routes', 128)->nullable();
+            $table->string('destination', 4)->nullable();
+            $table->string('total_eet', 4)->nullable();
+            $table->string('time', 4)->nullable();
+            $table->smallInteger('status_id')->default(1);
+            $table->string('remarks', 128)->nullable();
+            $table->string('pilot_in_command', 128)->nullable();
+            $table->string('additional_requirement', 128)->nullable();
             $table->timestamps();
+
+            $table->foreign('flight_rpl_id')->references('id')->on('flight_rpl');
+
         });
     }
 

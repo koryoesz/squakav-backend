@@ -36,7 +36,7 @@ class CreateFlightAtsTable extends Migration
             $table->string('endurance', 4)->nullable();
             $table->string('persons_on_board', 3)->nullable();
             $table->tinyInteger('number')->nullable();
-            $table->smallInteger('status_id')->default(1);
+            $table->unsignedsmallInteger('status_id')->default(1);
             $table->string('color_markings')->nullable();
             $table->string('remarks', 128)->nullable();
             $table->string('official_remarks', 128)->nullable();
@@ -44,12 +44,13 @@ class CreateFlightAtsTable extends Migration
             $table->string('filed_by', 128)->nullable();
             $table->string('additional_requirement', 128)->nullable();
             $table->timestamps();
-            $table->timestamp('accepted_date')->nullable();
+            $table->dateTime('accepted_date')->nullable();
             $table->unsignedInteger('accepted_by')->nullable();
             $table->string('serial_number',15)->nullable();
 
             $table->foreign('operator_id')->references('id')->on('operators');
             $table->foreign('accepted_by')->references('id')->on('ais');
+            $table->foreign('status_id')->references('id')->on('status');
         });
     }
 

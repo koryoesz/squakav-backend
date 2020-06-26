@@ -17,13 +17,22 @@ class CreateFlightRplTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->bigIncrements('id');
-            $table->string('operator', 128);
+            $table->unsignedInteger('operator_id');
+            $table->unsignedSmallInteger('status_id')->default(1);
             $table->date('valid_from');
             $table->date('valid_till');
             $table->string('departure_aerodrome');
             $table->string('supplementary_data');
+            $table->string('serial_number',15)->nullable();
+            $table->dateTime('accepted_date')->nullable();
+            $table->unsignedInteger('accepted_by')->nullable();
             $table->timestamps();
+
+            $table->foreign('status_id')->references('id')->on('status');
+            $table->foreign('operator_id')->references('id')->on('operators');
+            $table->foreign('accepted_by')->references('id')->on('ais');
         });
+
     }
 
     /**

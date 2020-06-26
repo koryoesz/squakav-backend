@@ -32,7 +32,6 @@ class CreateAisTable extends Migration
             $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('system_airport_id')->references('id')->on('system_airports');
         });
-
     }
 
     /**
@@ -42,7 +41,6 @@ class CreateAisTable extends Migration
      */
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('ais');
     }
 }

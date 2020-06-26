@@ -1,0 +1,20 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: user
+ * Date: 6/26/2020
+ * Time: 3:40 PM
+ */
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
+class FlightRpl extends Model
+{
+    protected $table = "flight_rpl";
+
+    protected $fillable = ['operator_id', 'valid_from', 'valid_till', 'departure_aerodrome',
+        'supplementary_data', 'serial_number', 'accepted_date', 'accepted_by'];
+}

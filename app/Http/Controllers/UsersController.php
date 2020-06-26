@@ -13,7 +13,7 @@ use App\Components\Response as JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\UsersService;
 
-class UsersController
+class UsersController extends Controller
 {
     public function getUserInfo(Auth $auth)
     {

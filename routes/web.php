@@ -79,4 +79,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
 
     // Get Authenticated User
     $router->get('user', 'UsersController@getUserInfo');
+
+    // Create Rpl Flight
+    $router->post('flight/rpl/create', 'FlightRplController@create');
 });

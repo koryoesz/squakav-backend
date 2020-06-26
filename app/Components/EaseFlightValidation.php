@@ -78,4 +78,41 @@ class EaseFlightValidation
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
     }
 
+    /**
+     * @param $params
+     */
+    public static function forceValidateRpl($params)
+    {
+        $validator = Validator::make($params, [
+            'valid_from' => 'required|date:Y-m-d',
+            'valid_till' => 'required|date:Y-m-d',
+            'departure_aerodrome' => 'required|string|min:3|max:4',
+            'supplementary_data' => 'required',
+            'flights' => 'required|array'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+    }
+
+    /**
+     * @param $params
+     */
+    public static function forceValidateRplFlights($params)
+    {
+        $validator = Validator::make($params, [
+            'aircraft_identification' => 'required|string|max:7',
+            'aircraft_reg' => 'required|string|max:10',
+            'aircraft_type' => 'sometimes|required|string|min:2|max:4',
+            'wake_turbulence_category_id' => 'required|exists:wake_turbulence_category,id',
+            'cruising_speed' => 'required|string|min:4|max:5',
+            'level' => 'required|string|min:4|max:5',
+            'route' => 'required|string|max:128',
+            'destination' => 'required|string|min:3|max:4',
+            'total_eet' => 'required|numeric|digits:4',
+            'time' => 'required|digits:4'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+    }
+
 }

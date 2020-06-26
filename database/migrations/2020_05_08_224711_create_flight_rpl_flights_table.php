@@ -24,7 +24,7 @@ class CreateFlightRplFlightsTable extends Migration
             $table->unsignedInteger('wake_turbulence_category_id')->nullable();
             $table->string('cruising_speed', 5)->nullable();
             $table->string('level', 5)->nullable();
-            $table->string('routes', 128)->nullable();
+            $table->string('route', 128)->nullable();
             $table->string('destination', 4)->nullable();
             $table->string('total_eet', 4)->nullable();
             $table->string('time', 4)->nullable();

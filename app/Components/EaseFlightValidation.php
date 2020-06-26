@@ -72,6 +72,7 @@ class EaseFlightValidation
             'time' => 'required|digits:4',
             'number' => 'sometimes|digits:2',
             'remarks' => 'sometimes|required',
+            'flight_date' => 'required|date:Y-m-d'
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());

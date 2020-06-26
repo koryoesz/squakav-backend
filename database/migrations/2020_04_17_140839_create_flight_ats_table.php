@@ -30,6 +30,7 @@ class CreateFlightAtsTable extends Migration
             $table->string('destination', 4)->nullable();
             $table->string('total_eet', 4)->nullable();
             $table->string('time', 4)->nullable();
+            $table->date('flight_date')->nullable();
             $table->string('alternate_one', 4)->nullable();
             $table->string('alternate_two', 4)->nullable();
             $table->string('endurance', 4)->nullable();
@@ -48,6 +49,7 @@ class CreateFlightAtsTable extends Migration
             $table->string('serial_number',15)->nullable();
 
             $table->foreign('operator_id')->references('id')->on('operators');
+            $table->foreign('accepted_by')->references('id')->on('ais');
         });
     }
 

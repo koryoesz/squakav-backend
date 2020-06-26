@@ -14,7 +14,7 @@ class UpdateFlightAtsTable extends Migration
     public function up()
     {
         Schema::table('flight_ats', function (Blueprint $table) {
-            $table->foreign('accepted_by')->references('id')->on('ais');
+//            $table->foreign('accepted_by')->references('id')->on('ais');
         });
     }
 

@@ -15,7 +15,7 @@ class CreateRplFlightDays extends Migration
     {
         Schema::create('flight_rpl_days', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedSmallInteger('status_id');
+            $table->unsignedSmallInteger('status_id')->default(1);
             $table->boolean('monday')->default(0);
             $table->boolean('tuesday')->default(0);
             $table->boolean('wednesday')->default(0);

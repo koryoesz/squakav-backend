@@ -13,4 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class FlightRplDay extends Model
 {
     public $table = "flight_rpl_days";
+
+    public $fillable = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
+        'sunday'];
 }

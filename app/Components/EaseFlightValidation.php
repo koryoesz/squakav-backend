@@ -110,7 +110,7 @@ class EaseFlightValidation
             'destination' => 'required|string|min:3|max:4',
             'total_eet' => 'required|numeric|digits:4',
             'time' => 'required|digits:4',
-            'days' => 'required|array'
+            'days' => 'required'
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());

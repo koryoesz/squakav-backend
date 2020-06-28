@@ -22,9 +22,11 @@ class FlightRplFlightsService
         foreach ($prepareParams as $param)
         {
             $days = (new FlightRplDaysService())->create($param['days']);
+            unset($param['days']);
             $param['flight_rpl_days_id'] = $days->id;
             $prepareSecondParam[] = $param;
         }
+
         $properties = DB::table('flight_rpl_flights')->insert($prepareSecondParam);
     }
 

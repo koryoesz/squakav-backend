@@ -49,7 +49,7 @@ class CreateSystemAirportTable extends Migration
                 'icao_code' => 'DNPO', 'route_id' => 'POT'],
 
             ['id' => 3, 'tower_id' => 3, 'ais_id' => 3, 'state_id' => State::CROSSRIVER, 'system_acc_id' => SystemAcc::LAGOS,
-                'name' => 'calabar', 'label' => 'Lagos Airport', 'icao_code' => 'DNCA', 'route_id' => 'CAL/CR'],
+                'name' => 'calabar', 'label' => 'Calabar Airport', 'icao_code' => 'DNCA', 'route_id' => 'CAL/CR'],
 
             ['id' => 4, 'tower_id' => 4, 'ais_id' => 4, 'state_id' => State::KWARA, 'system_acc_id' => SystemAcc::LAGOS,
                 'name' => 'ilorin', 'label' => 'Ilorin',

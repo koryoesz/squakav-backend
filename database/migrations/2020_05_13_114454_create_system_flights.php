@@ -30,7 +30,6 @@ class CreateSystemFlights extends Migration
 
             $table->foreign('system_flight_types_id')->references('id')->on('system_flight_types');
             $table->foreign('status_id')->references('id')->on('status');
-            $table->foreign('operator_id')->references('id')->on('operators');
             $table->foreign('user_type_id')->references('id')->on('user_types');
         });
     }

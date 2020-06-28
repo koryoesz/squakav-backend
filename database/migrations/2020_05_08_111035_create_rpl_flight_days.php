@@ -14,6 +14,8 @@ class CreateRplFlightDays extends Migration
     public function up()
     {
         Schema::create('flight_rpl_days', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            
             $table->bigIncrements('id');
             $table->unsignedSmallInteger('status_id')->default(1);
             $table->boolean('monday')->default(0);

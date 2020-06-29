@@ -26,7 +26,9 @@ class CreateOrganisationTable extends Migration
         });
 
         DB::table('organisations')->insert([
-            'id' => 1, 'name' => 'British Airways'
+            ['id' => 1, 'name' => 'British Airways'],
+            ['id' => 2, 'name' => 'Arik Airline'],
+            ['id' => 3, 'name' => 'Dana Airline']
         ]);
 
     }

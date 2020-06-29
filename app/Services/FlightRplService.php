@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Config;
 use App\Components\EaseFlightValidation;
 use App\Components\Exception as MyException;
 use App\Components\Auth;
+use App\Models\Status;
 
 class FlightRplService
 {
@@ -71,5 +72,14 @@ class FlightRplService
                 return $flight;
             });
 
+    }
+
+    public function getAllSent(Auth $auth)
+    {
+        $flights = FlightRpl::where('status_id', Status::ACTIVE)
+            ->where('operator_id', $auth->getId())
+            ->with('flights.days')
+            ->orderBy('created_at', 'desc')->get();
+        return $flights;
     }
 }

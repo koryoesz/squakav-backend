@@ -17,4 +17,9 @@ class FlightRpl extends Model
 
     protected $fillable = ['operator_id', 'valid_from', 'valid_till', 'departure_aerodrome',
         'supplementary_data', 'serial_number', 'accepted_date', 'accepted_by'];
+
+    public function flights()
+    {
+        return $this->hasMany('App\Models\FlightRplFlight', 'flight_rpl_id', 'id');
+    }
 }

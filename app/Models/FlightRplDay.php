@@ -16,4 +16,6 @@ class FlightRplDay extends Model
 
     public $fillable = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
         'sunday'];
+
+    protected $hidden = ['created_at', 'updated_at'];
 }

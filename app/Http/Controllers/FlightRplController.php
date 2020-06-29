@@ -21,4 +21,10 @@ class FlightRplController extends Controller
         $flight = (new FlightRplService())->createFlightPlan(Util::getRequestBody($request), $auth);
         return JsonResponse::success($flight);
     }
+
+    public function getAllSent(Auth $auth)
+    {
+        $flights = (new FlightRplService())->getAllSent($auth);
+        return JsonResponse::success($flights);
+    }
 }

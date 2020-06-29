@@ -252,9 +252,10 @@ class FlightAtsService
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getAllSent()
+    public function getAllSent(Auth $auth)
     {
         $flights = FlightAts::where('status_id', Status::ACTIVE)
+                    ->where('operator_id', $auth->getId())
                     ->orderBy('created_at', 'desc')->get();
         return $flights;
     }
@@ -407,7 +408,7 @@ class FlightAtsService
      * @param $flight_id
      * @param $params
      */
-    public function updateDraft($flight_id, $params)
+    public function updateDraft($flight_id, $params, $auth)
     {
         $flight = null;
         $system_flight = null;
@@ -418,6 +419,7 @@ class FlightAtsService
                 'numeric',
                 Rule::exists('flight_ats', 'id')
                     ->where('status_id', Status::DRAFTED)
+                    ->where('operator_id', $auth->getId())
             ]
         ],[
             'flight_id.exists' => 'This flight may not exist or it has been approved.'

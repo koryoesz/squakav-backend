@@ -82,4 +82,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
 
     // Create Rpl Flight
     $router->post('flight/rpl/create', 'FlightRplController@create');
+
+    //View Flight Rpl
+    $router->get('flight/rpl/sent', 'FlightRplController@getAllSent');
 });

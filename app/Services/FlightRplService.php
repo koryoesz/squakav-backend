@@ -16,6 +16,7 @@ use App\Components\EaseFlightValidation;
 use App\Components\Exception as MyException;
 use App\Components\Auth;
 use App\Models\Status;
+use App\Models\UserType;
 
 class FlightRplService
 {
@@ -81,5 +82,23 @@ class FlightRplService
             ->with('flights.days')
             ->orderBy('created_at', 'desc')->get();
         return $flights;
+    }
+
+    public function getOneSent(Auth $auth, $id)
+    {
+        if($auth->getType() == UserType::TYPE_AIS)
+        {
+            $flight = FlightRpl::where('id', $id)
+                ->where('status_id', Status::ACTIVE)
+                ->with('flights.days')
+                ->first();
+            return $flight;
+        }
+        $flight = FlightRpl::where('id', $id)
+            ->where('status_id', Status::ACTIVE)
+            ->where('operator_id', $auth->getId())
+            ->with('flights.days')
+            ->first();
+        return $flight;
     }
 }

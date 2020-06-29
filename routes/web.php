@@ -85,4 +85,5 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
 
     //View Flight Rpl
     $router->get('flight/rpl/sent', 'FlightRplController@getAllSent');
+    $router->get('flight/rpl/sent/{id}', 'FlightRplController@getOneSent');
 });

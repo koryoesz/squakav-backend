@@ -29,4 +29,10 @@ class AuthController extends Controller
             'token' => $auth->getToken()
         ]);
     }
+
+    public function logout(Request $request, Auth $auth)
+    {
+        $auth->destroy();
+        return JsonResponse::success();
+    }
 }

@@ -19,10 +19,10 @@ class CreateFlightRplTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('operator_id');
             $table->unsignedSmallInteger('status_id')->default(1);
-            $table->date('valid_from');
-            $table->date('valid_till');
-            $table->string('departure_aerodrome');
-            $table->string('supplementary_data');
+            $table->date('valid_from')->nullable();
+            $table->date('valid_till')->nullable();
+            $table->string('departure_aerodrome')->nullable();
+            $table->string('supplementary_data')->nullable();
             $table->string('serial_number',15)->nullable();
             $table->dateTime('accepted_date')->nullable();
             $table->unsignedInteger('accepted_by')->nullable();

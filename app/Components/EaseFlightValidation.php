@@ -116,4 +116,17 @@ class EaseFlightValidation
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
     }
 
+    /**
+     * @param $params
+     */
+    public static function easeValidateRplFlights($params)
+    {
+        $validator = Validator::make($params, [
+            'aircraft_identification' => 'required|string|max:7',
+            'days' => 'required'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+    }
+
 }

@@ -38,7 +38,7 @@ class FlightRplFlightsService
         {
             $param['flight_rpl_id'] = $flight_id;
 
-            EaseFlightValidation::forceValidateRplFlights($param);
+            EaseFlightValidation::easeValidateRplFlights($param);
 
             $prepareParams[] = $param;
 

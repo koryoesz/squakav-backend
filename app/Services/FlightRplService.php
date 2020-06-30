@@ -35,9 +35,6 @@ class FlightRplService
      */
     public function createFlightPlan($params, Auth $auth)
     {
-        $equipments = null;
-        $emergency = null;
-
         if (empty($this->system_flight)){
             throw new MyException('Could not find system config', ErrorCode::INTERNAL_ERROR);
         }
@@ -100,5 +97,47 @@ class FlightRplService
             ->with('flights.days')
             ->first();
         return $flight;
+    }
+
+    public function draft($params, Auth $auth)
+    {
+        if (empty($this->system_flight)) {
+            throw new MyException('Could not find system config', ErrorCode::INTERNAL_ERROR);
+        }
+
+        EaseFlightValidation::easeValidateRplFlights(isset($params['flights'])
+            ? $params['flights'] : []
+        );
+
+        return DB::transaction(/**
+         * @return mixed
+         * @throws MyException
+         */
+            function () use ($params, $auth) {
+                // create flight
+
+                $params['operator_id'] = $auth->getId();
+                $params['status_id'] = Status::DRAFTED;
+                $flight = FlightRpl::create($params);
+
+                if (empty($flight)) {
+                    throw (new MyException('Create Flight Record Failed', ErrorCode::INTERNAL_ERROR));
+                }
+
+                // store for system flight
+                // build params for system flight ats
+                $system_flight_params = [
+                    'flight_id' => $flight->id,
+                    'system_flight_types_id' => $this->system_flight['rpl']['id'],
+                    'status_id' => Status::DRAFTED
+                ];
+
+                (new SystemFlightService())::save($system_flight_params, $auth);
+
+                (new FlightRplFlightsService())::createFlights($params['flights'], $flight->id);
+
+                return $flight;
+
+            });
     }
 }

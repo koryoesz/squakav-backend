@@ -132,7 +132,7 @@ class CreateSystemAirportTable extends Migration
                 'name' => 'maiduguri', 'label' => 'Maiduguri', 'icao_code' => 'DNMA', 'route_id' => 'MIU'],
 
             ['id' => 30, 'tower_id' => 30, 'ais_id' => 30, 'state_id' => State::KADUNA, 'system_acc_id' => SystemAcc::KANO,
-                'name' => 'kaduna_nafbase', 'ais_id' => 31, 'label' => 'Kaduna Nafbase', 'icao_code' => 'DNMA', 'route_id' => 'MIU'],
+                'name' => 'kaduna_nafbase', 'label' => 'Kaduna Nafbase', 'icao_code' => 'DN53', 'route_id' => 'MIU'],
 
             ['id' => 31, 'tower_id' => 31, 'ais_id' => 31, 'state_id' => State::KADUNA, 'system_acc_id' => SystemAcc::KANO,
                 'name' => 'zaria', 'label' => 'Zaria', 'icao_code' => 'DNZA', 'route_id' => 'ZA'],

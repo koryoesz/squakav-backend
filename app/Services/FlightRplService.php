@@ -65,7 +65,7 @@ class FlightRplService
 
                 (new SystemFlightService())::save($system_flight_params, $auth);
 
-                (new FlightRplFlightsService())::createFlights($params['flights'], $flight->id);
+                (new FlightRplFlightsService())::createFlights($params['flights'], $flight->id, $system_flight_params);
 
                 return $flight;
             });
@@ -105,9 +105,6 @@ class FlightRplService
             throw new MyException('Could not find system config', ErrorCode::INTERNAL_ERROR);
         }
 
-        EaseFlightValidation::easeValidateRplFlights(isset($params['flights'])
-            ? $params['flights'] : []
-        );
 
         return DB::transaction(/**
          * @return mixed
@@ -118,6 +115,7 @@ class FlightRplService
 
                 $params['operator_id'] = $auth->getId();
                 $params['status_id'] = Status::DRAFTED;
+
                 $flight = FlightRpl::create($params);
 
                 if (empty($flight)) {
@@ -129,15 +127,33 @@ class FlightRplService
                 $system_flight_params = [
                     'flight_id' => $flight->id,
                     'system_flight_types_id' => $this->system_flight['rpl']['id'],
-                    'status_id' => Status::DRAFTED
+                    'status_id' => Status::DRAFTED,
+                    'user_type_id' =>  $auth->getType()
                 ];
 
                 (new SystemFlightService())::save($system_flight_params, $auth);
 
-                (new FlightRplFlightsService())::createFlights($params['flights'], $flight->id);
+                (new FlightRplFlightsService())::createFlights(isset($params['flights'])
+                    ? $params['flights'] : [],
+                    $flight->id, $system_flight_params);
 
                 return $flight;
 
             });
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * Return single drafted flight
+     */
+    public function getOneDraft(Auth $auth, $id)
+    {
+        $flight = FlightRpl::where('id', $id)
+            ->where('status_id', Status::DRAFTED)
+            ->where('operator_id', $auth->getId())
+            ->with('flights.days')
+            ->first();
+        return $flight;
     }
 }

@@ -11,10 +11,11 @@ namespace App\Services;
 use Illuminate\Support\Facades\DB;
 use App\Components\EaseFlightValidation;
 use App\Models\FlightRplFlight;
+use App\Models\Status;
 
 class FlightRplFlightsService
 {
-    public static function createFlights($flights, $flight_id)
+    public static function createFlights($flights, $flight_id, $system_flight = null)
     {
         $prepareParams = self::prepareAndValidateFlights($flights, $flight_id);
         $prepareSecondParam = [];
@@ -25,9 +26,15 @@ class FlightRplFlightsService
             unset($param['days']);
             $param['flight_rpl_days_id'] = $days->id;
             $prepareSecondParam[] = $param;
+
+            if($system_flight['status_id'] == Status::DRAFTED){
+                DB::table('flight_rpl_flights')->insert($param);
+            }
         }
 
-        $properties = DB::table('flight_rpl_flights')->insert($prepareSecondParam);
+        if($system_flight['status_id'] != Status::DRAFTED) {
+            $properties = DB::table('flight_rpl_flights')->insert($prepareSecondParam);
+        }
     }
 
     private static function prepareAndValidateFlights($paramsArray, $flight_id)
@@ -43,6 +50,7 @@ class FlightRplFlightsService
             $prepareParams[] = $param;
 
         }
+
         return $prepareParams;
     }
 }

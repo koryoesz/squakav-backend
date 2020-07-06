@@ -121,6 +121,7 @@ class EaseFlightValidation
      */
     public static function easeValidateRplFlights($params)
     {
+
         $validator = Validator::make($params, [
             'aircraft_identification' => 'required|string|max:7',
             'days' => 'required'

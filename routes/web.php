@@ -80,12 +80,15 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
     // Get Authenticated User
     $router->get('user', 'UsersController@getUserInfo');
 
-    // Create Rpl Flight
+    // Create, Draft Rpl Flight
     $router->post('flight/rpl/create', 'FlightRplController@create');
+    $router->post('flight/rpl/draft', 'FlightRplController@draft');
 
     //View Flight Rpl
     $router->get('flight/rpl/sent', 'FlightRplController@getAllSent');
     $router->get('flight/rpl/sent/{id}', 'FlightRplController@getOneSent');
+    $router->get('flight/rpl/draft/{id}', 'FlightRplController@getOneDraft');
+
 
     // logout
     $router->get('auth/logout', 'AuthController@logout');

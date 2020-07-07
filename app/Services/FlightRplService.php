@@ -213,7 +213,7 @@ class FlightRplService
 
                 return $flight->refresh();
             }
-            
+
         );
     }
 }

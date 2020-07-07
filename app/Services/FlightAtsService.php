@@ -433,9 +433,9 @@ class FlightAtsService
 
             $params['status_id'] = Status::ACTIVE;
             $flight = FlightAts::find($flight_id);
-            $system_flight = SystemFlight::find($flight_id);
-            $system_flight->status_id = Status::ACTIVE;
-            $system_flight->save();
+            $system_flight = SystemFlight::find('flight_id', $flight_id)->get();
+            $system_flight[0]->status_id = Status::ACTIVE;
+            $system_flight[0]->save();
             $flight->update($params);
         } else{
             

@@ -83,6 +83,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
     // Create, Draft Rpl Flight
     $router->post('flight/rpl/create', 'FlightRplController@create');
     $router->post('flight/rpl/draft', 'FlightRplController@draft');
+    $router->post('flight/rpl/draft/update/{flight_id}', 'FlightRplController@updateDraft');
 
     //View Flight Rpl
     $router->get('flight/rpl/sent', 'FlightRplController@getAllSent');

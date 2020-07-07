@@ -18,6 +18,9 @@ use App\Components\Auth;
 use App\Models\Status;
 use App\Models\UserType;
 use App\Models\SystemFlight;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use App\Components\ValidationException;
 
 class FlightRplService
 {
@@ -182,31 +185,35 @@ class FlightRplService
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
-        if(isset($params['send']) && $params['send'] == '1'){
+        return DB::transaction(/**
+         * @return mixed
+         * @throws MyException
+         */
+            function () use ($params, $auth, $flight_id) {
+                if (isset($params['send']) && $params['send'] == '1') {
 
-            EaseFlightValidation::forceValidateRplFlights($params);
+                    EaseFlightValidation::forceValidateRpl($params);
 
-            $params['status_id'] = Status::ACTIVE;
-            $flight = FlightRpl::find($flight_id);
-            $system_flight = SystemFlight::find($flight_id);
-            $system_flight->status_id = Status::ACTIVE;
-            $system_flight->save();
-            $flight->update($params);
+                    $params['status_id'] = Status::ACTIVE;
+                    $flight = FlightRpl::find($flight_id);
+                    $system_flight = SystemFlight::where('flight_id', $flight_id)->get();
+                    $system_flight[0]->status_id = Status::ACTIVE;
+                    $system_flight[0]->save();
+                    $flight->update($params);
 
-        } else {
+                } else {
 
-            EaseFlightValidation::validate($params);
+                    $flight = FlightRpl::find($flight_id);
+                    $flight->update($params);
+                }
 
-            $flight = FlightRpl::find($flight_id);
-            $flight->update($params);
-        }
+                if (isset($params['flights'])) {
+                    (new FlightRplFlightsService())->updateFlights($params['flights'], $flight->id);
+                }
 
-
-        if(isset($params['flights']))
-        {
-            $f = (new FlightRplFlightsService())->updateFlights($params['flights'],  $flight->id);
-        }
-
-        return $flight->refresh();
+                return $flight->refresh();
+            }
+            
+        );
     }
 }

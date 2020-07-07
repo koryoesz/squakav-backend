@@ -45,4 +45,10 @@ class FlightRplController extends Controller
         $flight = (new FlightRplService())->getOneDraft($auth, $id);
         return JsonResponse::success($flight);
     }
+
+    public function updateDraft( Request $request, $flight_id, Auth $auth)
+    {
+        $flight = (new FlightRplService())->updateDraft($flight_id, Util::getRequestBody($request), $auth);
+        return JsonResponse::success($flight);
+    }
 }

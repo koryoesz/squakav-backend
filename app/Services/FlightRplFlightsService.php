@@ -14,6 +14,7 @@ use App\Models\FlightRplFlight;
 use App\Models\Status;
 use App\Models\FlightRplDay;
 
+
 class FlightRplFlightsService
 {
     public static function createFlights($flights, $flight_id, $system_flight = null)
@@ -40,29 +41,45 @@ class FlightRplFlightsService
 
     public function updateFlights($paramsArray, $flight_id)
     {
-        $prepareParams = $this->prepareAndValidateFlights($paramsArray, $flight_id);
+        $prepareParams = $this->prepareAndValidateFlights($paramsArray, $flight_id, true);
 
         $flights = FlightRplFlight::where('flight_rpl_id', $flight_id)->with('days')->get();
 
-        if($flights->count() == 0)
-        {
-            return DB::table('flight_rpl_flights')->insert($prepareParams);
-        }
-
         foreach ($flights as $flight)
         {
-            $flight->days->delete();
             $flight->delete();
+            $flight->days->delete();
         }
 
-        return DB::table('flight_rpl_flights')->insert($prepareParams);
+        foreach ($prepareParams as $param)
+        {
+            $days = (new FlightRplDaysService())->create($param['days']);
+            unset($param['days']);
+            $param['flight_rpl_days_id'] = $days->id;
+            // correct db insert params
+            DB::table('flight_rpl_flights')->insert($param);
+
+        }
 
     }
 
-    private static function prepareAndValidateFlights($paramsArray, $flight_id)
+    private static function prepareAndValidateFlights($paramsArray, $flight_id, $force = false)
     {
         $prepareParams = [];
 
+        if($force){
+            foreach ($paramsArray as $param)
+            {
+                $param['flight_rpl_id'] = $flight_id;
+
+                EaseFlightValidation::forceValidateRplFlights($param);
+
+                $prepareParams[] = $param;
+
+            }
+
+            return $prepareParams;
+        }
         foreach ($paramsArray as $param)
         {
             $param['flight_rpl_id'] = $flight_id;

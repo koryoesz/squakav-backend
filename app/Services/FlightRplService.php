@@ -17,6 +17,7 @@ use App\Components\Exception as MyException;
 use App\Components\Auth;
 use App\Models\Status;
 use App\Models\UserType;
+use App\Models\SystemFlight;
 
 class FlightRplService
 {
@@ -155,5 +156,57 @@ class FlightRplService
             ->with('flights.days')
             ->first();
         return $flight;
+    }
+
+    /**
+     * @param $user_id
+     * @param $flight_id
+     * @param $params
+     */
+    public function updateDraft($flight_id, $params, $auth)
+    {
+        $flight = null;
+        $system_flight = null;
+
+        $validator = Validator::make(['flight_id' => $flight_id], [
+            'flight_id' => [
+                'required',
+                'numeric',
+                Rule::exists('flight_rpl', 'id')
+                    ->where('status_id', Status::DRAFTED)
+                    ->where('operator_id', $auth->getId())
+            ]
+        ],[
+            'flight_id.exists' => 'This flight may not exist or it has been approved.'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        if(isset($params['send']) && $params['send'] == '1'){
+
+            EaseFlightValidation::forceValidateRplFlights($params);
+
+            $params['status_id'] = Status::ACTIVE;
+            $flight = FlightRpl::find($flight_id);
+            $system_flight = SystemFlight::find($flight_id);
+            $system_flight->status_id = Status::ACTIVE;
+            $system_flight->save();
+            $flight->update($params);
+
+        } else {
+
+            EaseFlightValidation::validate($params);
+
+            $flight = FlightRpl::find($flight_id);
+            $flight->update($params);
+        }
+
+
+        if(isset($params['flights']))
+        {
+            $f = (new FlightRplFlightsService())->updateFlights($params['flights'],  $flight->id);
+        }
+
+        return $flight->refresh();
     }
 }

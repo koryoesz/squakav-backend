@@ -196,7 +196,9 @@ class FlightRplService
 
                     $params['status_id'] = Status::ACTIVE;
                     $flight = FlightRpl::find($flight_id);
-                    $system_flight = SystemFlight::where('flight_id', $flight_id)->get();
+                    $system_flight = SystemFlight::where('flight_id', $flight_id)
+                        ->where('system_flight_types_id',$this->system_flight['rpl']['id'])
+                        ->get();
                     $system_flight[0]->status_id = Status::ACTIVE;
                     $system_flight[0]->save();
                     $flight->update($params);

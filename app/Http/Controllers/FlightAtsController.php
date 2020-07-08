@@ -36,9 +36,9 @@ class FlightAtsController extends Controller
         return JsonResponse::success($flight);
     }
 
-    public function getOneApproved($id)
+    public function getOneApproved(Auth $auth, $id)
     {
-        $flight = (new FlightAtsService())->getOneApproved($id);
+        $flight = (new FlightAtsService())->getOneApproved($auth, $id);
         return JsonResponse::success($flight);
     }
 

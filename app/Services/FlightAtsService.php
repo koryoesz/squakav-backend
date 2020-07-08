@@ -346,9 +346,10 @@ class FlightAtsService
      * @param $id
      * @return mixed
      */
-    public function getOneApproved($id)
+    public function getOneApproved(Auth $auth, $id)
     {
         $flight = FlightAts::where('id', $id)->where('status_id', Status::APPROVED)
+            ->where('operator_id', $auth->getId())
             ->get();
         return $flight;
     }

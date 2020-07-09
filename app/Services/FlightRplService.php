@@ -95,6 +95,7 @@ class FlightRplService
                 ->first();
             return $flight;
         }
+
         $flight = FlightRpl::where('id', $id)
             ->where('status_id', Status::ACTIVE)
             ->where('operator_id', $auth->getId())

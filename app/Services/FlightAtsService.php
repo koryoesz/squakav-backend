@@ -309,7 +309,7 @@ class FlightAtsService
                         ->where('system_flight_types_id', SystemFightType::ATS)
                         ->where('status_id', Status::ACTIVE)
                     ],
-            'addressees' => 'required|array'
+            'addressees' => 'sometimes|array'
         ], [
             'user_id.exists' => 'User not authorized to approve ATS flight',
             'flight_id.exists' => 'Invalid Flight'
@@ -336,7 +336,9 @@ class FlightAtsService
                     $system_flight[0]->save();
                     $flight->save();
 
-                    (new FlightAtsAddresseesService())::saveAddressees($params['addressees'], $flight->id);
+                    if(isset($params['addressees'])){
+                        (new FlightAtsAddresseesService())::saveAddressees($params['addressees'], $flight->id);
+                    }
 
                     return ['aircraft_identification' => $flight->aircraft_identification];
                 });

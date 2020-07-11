@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
 use Illuminate\Support\Facades\DB;
 use App\Models\SystemFlight;
+use App\Models\SystemFightType;
 use Illuminate\Support\Facades\Config;
 use App\Models\Status;
 use App\Components\Auth;
@@ -117,7 +118,9 @@ class SystemFlightService
             } else {
 
                 $dates = DB::table('system_flights')
-                    ->where('status_id', Status::ACTIVE)->distinct()
+                    ->where('status_id', Status::ACTIVE)
+                    ->where('operator_id', $auth->getId())
+                    ->distinct()
                     ->get(['date']);
 
                 if($dates->count() == 0){
@@ -126,6 +129,157 @@ class SystemFlightService
 
                 $flights = SystemFlight::where('status_id', Status::ACTIVE)
                     ->where('operator_id', $auth->getId())
+                    ->orderBy('created_at', 'desc')->get();
+
+            }
+
+
+            foreach ($dates as $date) {
+                // create temp arr that will store
+                // value of true comparison
+                $temp_flight_arr = [];
+                foreach ($flights as $key => $flight) {
+                    // check if date from distinct is
+                    // equals date from flight object
+                    if ($date->date == $flight->date) {
+                        $temp_flight_arr[] = $flight;
+                    }
+
+                }
+                // pass all true comparison to be formatted
+                $format_arr = ['date' => $date->date, 'flights' => $temp_flight_arr];
+                $arr[] = $format_arr;
+            }
+            return $arr;
+        }
+
+        return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getAllSentAts(Auth $auth)
+    {
+        $flights = null;
+        $dates = null;
+        $arr = [];
+
+        if(!empty($auth)) {
+
+            if ($auth->getType() == UserType::TYPE_AIS) {
+
+                $dates = DB::table('system_flights')
+                    ->where('status_id', Status::ACTIVE)->distinct()
+                    ->where('system_flight_types_id', SystemFightType::ATS)
+                    ->get(['date']);
+
+                if($dates->count() == 0){
+                    return [];
+                }
+
+                $user = Ais::find($auth->getId());
+
+                $flights = SystemFlight::whereHas('operator', function ($query) use ($user) {
+                    $query->whereHas('state', function ($query) use ($user) {
+                        $query->where('id', $user->state->id);
+                    });
+                })->where('status_id', Status::ACTIVE)
+                    ->where('system_flight_types_id', SystemFightType::ATS)
+                    ->with('operator')
+                    ->orderBy('created_at', 'desc')->get();
+
+            } else {
+
+                $dates = DB::table('system_flights')
+                    ->where('status_id', Status::ACTIVE)
+                    ->where('system_flight_types_id', SystemFightType::ATS)
+                    ->where('operator_id', $auth->getId())
+                    ->distinct()
+                    ->get(['date']);
+
+                if($dates->count() == 0){
+                    return [];
+                }
+
+                $flights = SystemFlight::where('status_id', Status::ACTIVE)
+                    ->where('operator_id', $auth->getId())
+                    ->where('system_flight_types_id', SystemFightType::ATS)
+                    ->orderBy('created_at', 'desc')->get();
+
+            }
+
+
+            foreach ($dates as $date) {
+                // create temp arr that will store
+                // value of true comparison
+                $temp_flight_arr = [];
+                foreach ($flights as $key => $flight) {
+                    // check if date from distinct is
+                    // equals date from flight object
+                    if ($date->date == $flight->date) {
+                        $temp_flight_arr[] = $flight;
+                    }
+
+                }
+                // pass all true comparison to be formatted
+                $format_arr = ['date' => $date->date, 'flights' => $temp_flight_arr];
+                $arr[] = $format_arr;
+            }
+            return $arr;
+        }
+
+        return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
+    }
+
+
+    public function getAllSentRpl(Auth $auth)
+    {
+        $flights = null;
+        $dates = null;
+        $arr = [];
+
+        if(!empty($auth)) {
+
+            if ($auth->getType() == UserType::TYPE_AIS) {
+
+                $dates = DB::table('system_flights')
+                    ->where('status_id', Status::ACTIVE)->distinct()
+                    ->where('system_flight_types_id', SystemFightType::RPL)
+                    ->get(['date']);
+
+                if($dates->count() == 0){
+                    return [];
+                }
+
+                $user = Ais::find($auth->getId());
+
+                $flights = SystemFlight::whereHas('operator', function ($query) use ($user) {
+                    $query->whereHas('state', function ($query) use ($user) {
+                        $query->where('id', $user->state->id);
+                    });
+                })->where('status_id', Status::ACTIVE)
+                    ->where('system_flight_types_id', SystemFightType::RPL)
+                    ->with('operator')
+                    ->orderBy('created_at', 'desc')->get();
+
+            } else {
+
+                $dates = DB::table('system_flights')
+                    ->where('status_id', Status::ACTIVE)
+                    ->where('system_flight_types_id', SystemFightType::RPL)
+                    ->where('operator_id', $auth->getId())
+                    ->distinct()
+                    ->get(['date']);
+
+                if($dates->count() == 0){
+                    return [];
+                }
+
+                $flights = SystemFlight::where('status_id', Status::ACTIVE)
+                    ->where('operator_id', $auth->getId())
+                    ->where('system_flight_types_id', SystemFightType::RPL)
                     ->orderBy('created_at', 'desc')->get();
 
             }
@@ -232,7 +386,9 @@ class SystemFlightService
             } else {
 
                 $dates = DB::table('system_flights')
-                    ->where('status_id', Status::APPROVED)->distinct()
+                    ->where('status_id', Status::APPROVED)
+                    ->where('operator_id', $auth->getId())
+                    ->distinct()
                     ->get(['date']);
 
                 if($dates->count() == 0){

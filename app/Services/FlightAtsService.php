@@ -436,7 +436,7 @@ class FlightAtsService
 
             $params['status_id'] = Status::ACTIVE;
             $flight = FlightAts::find($flight_id);
-            $system_flight = SystemFlight::find('flight_id', $flight_id)
+            $system_flight = SystemFlight::where('flight_id', $flight_id)
                 ->where('system_flight_types_id',$this->system_flight['ats']['id'])
                 ->get();
             $system_flight[0]->status_id = Status::ACTIVE;

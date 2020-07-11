@@ -18,6 +18,7 @@ use App\Components\Auth;
 use App\Models\Status;
 use App\Models\UserType;
 use App\Models\SystemFlight;
+use App\Models\SystemFightType;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Components\ValidationException;
@@ -218,5 +219,69 @@ class FlightRplService
             }
 
         );
+    }
+
+    /**
+     * @param $user_id
+     * @param $user_type_id
+     * @param $params
+     * @return string
+     */
+    public function approve(Auth $auth, $params)
+    {
+        // include routes
+        // time and dates accepted
+        if($auth->getType() != UserType::TYPE_AIS)
+        {
+            throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
+        }
+        $extra_param = [
+            'user_id' => $auth->getId(),
+            'flight_id' => isset($params['flight_id']) ? $params['flight_id']: '',
+            'addressees' => isset($params['addressees']) ? $params['addressees']: [],
+        ];
+
+        $validator = Validator::make($extra_param, [
+            'user_id' => 'required|numeric|exists:ais,id',
+            'flight_id' => [
+                'required',
+                'numeric',
+                Rule::exists('system_flights', 'flight_id')
+                    ->where('system_flight_types_id', SystemFightType::RPL)
+                    ->where('status_id', Status::ACTIVE)
+            ],
+            'addressees' => 'sometimes|array'
+        ], [
+            'user_id.exists' => 'User not authorized to approve ATS flight',
+            'flight_id.exists' => 'Invalid Flight'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        $flight = FlightRpl::find($params['flight_id']);
+        $system_flight = SystemFlight::where('flight_id', $params['flight_id'])->get();
+
+        if(empty($flight) && empty($system_flight)){
+            throw (new MyException('Flight record not found', ErrorCode::RECORD_NOT_EXISTING));
+        }
+
+        return DB::transaction(/**
+         * @return mixed
+         * @throws MyException
+         */
+            function () use ($system_flight, $flight, $params, $auth) {
+                $system_flight[0]->status_id = Status::APPROVED;
+                $flight->status_id = Status::APPROVED;
+                $flight->accepted_by = $auth->getId();
+
+                $system_flight[0]->save();
+                $flight->save();
+
+                if(isset($params['addressees'])){
+                    (new FlightAtsAddresseesService())::saveAddressees($params['addressees'], $flight->id);
+                }
+
+                return ['aircraft_identification' => $flight->aircraft_identification];
+            });
     }
 }

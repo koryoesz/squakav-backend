@@ -22,4 +22,9 @@ class FlightRpl extends Model
     {
         return $this->hasMany('App\Models\FlightRplFlight', 'flight_rpl_id', 'id');
     }
+
+    public function operator()
+    {
+        return $this->hasOne('App\Models\Operator', 'id', 'operator_id');
+    }
 }

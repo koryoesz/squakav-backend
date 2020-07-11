@@ -92,7 +92,7 @@ class FlightRplService
         {
             $flight = FlightRpl::where('id', $id)
                 ->where('status_id', Status::ACTIVE)
-                ->with('flights.days')
+                ->with(['flights.days', 'operator.organisation'])
                 ->first();
             return $flight;
         }

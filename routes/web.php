@@ -65,7 +65,8 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
     $router->get('system-flights/approved', 'SystemFlightController@getAllApproved');
 
 // Ais Approve flight
-    $router->post('ais/ats/approve', 'AisController@approve');
+    $router->post('ais/ats/approve', 'AisController@approveAts');
+    $router->post('ais/rpl/approve', 'AisController@approveRpl');
 
 // Create Ats Draft
     $router->post('flight/ats/draft', 'FlightAtsController@draft');

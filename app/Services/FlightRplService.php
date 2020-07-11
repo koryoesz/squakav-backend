@@ -250,7 +250,7 @@ class FlightRplService
                     ->where('system_flight_types_id', SystemFightType::RPL)
                     ->where('status_id', Status::ACTIVE)
             ],
-            'addressees' => 'sometimes|array'
+            'addressees' => 'required|array'
         ], [
             'user_id.exists' => 'User not authorized to approve ATS flight',
             'flight_id.exists' => 'Invalid Flight'
@@ -259,7 +259,9 @@ class FlightRplService
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
         $flight = FlightRpl::find($params['flight_id']);
-        $system_flight = SystemFlight::where('flight_id', $params['flight_id'])->get();
+        $system_flight = SystemFlight::where('flight_id', $params['flight_id'])
+            ->where('system_flight_types_id',$this->system_flight['rpl']['id'])
+            ->get();
 
         if(empty($flight) && empty($system_flight)){
             throw (new MyException('Flight record not found', ErrorCode::RECORD_NOT_EXISTING));
@@ -278,10 +280,10 @@ class FlightRplService
                 $flight->save();
 
                 if(isset($params['addressees'])){
-                    (new FlightAtsAddresseesService())::saveAddressees($params['addressees'], $flight->id);
+                    (new FlightRplAddresseesService())::saveAddressees($params['addressees']);
                 }
 
-                return ['aircraft_identification' => $flight->aircraft_identification];
+                return $flight->refresh();
             });
     }
 }

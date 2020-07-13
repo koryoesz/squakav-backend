@@ -47,7 +47,7 @@ class FlightRplFlightsService
 
         foreach ($flights as $flight)
         {
-            // delete the flights and the days attached with it
+            // delete the flights and the days attached with it.
             $flight->delete();
             $flight->days->delete();
         }

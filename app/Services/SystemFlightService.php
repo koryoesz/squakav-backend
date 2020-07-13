@@ -117,19 +117,23 @@ class SystemFlightService
 
             } else {
 
+
                 $dates = DB::table('system_flights')
-                    ->where('status_id', Status::ACTIVE)
-                    ->where('operator_id', $auth->getId())
-                    ->distinct()
-                    ->get(['date']);
+                    ->where(function($query) use ($auth){
+                        $query->where('status_id', Status::ACTIVE)->where('operator_id', $auth->getId())
+                        ->orWhere('status_id', Status::DECLINED);
+                    })->orderBy('created_at', 'desc')->distinct()->get();
 
                 if($dates->count() == 0){
                     return [];
                 }
 
-                $flights = SystemFlight::where('status_id', Status::ACTIVE)
-                    ->where('operator_id', $auth->getId())
-                    ->orderBy('created_at', 'desc')->get();
+
+                $flights = DB::table('system_flights')
+                    ->where(function($query) use ($auth){
+                        $query->where('status_id', Status::ACTIVE)->where('operator_id', $auth->getId())
+                            ->orWhere('status_id', Status::DECLINED);
+                    })->orderBy('created_at', 'desc')->get();
 
             }
 

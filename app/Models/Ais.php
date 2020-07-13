@@ -50,4 +50,5 @@ class Ais extends User
         return $this->hasOne('App\Models\SystemAirport', 'id', 'system_airport_id');
     }
 
+
 }

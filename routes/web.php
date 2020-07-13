@@ -70,6 +70,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
     $router->post('ais/ats/approve', 'AisController@approveAts');
     $router->post('ais/rpl/approve', 'AisController@approveRpl');
 
+
 // Create Ats Draft
     $router->post('flight/ats/draft', 'FlightAtsController@draft');
     $router->get('flight/ats/draft/{id}', 'FlightAtsController@getOneDraft');
@@ -96,4 +97,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
 
     // logout
     $router->get('auth/logout', 'AuthController@logout');
+
+    // Ais Decline Flight
+    $router->post('ais/ats/decline', 'AisController@declineAts');
 });

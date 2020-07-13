@@ -362,28 +362,30 @@ class FlightAtsService
      * @return string
      * @throws MyException
      */
-    public function decline($user_id, $params)
+    public function decline(Auth $auth, $params)
     {
-        $extra_param = ['user_id' => $user_id,
+        if($auth->getType() != UserType::TYPE_AIS)
+        {
+            throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
+        }
+
+        $extra_param = ['user_id' => $auth->getId(),
             'additional_requirement' => isset($params['additional_requirement']) ? $params['additional_requirement']: '',
             'flight_id' => isset($params['flight_id']) ? $params['flight_id']: ''
         ];
 
         $validator = Validator::make($extra_param, [
-            'user_id' => [
-                'numeric',
-                Rule::exists('ais_users', 'id')
-                    ->where('user_type_id', UserType::AIS_USER_TYPE_ID)
-            ],
-            'additional_requirement' => 'required',
+            'user_id' => 'required|numeric|exists:ais,id',
             'flight_id' => [
                 'required',
                 'numeric',
                 Rule::exists('system_flights', 'flight_id')
                     ->where('system_flight_types_id', SystemFightType::ATS)
-            ]
+                    ->where('status_id', Status::ACTIVE)
+            ],
+            'official_remarks' => 'required'
         ], [
-            'user_id.exists' => 'User not authorized to decline ATS flight',
+            'user_id.exists' => 'User not authorized to approve ATS flight',
             'flight_id.exists' => 'Invalid Flight'
         ]);
 

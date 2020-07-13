@@ -13,6 +13,7 @@ use App\Components\Response as JsonResponse;
 use App\Services\FlightRplService;
 use Illuminate\Http\Request;
 use App\Components\Auth;
+use App\Components\Util;
 
 class AisController extends Controller
 {
@@ -33,5 +34,11 @@ class AisController extends Controller
     {
         $response = (new FlightRplService())->approve($auth, $request->all());
         return JsonResponse::success($response);
+    }
+
+    public function declineAts( Request $request, Auth $auth)
+    {
+        $msg = (new FlightAtsService())->decline($auth, Util::getRequestBody($request));
+        return JsonResponse::success("", $msg);
     }
 }

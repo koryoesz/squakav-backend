@@ -39,9 +39,9 @@ class FlightRplFlightsService
         }
     }
 
-    public function updateFlights($paramsArray, $flight_id)
+    public function updateFlights($paramsArray, $flight_id, $force = false)
     {
-        $prepareParams = $this->prepareAndValidateFlights($paramsArray, $flight_id, true);
+        $prepareParams = $this->prepareAndValidateFlights($paramsArray, $flight_id, $force);
 
         $flights = FlightRplFlight::where('flight_rpl_id', $flight_id)->with('days')->get();
 

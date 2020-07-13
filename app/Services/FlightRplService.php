@@ -172,6 +172,7 @@ class FlightRplService
     {
         $flight = null;
         $system_flight = null;
+        $forceValidation = false;
 
         $validator = Validator::make(['flight_id' => $flight_id], [
             'flight_id' => [
@@ -191,10 +192,11 @@ class FlightRplService
          * @return mixed
          * @throws MyException
          */
-            function () use ($params, $auth, $flight_id) {
+            function () use ($params, $auth, $flight_id, $forceValidation) {
                 if (isset($params['send']) && $params['send'] == '1') {
 
                     EaseFlightValidation::forceValidateRpl($params);
+                    $forceValidation = true;
 
                     $params['status_id'] = Status::ACTIVE;
                     $flight = FlightRpl::find($flight_id);
@@ -212,7 +214,7 @@ class FlightRplService
                 }
 
                 if (isset($params['flights'])) {
-                    (new FlightRplFlightsService())->updateFlights($params['flights'], $flight->id);
+                    (new FlightRplFlightsService())->updateFlights($params['flights'], $flight->id, $forceValidation);
                 }
 
                 return $flight->refresh();

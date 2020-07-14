@@ -370,7 +370,7 @@ class FlightAtsService
         }
 
         $extra_param = ['user_id' => $auth->getId(),
-            'additional_requirement' => isset($params['additional_requirement']) ? $params['additional_requirement']: '',
+            'official_remarks' => isset($params['official_remarks']) ? $params['official_remarks']: '',
             'flight_id' => isset($params['flight_id']) ? $params['flight_id']: ''
         ];
 

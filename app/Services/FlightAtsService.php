@@ -400,7 +400,7 @@ class FlightAtsService
 
         $system_flight[0]->status_id = Status::DECLINED;
         $flight->status_id = Status::DECLINED;
-        $flight->additional_requirement = $params['additional_requirement'];
+        $flight->official_remarks = $params['official_remarks'];
 
         $system_flight[0]->save();
         $flight->save();

@@ -117,12 +117,11 @@ class SystemFlightService
 
             } else {
 
-
                 $dates = DB::table('system_flights')
                     ->where(function($query) use ($auth){
                         $query->where('status_id', Status::ACTIVE)->where('operator_id', $auth->getId())
                         ->orWhere('status_id', Status::DECLINED);
-                    })->orderBy('created_at', 'desc')->distinct()->get();
+                    })->distinct()->get(['date']);
 
                 if($dates->count() == 0){
                     return [];

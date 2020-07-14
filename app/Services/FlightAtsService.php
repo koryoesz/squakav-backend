@@ -405,7 +405,7 @@ class FlightAtsService
         $system_flight[0]->save();
         $flight->save();
 
-        return "ATS Flight Plan Has Been Declined.";
+        return $flight->aircraft_identification." ATS Flight Plan Has Been Declined.";
     }
 
     /**

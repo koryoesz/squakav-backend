@@ -19,7 +19,7 @@ class FlightRplFlightsService
 {
     public static function createFlights($flights, $flight_id, $system_flight = null)
     {
-        $prepareParams = self::prepareAndValidateFlights($flights, $flight_id);
+        $prepareParams = self::prepareAndValidateFlights($flights, $flight_id, true);
         $prepareSecondParam = [];
 
         foreach ($prepareParams as $param)

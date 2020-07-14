@@ -274,8 +274,10 @@ class FlightAtsService
             return $flight;
         }
         $flight = FlightAts::where('id', $id)
-            ->where('status_id', Status::ACTIVE)
-            ->where('operator_id', $auth->getId())
+            ->where(function($query){
+                $query->where('status_id', Status::ACTIVE)
+                    ->orWhere('status_id', Status::DECLINED);
+            })->where('operator_id', $auth->getId())
             ->first();
         return $flight;
     }
@@ -423,8 +425,10 @@ class FlightAtsService
                 'required',
                 'numeric',
                 Rule::exists('flight_ats', 'id')
-                    ->where('status_id', Status::DRAFTED)
-                    ->where('operator_id', $auth->getId())
+                    ->where(function($query){
+                        $query->where('status_id', Status::ACTIVE)
+                            ->orWhere('status_id', Status::DECLINED);
+                    })->where('operator_id', $auth->getId())
             ]
         ],[
             'flight_id.exists' => 'This flight may not exist or it has been approved.'

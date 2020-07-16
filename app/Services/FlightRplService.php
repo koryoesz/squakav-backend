@@ -70,7 +70,7 @@ class FlightRplService
 
                 (new SystemFlightService())::save($system_flight_params, $auth);
 
-                (new FlightRplFlightsService())::createFlights($params['flights'], $flight->id, $system_flight_params);
+                (new FlightRplFlightsService())::createFlights($params['flights'], $flight->id, $system_flight_params, true);
 
                 return $flight;
             });
@@ -141,7 +141,7 @@ class FlightRplService
 
                 (new FlightRplFlightsService())::createFlights(isset($params['flights'])
                     ? $params['flights'] : [],
-                    $flight->id, $system_flight_params);
+                    $flight->id, $system_flight_params, false);
 
                 return $flight;
 

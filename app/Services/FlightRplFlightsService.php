@@ -17,9 +17,9 @@ use App\Models\FlightRplDay;
 
 class FlightRplFlightsService
 {
-    public static function createFlights($flights, $flight_id, $system_flight = null)
+    public static function createFlights($flights, $flight_id, $system_flight = null, $force = false)
     {
-        $prepareParams = self::prepareAndValidateFlights($flights, $flight_id, true);
+        $prepareParams = self::prepareAndValidateFlights($flights, $flight_id, $force);
         $prepareSecondParam = [];
 
         foreach ($prepareParams as $param)

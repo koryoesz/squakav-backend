@@ -119,9 +119,9 @@ class SystemFlightService
 
                 $dates = DB::table('system_flights')
                     ->where(function($query) use ($auth){
-                        $query->where('status_id', Status::ACTIVE)->where('operator_id', $auth->getId())
+                        $query->where('status_id', Status::ACTIVE)
                         ->orWhere('status_id', Status::DECLINED);
-                    })->distinct()->get(['date']);
+                    })->where('operator_id', $auth->getId())->distinct()->get(['date']);
 
                 if($dates->count() == 0){
                     return [];
@@ -130,9 +130,9 @@ class SystemFlightService
 
                 $flights = DB::table('system_flights')
                     ->where(function($query) use ($auth){
-                        $query->where('status_id', Status::ACTIVE)->where('operator_id', $auth->getId())
+                        $query->where('status_id', Status::ACTIVE)
                             ->orWhere('status_id', Status::DECLINED);
-                    })->orderBy('created_at', 'desc')->get();
+                    })->where('operator_id', $auth->getId())->orderBy('created_at', 'desc')->get();
 
             }
 

@@ -27,6 +27,7 @@ class FlightRplFlightsService
             $days = (new FlightRplDaysService())->create($param['days']);
             unset($param['days']);
             $param['flight_rpl_days_id'] = $days->id;
+            $param['remarks'] = isset($param['remarks']) ? $param['remarks'] : '';
             $prepareSecondParam[] = $param;
             // correct db insert params
             if($system_flight['status_id'] == Status::DRAFTED){

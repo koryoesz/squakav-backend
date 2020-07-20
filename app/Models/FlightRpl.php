@@ -16,7 +16,7 @@ class FlightRpl extends Model
     protected $table = "flight_rpl";
 
     protected $fillable = ['operator_id', 'valid_from', 'valid_till', 'departure_aerodrome',
-        'supplementary_data', 'serial_number', 'accepted_date', 'accepted_by', 'status_id'];
+        'supplementary_data', 'serial_number', 'accepted_date', 'accepted_by', 'status_id', 'additional_addressees'];
 
     public function flights()
     {

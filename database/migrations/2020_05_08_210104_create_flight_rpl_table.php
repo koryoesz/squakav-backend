@@ -26,6 +26,8 @@ class CreateFlightRplTable extends Migration
             $table->string('serial_number',15)->nullable();
             $table->dateTime('accepted_date')->nullable();
             $table->unsignedInteger('accepted_by')->nullable();
+            $table->string('official_remarks', 128)->nullable();
+            $table->string('additional_addressees', 128)->nullable();
             $table->timestamps();
 
             $table->foreign('status_id')->references('id')->on('status');

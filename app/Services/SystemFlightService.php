@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Models\Ais;
+use App\Models\FlightAts;
 use App\Models\UserType;
 use Illuminate\Support\Facades\Validator;
 use App\Components\ValidationException;
@@ -145,6 +146,13 @@ class SystemFlightService
                     // check if date from distinct is
                     // equals date from flight object
                     if ($date->date == $flight->date) {
+                        // add time from flight ats FOR AIS
+                        if($auth->getType() == UserType::TYPE_AIS){
+                            if($flight->system_flight_types_id == SystemFightType::ATS){
+                                $temp_flight = FlightAts::find($flight->flight_id);
+                                $flight->time = $temp_flight->time;
+                            }
+                        }
                         $temp_flight_arr[] = $flight;
                     }
 

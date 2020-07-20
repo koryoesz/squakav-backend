@@ -252,7 +252,7 @@ class FlightRplService
                     ->where('system_flight_types_id', SystemFightType::RPL)
                     ->where('status_id', Status::ACTIVE)
             ],
-            'addressees' => 'required|array'
+            'addressees' => 'sometimes|array'
         ], [
             'user_id.exists' => 'User not authorized to approve ATS flight',
             'flight_id.exists' => 'Invalid Flight'
@@ -287,5 +287,17 @@ class FlightRplService
 
                 return $flight->refresh();
             });
+    }
+
+    /**
+     * @param Auth $auth
+     * @return mixed
+     */
+    public function getAllApproved(Auth $auth)
+    {
+        $flights = FlightRpl::where('status_id', Status::APPROVED)
+            ->where('operator_id', $auth->getId())
+            ->orderBy('created_at', 'desc')->get();
+        return $flights;
     }
 }

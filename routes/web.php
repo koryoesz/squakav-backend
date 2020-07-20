@@ -93,6 +93,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
     $router->get('flight/rpl/sent', 'FlightRplController@getAllSent');
     $router->get('flight/rpl/sent/{id}', 'FlightRplController@getOneSent');
     $router->get('flight/rpl/draft/{id}', 'FlightRplController@getOneDraft');
+    $router->get('flight/rpl/approved', 'FlightRplController@getAllApproved');
 
 
     // logout

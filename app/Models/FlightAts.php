@@ -70,4 +70,9 @@ class FlightAts extends Model
     {
         return Carbon::parse($value)->format("Y-m-d H:m");
     }
+
+    public function operator()
+    {
+        return $this->hasOne('App\Models\Operator', 'id', 'operator_id');
+    }
 }

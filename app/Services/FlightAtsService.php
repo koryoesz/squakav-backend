@@ -23,6 +23,7 @@ use Illuminate\Validation\Rule;
 use App\Components\EaseFlightValidation;
 use App\Components\Auth;
 use App\Services\FlightAtsAddresseesService;
+use App\Models\Ais;
 
 class FlightAtsService
 {
@@ -254,6 +255,21 @@ class FlightAtsService
      */
     public function getAllSent(Auth $auth)
     {
+
+        if($auth->getType() == UserType::TYPE_AIS){
+
+            $user = Ais::find($auth->getId());
+
+            $flights = FlightAts::whereHas('operator', function ($query) use ($user) {
+                $query->whereHas('state', function ($query) use ($user) {
+                    $query->where('id', $user->state->id);
+                });
+            })->where('status_id', Status::ACTIVE)
+                ->orderBy('created_at', 'desc')->get();
+
+            return $flights;
+        }
+
         $flights = FlightAts::where('status_id', Status::ACTIVE)
                     ->where('operator_id', $auth->getId())
                     ->orderBy('created_at', 'desc')->get();

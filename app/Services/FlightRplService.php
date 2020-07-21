@@ -339,7 +339,9 @@ class FlightRplService
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
         $flight = FlightRpl::find($params['flight_id']);
-        $system_flight = SystemFlight::where('flight_id', $params['flight_id'])->get();
+        $system_flight = SystemFlight::where('flight_id', $params['flight_id'])
+            ->where('system_flight_types_id',$this->system_flight['rpl']['id'])
+            ->get();
 
         if(empty($flight) && empty($system_flight)){
             throw (new MyException('Flight record not found', ErrorCode::RECORD_NOT_EXISTING));

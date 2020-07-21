@@ -98,11 +98,13 @@ class FlightRplService
         }
 
         $flight = FlightRpl::where('id', $id)
-            ->where('status_id', Status::ACTIVE)
-            ->where('operator_id', $auth->getId())
-            ->with('flights.days')
+            ->where(function($query){
+                $query->where('status_id', Status::ACTIVE)
+                    ->orWhere('status_id', Status::DECLINED);
+            })->with('flights.days')->where('operator_id', $auth->getId())
             ->first();
         return $flight;
+
     }
 
     public function draft($params, Auth $auth)
@@ -299,5 +301,65 @@ class FlightRplService
             ->where('operator_id', $auth->getId())
             ->orderBy('created_at', 'desc')->get();
         return $flights;
+    }
+
+    /**
+     * @param $user_id
+     * @param $params
+     * @return string
+     * @throws MyException
+     */
+    public function decline(Auth $auth, $params)
+    {
+        if($auth->getType() != UserType::TYPE_AIS)
+        {
+            throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
+        }
+
+        $extra_param = ['user_id' => $auth->getId(),
+            'official_remarks' => isset($params['official_remarks']) ? $params['official_remarks']: '',
+            'flight_id' => isset($params['flight_id']) ? $params['flight_id']: ''
+        ];
+
+        $validator = Validator::make($extra_param, [
+            'user_id' => 'required|numeric|exists:ais,id',
+            'flight_id' => [
+                'required',
+                'numeric',
+                Rule::exists('system_flights', 'flight_id')
+                    ->where('system_flight_types_id', SystemFightType::RPL)
+                    ->where('status_id', Status::ACTIVE)
+            ],
+            'official_remarks' => 'required'
+        ], [
+            'user_id.exists' => 'User not authorized to approve ATS flight',
+            'flight_id.exists' => 'Invalid Flight'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        $flight = FlightRpl::find($params['flight_id']);
+        $system_flight = SystemFlight::where('flight_id', $params['flight_id'])->get();
+
+        if(empty($flight) && empty($system_flight)){
+            throw (new MyException('Flight record not found', ErrorCode::RECORD_NOT_EXISTING));
+        }
+
+        return DB::transaction(/**
+         * @return mixed
+         * @throws MyException
+         */
+            function () use ($system_flight, $flight, $params) {
+
+                $system_flight[0]->status_id = Status::DECLINED;
+                $flight->status_id = Status::DECLINED;
+                $flight->official_remarks = $params['official_remarks'];
+
+                $system_flight[0]->save();
+                $flight->save();
+
+
+                return "RPL Flight Plan Has Been Declined.";
+            });
     }
 }

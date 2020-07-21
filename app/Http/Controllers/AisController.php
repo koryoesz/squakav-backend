@@ -41,4 +41,10 @@ class AisController extends Controller
         $msg = (new FlightAtsService())->decline($auth, Util::getRequestBody($request));
         return JsonResponse::success("", $msg);
     }
+
+    public function declineRpl( Request $request, Auth $auth)
+    {
+        $msg = (new FlightRplService())->decline($auth, Util::getRequestBody($request));
+        return JsonResponse::success("", $msg);
+    }
 }

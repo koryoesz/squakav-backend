@@ -510,9 +510,9 @@ class FlightAtsService
     {
         if($auth->getType() == UserType::TYPE_AIS)
         {
-            $flight = FlightAts::where('status_id', Status::APPROVED)
+            $flights = FlightAts::where('status_id', Status::APPROVED)
                 ->orderBy('created_at', 'desc')->get();
-            return $flight;
+            return $flights;
         }
 
         $flights = FlightAts::where('status_id', Status::APPROVED)

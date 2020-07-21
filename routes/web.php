@@ -101,4 +101,5 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
 
     // Ais Decline Flight
     $router->post('ais/ats/decline', 'AisController@declineAts');
+    $router->post('ais/rpl/decline', 'AisController@declineRpl');
 });

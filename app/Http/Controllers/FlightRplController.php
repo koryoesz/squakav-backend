@@ -57,4 +57,10 @@ class FlightRplController extends Controller
         $flights = (new FlightRplService())->getAllApproved($auth);
         return JsonResponse::success($flights);
     }
+
+    public function getOneApproved(Auth $auth, $id)
+    {
+        $flight = (new FlightRplService())->getOneApproved($auth, $id);
+        return JsonResponse::success($flight);
+    }
 }

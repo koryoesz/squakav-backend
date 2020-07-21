@@ -364,4 +364,17 @@ class FlightRplService
                 return "RPL Flight Plan Has Been Declined.";
             });
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getOneApproved(Auth $auth, $id)
+    {
+        $flight = FlightRpl::where('id', $id)->where('status_id', Status::APPROVED)
+            ->where('operator_id', $auth->getId())
+            ->with('flights.days')
+            ->get();
+        return $flight;
+    }
 }

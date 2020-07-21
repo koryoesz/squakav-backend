@@ -251,8 +251,12 @@ class FlightRplService
                 'required',
                 'numeric',
                 Rule::exists('system_flights', 'flight_id')
-                    ->where('system_flight_types_id', SystemFightType::RPL)
-                    ->where('status_id', Status::ACTIVE)
+                    ->where(function($query){
+                        $query->where(function($query){
+                            $query->where('status_id', Status::DRAFTED)
+                                ->orWhere('status_id', Status::DECLINED);
+                        });
+                    })
             ],
             'addressees' => 'sometimes|array'
         ], [

@@ -181,8 +181,12 @@ class FlightRplService
                 'required',
                 'numeric',
                 Rule::exists('flight_rpl', 'id')
-                    ->where('status_id', Status::DRAFTED)
-                    ->where('operator_id', $auth->getId())
+                    ->where(function($query){
+                        $query->where(function($query){
+                            $query->where('status_id', Status::DRAFTED)
+                                ->orWhere('status_id', Status::DECLINED);
+                        });
+                    })->where('operator_id', $auth->getId())
             ]
         ],[
             'flight_id.exists' => 'This flight may not exist or it has been approved.'

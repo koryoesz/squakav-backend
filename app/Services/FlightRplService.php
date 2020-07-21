@@ -250,12 +250,9 @@ class FlightRplService
             'flight_id' => [
                 'required',
                 'numeric',
-                Rule::exists('system_flights', 'flight_id')
+                Rule::exists('flight_rpl','id')
                     ->where(function($query){
-                        $query->where(function($query){
-                            $query->where('status_id', Status::DRAFTED)
-                                ->orWhere('status_id', Status::DECLINED);
-                        });
+                        $query->where('status_id', Status::DRAFTED)->orWhere('status_id', Status::DECLINED);
                     })
             ],
             'addressees' => 'sometimes|array'

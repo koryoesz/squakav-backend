@@ -36,7 +36,9 @@ class FlightRplFlightsService
         }
 
         if($system_flight['status_id'] != Status::DRAFTED) {
-            $properties = DB::table('flight_rpl_flights')->insert($prepareSecondParam);
+            foreach($prepareSecondParam as $p) {
+                DB::table('flight_rpl_flights')->insert($p);
+            }
         }
     }
 

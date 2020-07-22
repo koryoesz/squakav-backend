@@ -21,6 +21,7 @@ use App\Models\Status;
 use App\Components\Auth;
 use App\Components\Response as MyResponse;
 use App\Components\ErrorCode;
+use App\Components\Exception as MyException;
 
 class SystemFlightService
 {
@@ -433,5 +434,35 @@ class SystemFlightService
         }
 
         return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
+    }
+
+    public function overview(Auth $auth)
+    {
+        if ($auth->getType() == UserType::TYPE_AIS) {
+            throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
+        }
+
+        $total_number_sent_ats = SystemFlight::where('status_id', Status::ACTIVE)
+            ->where(function($query){
+                $query->where('system_flight_types_id', $this->system_flight['ats']['id']);
+            })->count();
+
+        $total_number_sent_rpl = SystemFlight::where('status_id', Status::ACTIVE)
+            ->where(function($query){
+                $query->where('system_flight_types_id', $this->system_flight['rpl']['id']);
+            })->count();
+
+        $total_number_declined = SystemFlight::where('status_id', Status::DECLINED)
+            ->where('operator_id', $auth->getId())->count();
+
+        $total_number_drafted = SystemFlight::where('status_id', Status::DRAFTED)
+            ->where('operator_id', $auth->getId())->count();
+
+        return [
+                'total_number_sent_ats' => $total_number_sent_ats,
+                'total_number_sent_rpl' => $total_number_sent_rpl,
+                'total_number_declined_flights' => $total_number_declined,
+                'total_number_drafted' => $total_number_drafted
+            ];
     }
 }

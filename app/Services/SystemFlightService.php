@@ -465,4 +465,35 @@ class SystemFlightService
                 'total_number_drafted' => $total_number_drafted
             ];
     }
+
+    public function overviewAis(Auth $auth)
+    {
+        if ($auth->getType() != UserType::TYPE_AIS) {
+            throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
+        }
+
+        $user = Ais::find($auth->getId());
+
+        $total_number_sent_ats = SystemFlight::whereHas('operator', function ($query) use ($user) {
+            $query->whereHas('state', function ($query) use ($user) {
+                $query->where('id', $user->state->id);
+            });
+        })->where('status_id', Status::ACTIVE)
+            ->where('system_flight_types_id', SystemFightType::ATS)
+            ->count();
+
+        $total_number_sent_rpl = SystemFlight::whereHas('operator', function ($query) use ($user) {
+            $query->whereHas('state', function ($query) use ($user) {
+                $query->where('id', $user->state->id);
+            });
+        })->where('status_id', Status::ACTIVE)
+            ->where('system_flight_types_id', SystemFightType::RPL)
+            ->count();
+
+
+        return [
+            'total_number_sent_ats' => $total_number_sent_ats,
+            'total_number_sent_rpl' => $total_number_sent_rpl
+        ];
+    }
 }

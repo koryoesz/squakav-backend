@@ -106,4 +106,5 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
 
     // operator Overview
     $router->get('operator/overview', 'OverviewController@operatorOverview');
+    $router->get('ais/overview', 'OverviewController@aisOverview');
 });

@@ -21,4 +21,10 @@ class OverviewController
         $count = (new SystemFlightService())->overview($auth);
         return JsonResponse::success($count);
     }
+
+    public function aisOverview(Auth $auth)
+    {
+        $count = (new SystemFlightService())->overviewAis($auth);
+        return JsonResponse::success($count);
+    }
 }

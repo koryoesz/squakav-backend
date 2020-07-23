@@ -445,12 +445,12 @@ class SystemFlightService
         $total_number_sent_ats = SystemFlight::where('status_id', Status::ACTIVE)
             ->where(function($query){
                 $query->where('system_flight_types_id', $this->system_flight['ats']['id']);
-            })->count();
+            })->where('operator_id', $auth->getId())->count();
 
         $total_number_sent_rpl = SystemFlight::where('status_id', Status::ACTIVE)
             ->where(function($query){
                 $query->where('system_flight_types_id', $this->system_flight['rpl']['id']);
-            })->count();
+            })->where('operator_id', $auth->getId())->count();
 
         $total_number_declined = SystemFlight::where('status_id', Status::DECLINED)
             ->where('operator_id', $auth->getId())->count();

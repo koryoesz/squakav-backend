@@ -14,7 +14,7 @@ class FlightRplFlight extends Model
 {
     protected $fillable = ['flight_rpl_id', 'aircraft_identification', 'aircraft_reg', 'aircraft_type',
         'wake_turbulence_category_id', 'cruising_speed', 'level', 'routes', 'destination',
-        'total_eet', 'time', 'remarks', 'flight_rpl_days_id'];
+        'total_eet', 'time', 'remarks', 'flight_rpl_days_id', 'destination_airport_id'];
 
     public function days()
     {

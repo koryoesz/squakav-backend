@@ -24,7 +24,7 @@ class FlightAts extends Model
       'alternate_two', 'endurance', 'persons_on_board', 'filed_by', 'additional_requirement', 'number',
       'capacity', 'status_id', 'remarks', 'pilot_in_command', 'color_markings', 'flight_type_id', 'flight_type_id',
       'alternate_one', 'alternate_two', 'time', 'official_remarks', 'operator_id', 'accepted_by', 'flight_date',
-      'additional_addressees'
+      'additional_addressees', 'destination_airport_id'
   ];
 
   public function equipments()
@@ -77,8 +77,4 @@ class FlightAts extends Model
         return $this->hasOne('App\Models\Operator', 'id', 'operator_id');
     }
 
-    public function flight()
-    {
-        return self;
-    }
 }

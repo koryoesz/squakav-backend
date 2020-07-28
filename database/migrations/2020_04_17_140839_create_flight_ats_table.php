@@ -23,6 +23,7 @@ class CreateFlightAtsTable extends Migration
             $table->unsignedInteger('operator_id');
             $table->unsignedInteger('wake_turbulence_category_id')->nullable();
             $table->unsignedSmallInteger('flight_type_id')->nullable();
+            $table->unsignedInteger('destination_airport_id')->nullable();
             $table->string('departure', 4)->nullable();
             $table->string('cruising_speed', 5)->nullable();
             $table->string('level', 5)->nullable();
@@ -54,6 +55,7 @@ class CreateFlightAtsTable extends Migration
             $table->foreign('operator_id')->references('id')->on('operators');
             $table->foreign('accepted_by')->references('id')->on('ais');
             $table->foreign('status_id')->references('id')->on('status');
+            $table->foreign('destination_airport_id')->references('id')->on('system_airports');
         });
     }
 

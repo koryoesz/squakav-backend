@@ -36,7 +36,7 @@ class SystemFlightService
      * @param $params
      */
 
-    public static function save($params, Auth $auth)
+    public static function save($params, Auth $auth, $ais = false)
     {
         $validator = Validator::make($params, [
             'flight_id' => 'numeric',
@@ -44,6 +44,17 @@ class SystemFlightService
         ]);
 
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        if($ais){
+            return DB::table('system_flights')->insert([
+                'flight_id' => $params['flight_id'],
+                'system_flight_types_id' => $params['system_flight_types_id'],
+                'operator_id' => $auth->getId(),
+                'date' => date("Y-m-d"),
+                'status_id' => isset($params['status_id']) ? $params['status_id'] : 1,
+                'user_type_id' => UserType::TYPE_AIS
+            ]);
+        }
 
         $system_flight = DB::table('system_flights')->insert([
             'flight_id' => $params['flight_id'],

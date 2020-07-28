@@ -27,7 +27,7 @@ class CreateSystemAis extends Migration
 
         DB::table('system_ais')->insert([
             ["id" => 1, 'name' => 'lagos_ais', 'label' => '', 'code' => 'DNMMZPZX'],
-            ["id" =>2, 'name' => 'portharcourt_international_ais', 'label' => '', 'code' => 'DNPOZPZX'],
+            ["id" => 2, 'name' => 'portharcourt_international_ais', 'label' => '', 'code' => 'DNPOZPZX'],
             ["id" => 3, 'name' => 'calabar_ais', 'label' => '', 'code' => 'DNCAZPZX'],
             ["id" => 4, 'name' => 'ilorin_ais', 'label' => '', 'code' => 'DNILZPZX'],
             ["id" =>5, 'name' => 'akure_ais', 'label' => '', 'code' => 'DNAKZPZX'],

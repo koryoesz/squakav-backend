@@ -369,6 +369,10 @@ class SystemFlightService
         return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
     }
 
+    /**
+     * @param Auth $auth
+     * @return array|\Illuminate\Http\JsonResponse
+     */
     public function getAllApproved(Auth $auth)
     {
         $flights = null;
@@ -436,6 +440,11 @@ class SystemFlightService
         return MyResponse::error(ErrorCode::NO_AUTH, 'Access Denied.');
     }
 
+    /**
+     * @param Auth $auth
+     * @return array
+     * @throws MyException
+     */
     public function overview(Auth $auth)
     {
         if ($auth->getType() == UserType::TYPE_AIS) {
@@ -466,6 +475,11 @@ class SystemFlightService
             ];
     }
 
+    /**
+     * @param Auth $auth
+     * @return array
+     * @throws MyException
+     */
     public function overviewAis(Auth $auth)
     {
         if ($auth->getType() != UserType::TYPE_AIS) {
@@ -495,5 +509,74 @@ class SystemFlightService
             'total_number_sent_ats' => $total_number_sent_ats,
             'total_number_sent_rpl' => $total_number_sent_rpl
         ];
+    }
+
+    /**
+     * @param Auth $auth
+     * @return mixed
+     * @throws MyException
+     */
+    public function getRadioLogDates(Auth $auth)
+    {
+        if($auth->getType() == UserType::TYPE_OPERATOR)
+        {
+
+            $dates = SystemFlight::whereHas('operator', function($query) use ($auth){
+                    $query->whereHas('organisation', function ($query) use ($auth){
+                        $query->where('id', $auth->getOrganisationId());
+                    });
+                })->where('status_id', Status::APPROVED)->distinct()->get(['date']);
+
+            return $dates;
+        }
+
+        throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
+
+    }
+
+    /**
+     * @param Auth $auth
+     * @param $date
+     */
+    public function getRadioLogFlights(Auth $auth, $params)
+    {
+        $validator = Validator::make($params, [
+            'date' => 'required|date:Y-m-d'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        $date = $params['date'];
+        $flights = null;
+
+        if($auth->getType() == UserType::TYPE_OPERATOR)
+        {
+            $flights_query = SystemFlight::whereHas('operator', function($query) use ($auth) {
+                $query->whereHas('organisation', function ($query) use ($auth) {
+                    $query->where('id', $auth->getOrganisationId());
+                });
+            })->where('status_id', Status::APPROVED)
+                ->where('date', $date)->orderBy('created_at', 'desc')->get();
+
+
+            foreach($flights_query as $flight)
+            {
+                $flight_class = SystemFightType::getClassById($flight->system_flight_types_id);
+                $temp_flight = $flight_class::find($flight->flight_id);
+
+                if($flight->system_flight_types_id == SystemFightType::RPL){
+
+                    foreach ($temp_flight->flights as $fl){
+                        $flights[] = $fl;
+                    }
+                }
+                else{
+                    $flights[] = $temp_flight;
+                }
+            }
+
+        }
+
+        return $flights;
     }
 }

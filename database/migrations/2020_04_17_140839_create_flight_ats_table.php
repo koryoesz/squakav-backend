@@ -48,6 +48,8 @@ class CreateFlightAtsTable extends Migration
             $table->unsignedInteger('accepted_by')->nullable();
             $table->string('serial_number',15)->nullable();
             $table->string('additional_addressees', 128)->nullable();
+            $table->time('delay_time')->nullable();
+            $table->time('actual_depature_time')->nullable();
 
             $table->foreign('operator_id')->references('id')->on('operators');
             $table->foreign('accepted_by')->references('id')->on('ais');

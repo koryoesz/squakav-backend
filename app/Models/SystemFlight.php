@@ -28,4 +28,9 @@ class SystemFlight extends Model
         return $this->hasOne('App\Models\Operator', 'id', 'operator_id');
     }
 
+    public function type()
+    {
+        return $this->hasOne('App\Models\SystemFightType', 'id', 'system_flight_types_id');
+    }
+
 }

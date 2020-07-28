@@ -11,6 +11,8 @@ namespace App\Http\Controllers;
 use App\Services\SystemFlightService;
 use App\Components\Response as JsonResponse;
 use App\Components\Auth;
+use Illuminate\Http\Request;
+use App\Components\Util;
 
 class SystemFlightController extends Controller
 {
@@ -54,5 +56,17 @@ class SystemFlightController extends Controller
     {
         $system_flights = (new SystemFlightService())->getAllSentRpl($auth);
         return JsonResponse::success($system_flights);
+    }
+
+    public function getRadioLogDates(Auth $auth)
+    {
+        $dates = (new SystemFlightService())->getRadioLogDates($auth);
+        return JsonResponse::success($dates);
+    }
+
+    public function getRadioLogFlights(Request $request, Auth $auth)
+    {
+        $flights = (new SystemFlightService())->getRadioLogFlights($auth, Util::getRequestBody($request));
+        return JsonResponse::success($flights);
     }
 }

@@ -33,6 +33,8 @@ class CreateFlightRplFlightsTable extends Migration
             $table->string('remarks', 128)->nullable();
             $table->string('pilot_in_command', 128)->nullable();
             $table->string('additional_requirement', 128)->nullable();
+            $table->time('delay_time')->nullable();
+            $table->time('actual_depature_time')->nullable();
             $table->timestamps();
 
             $table->foreign('flight_rpl_id')->references('id')->on('flight_rpl');

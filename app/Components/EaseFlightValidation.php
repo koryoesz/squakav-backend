@@ -85,7 +85,6 @@ class EaseFlightValidation
     {
         $validator = Validator::make($params, [
             'valid_from' => 'required|date:Y-m-d',
-            'valid_till' => 'required|date:Y-m-d',
             'departure_aerodrome' => 'required|string|min:3|max:4',
             'supplementary_data' => 'required',
             'flights' => 'required|array'

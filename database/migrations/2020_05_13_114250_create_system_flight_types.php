@@ -20,11 +20,12 @@ class CreateSystemFlightTypes extends Migration
             $table->tinyIncrements('id');
             $table->string('name', 3);
             $table->string('label', 10);
+            $table->string('class', 128);
         });
 
         DB::table('system_flight_types')->insert([
-           ['id' => 1, 'name' => 'ats', 'label' => 'For Ats'],
-            ['id' => 2, 'name' => 'rpl', 'label' => 'For Rpl']
+           ['id' => 1, 'name' => 'ats', 'label' => 'For Ats', 'class' => 'App\Models\FlightAts'],
+            ['id' => 2, 'name' => 'rpl', 'label' => 'For Rpl', 'class' => 'App\Models\FlightRpl']
         ]);
     }
 

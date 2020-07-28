@@ -76,4 +76,9 @@ class FlightAts extends Model
     {
         return $this->hasOne('App\Models\Operator', 'id', 'operator_id');
     }
+
+    public function flight()
+    {
+        return self;
+    }
 }

@@ -15,7 +15,7 @@ use App\Services\UsersService;
 
 class UsersController extends Controller
 {
-    public function getUserInfo(Auth $auth)
+    public function getUserInfo(Request $request, Auth $auth)
     {
         $user = (new UsersService())->getUserInfo($auth);
         return JsonResponse::success($user);

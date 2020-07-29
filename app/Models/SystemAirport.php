@@ -18,4 +18,11 @@ class SystemAirport extends Model
     {
         return $this->belongsTo('App\Models\State', 'state_id');
     }
+
+    public function icao()
+    {
+        dd($this->icao_code);
+        return $this->icao_code;
+    }
+
 }

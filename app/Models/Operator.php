@@ -49,4 +49,9 @@ class Operator extends User
     {
         return $this->hasOne('App\Models\Organisation', 'id', 'organisation_id');
     }
+
+    public function airport()
+    {
+        return $this->hasOne('App\Models\OperatorAirport', 'operator_id');
+    }
 }

@@ -63,6 +63,7 @@ class CreateEquipmentsTable extends Migration
             ['equipment_type_id' => 2, 'name' => 'V', 'label' => 'V - VHF RTF'],
             ['equipment_type_id' => 1, 'name' => 'W', 'label' => 'W - RVSM approved (FL 290-410)'],
             ['equipment_type_id' => 1, 'name' => 'X', 'label' => 'X -  MNPS approved'],
+            ['equipment_type_id' => 1, 'name' => 'Y', 'label' => 'Y - 8.33 kHz radio'],
             ['equipment_type_id' => 3, 'name' => 'Z', 'label' => 'Z - Other']
         ]);
     }

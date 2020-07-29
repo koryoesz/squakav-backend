@@ -10,12 +10,13 @@ namespace App\Http\Controllers;
 
 use App\Components\Response as JsonResponse;
 use App\Services\SystemAirportService;
+use App\Components\Auth;
 
 class SystemAirportController extends Controller
 {
-    public function getAll()
+    public function getAll(Auth $auth)
     {
-        $system_airports = (new SystemAirportService())->getAll();
+        $system_airports = (new SystemAirportService())->getAll($auth);
         return JsonResponse::success($system_airports);
     }
 }

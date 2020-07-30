@@ -22,6 +22,7 @@ use App\Models\SystemFightType;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Components\ValidationException;
+use App\Models\Operator;
 
 class FlightRplService
 {
@@ -54,6 +55,10 @@ class FlightRplService
                 // create flight
 
                 $params['operator_id'] = $auth->getId();
+                if($auth->getType() == UserType::TYPE_OPERATOR){
+                    $user = Operator::find($auth->getId());
+                    $params['departure_airport_id'] = $user->airport->system_airport->id;
+                }
                 $flight = FlightRpl::create($params);
 
                 if(empty($flight)){
@@ -125,7 +130,10 @@ class FlightRplService
                 $params['status_id'] = Status::DRAFTED;
 
                 $flight = FlightRpl::create($params);
-
+                if($auth->getType() == UserType::TYPE_OPERATOR){
+                    $user = Operator::find($auth->getId());
+                    $params['departure_airport_id'] = $user->airport->system_airport->id;
+                }
                 if (empty($flight)) {
                     throw (new MyException('Create Flight Record Failed', ErrorCode::INTERNAL_ERROR));
                 }

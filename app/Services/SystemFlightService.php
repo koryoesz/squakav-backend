@@ -590,4 +590,144 @@ class SystemFlightService
 
         return $flights;
     }
+
+    /**
+     * @param Auth $auth
+     */
+    public function getOutboundFlights(Auth $auth, $params)
+    {
+        if ($auth->getType() != UserType::TYPE_AIS) {
+            throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
+        }
+
+        $validator = Validator::make($params, [
+            'date' => 'required|date:Y-m-d'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        $date = $params['date'];
+        $flights = null;
+
+        $user = Ais::find($auth->getId());
+
+        $flights_query = SystemFlight::whereHas('operator', function ($query) use ($user) {
+            $query->whereHas('state', function ($query) use ($user) {
+                $query->where('id', $user->state->id);
+            });
+        })->where('status_id', Status::APPROVED)
+            ->where('date', $date)
+            ->orderBy('created_at', 'desc')->get();
+
+        $flights = [];
+
+        foreach($flights_query as $flight)
+        {
+            $flight_class = SystemFightType::getClassById($flight->system_flight_types_id);
+            $temp_flight = $flight_class::find($flight->flight_id);
+
+            if($flight->system_flight_types_id == SystemFightType::RPL){
+
+                if($temp_flight->departure_airport_id == $user->airport->id){
+                    foreach ($temp_flight->flights as $tmp){
+                        $flights[] = $tmp;
+                    }
+                }
+            }
+            else{
+                if(isset($temp_flight->departure_airport_id) &&
+                    $temp_flight->departure_airport_id == $user->airport->id)
+                {
+                    $flights[] = $temp_flight;
+                }
+                else{
+                    if(isset($temp_flight->destination)
+                        && $temp_flight->destination == $user->airport->icao_code){
+                        $flights[] = $temp_flight;
+                    }
+                }
+            }
+        }
+
+
+        return $flights;
+
+    }
+
+    /**
+     * @param Auth $auth
+     */
+    public function getInboundFlights(Auth $auth, $params)
+    {
+        if ($auth->getType() != UserType::TYPE_AIS) {
+            throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
+        }
+
+        $validator = Validator::make($params, [
+            'date' => 'required|date:Y-m-d'
+        ]);
+
+        throw_if($validator->fails(), ValidationException::class, $validator->errors());
+
+        $date = $params['date'];
+
+        $user = Ais::find($auth->getId());
+
+        $flights_query = SystemFlight::whereHas('operator', function ($query) use ($user) {
+            $query->whereHas('state', function ($query) use ($user) {
+                $query->where('id', $user->state->id);
+            });
+        })->where('status_id', Status::APPROVED)
+            ->where('date', $date)
+            ->orderBy('created_at', 'desc')->get();
+
+        $flights = [];
+
+        foreach($flights_query as $flight)
+        {
+            $flight_class = SystemFightType::getClassById($flight->system_flight_types_id);
+            $temp_flight = $flight_class::find($flight->flight_id);
+
+            if($flight->system_flight_types_id == SystemFightType::RPL){
+
+                foreach ($temp_flight->flights as $fl){
+                    if(isset($fl->destination_airport_id)){
+                        if($fl->destination_airport_id == $user->airport->id){
+                            $flights[] = $fl;
+                        }
+                    }
+                    else {
+                            if (isset($fl->destination) && $fl->destination == $user->airport->icao_code) {
+                                $flights[] = $fl;
+                            }
+                        }
+                    }
+            }
+            else{
+                if(isset($temp_flight->destination_airport_id) &&
+                    $temp_flight->destination_airport_id == $user->airport->id)
+                {
+                    if($temp_flight->destination_airport_id == $user->airport->id){
+                        $flights[] = $temp_flight;
+                    }
+                }
+                else{
+                    if(isset($temp_flight->destination)
+                        && $temp_flight->destination == $user->airport->icao_code){
+                        $flights[] = $temp_flight;
+                    }
+                }
+            }
+        }
+
+        return $flights;
+    }
+
+    /**
+     * @param Auth $auth
+     */
+    public function getOverflyFlights(Auth $auth)
+    {
+
+    }
 }

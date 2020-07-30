@@ -14,6 +14,7 @@ use App\Services\FlightRplService;
 use Illuminate\Http\Request;
 use App\Components\Auth;
 use App\Components\Util;
+use App\Services\SystemFlightService;
 
 class AisController extends Controller
 {
@@ -46,5 +47,17 @@ class AisController extends Controller
     {
         $msg = (new FlightRplService())->decline($auth, Util::getRequestBody($request));
         return JsonResponse::success("", $msg);
+    }
+
+    public function getInboundFlights(Request $request, Auth $auth)
+    {
+        $flights = (new SystemFlightService())->getInboundFlights($auth, Util::getRequestBody($request));
+        return JsonResponse::success($flights);
+    }
+
+    public function getOutboundFlights(Request $request, Auth $auth)
+    {
+        $flights = (new SystemFlightService())->getOutboundFlights($auth, Util::getRequestBody($request));
+        return JsonResponse::success($flights);
     }
 }

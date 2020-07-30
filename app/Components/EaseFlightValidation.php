@@ -9,6 +9,7 @@
 namespace App\Components;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class EaseFlightValidation
 {
@@ -55,12 +56,15 @@ class EaseFlightValidation
             'ats_flight_rules_id' => 'required|numeric|exists:ats_flight_rules,id',
             'aircraft_type' => 'sometimes|required|string|min:2|max:4',
             'wake_turbulence_category_id' => 'exists:wake_turbulence_category,id',
-            'departure' => 'required|string|min:3|max:4',
+//            'departure' => 'required|string|min:3|max:4',
             'cruising_speed' => 'required|string|min:4|max:5',
             'level' => 'required|string|min:4|max:5',
             'route' => 'required|string|max:128',
             'destination' => 'sometimes|string|min:3|max:4',
-            'destination_airport_id' => 'sometimes|exists:system_airports,id',
+            'destination_airport_id' => [
+                Rule::requiredIf(!isset($params['destination'])),
+                'exists:system_airports,id'
+            ],
             'total_eet' => 'required|numeric|digits:4',
             'alternate_one' => 'required|string|min:3|max:4',
             'alternate_two' => 'sometimes|required|string|min:3|max:4',
@@ -86,7 +90,7 @@ class EaseFlightValidation
     {
         $validator = Validator::make($params, [
             'valid_from' => 'required|date:Y-m-d',
-            'departure_aerodrome' => 'required|string|min:3|max:4',
+//            'departure_aerodrome' => 'required|string|min:3|max:4',
             'supplementary_data' => 'required',
             'flights' => 'required|array'
         ]);
@@ -108,7 +112,10 @@ class EaseFlightValidation
             'level' => 'required|string|min:4|max:5',
             'route' => 'required|string|max:128',
             'destination' => 'sometimes|string|min:3|max:4',
-            'destination_airport_id' => 'sometimes|exists:system_airports,id',
+            'destination_airport_id' => [
+                Rule::requiredIf(!isset($params['destination'])),
+                'exists:system_airports,id'
+            ],
             'total_eet' => 'required|numeric|digits:4',
             'time' => 'required|digits:4',
             'days' => 'required'

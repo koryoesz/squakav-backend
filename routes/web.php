@@ -109,4 +109,8 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
     // operator Overview
     $router->get('operator/overview', 'OverviewController@operatorOverview');
     $router->get('ais/overview', 'OverviewController@aisOverview');
+
+    // Ais Calendar Listing
+    $router->post('ais/flights/inbound', 'AisController@getInboundFlights');
+    $router->post('ais/flights/outbound', 'AisController@getOutboundFlights');
 });

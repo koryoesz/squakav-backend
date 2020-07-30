@@ -24,6 +24,7 @@ use App\Components\EaseFlightValidation;
 use App\Components\Auth;
 use App\Services\FlightAtsAddresseesService;
 use App\Models\Ais;
+use App\Models\Operator;
 
 class FlightAtsService
 {
@@ -91,6 +92,10 @@ class FlightAtsService
             // create flight
 
             $params['operator_id'] = $auth->getId();
+            if($auth->getType() == UserType::TYPE_OPERATOR){
+                $user = Operator::find($auth->getId());
+                $params['departure_airport_id'] = $user->airport->system_airport->id;
+            }
             $flight = FlightAts::create($params);
 
             if(empty($flight)){
@@ -182,6 +187,10 @@ class FlightAtsService
             function () use ($params, $auth){
                 // create flight
                 $params['operator_id'] = $auth->getId();
+                if($auth->getType() == UserType::TYPE_OPERATOR){
+                    $user = Operator::find($auth->getId());
+                    $params['destination_airport_id'] = $user->airport->icao_code;
+                }
                 $flight = FlightAts::create($params);
 
                 if(empty($flight)){

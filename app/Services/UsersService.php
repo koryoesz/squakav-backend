@@ -28,7 +28,7 @@ class UsersService
                 unset($data[0]->airport);
                 unset($data[0]->airport->system_airport_id);
                 $data[0]->airport->icao_code = $icao_code;
-                return $data;
+                return $data[0];
             }
 
             $user = $class_user::find($auth->getId());

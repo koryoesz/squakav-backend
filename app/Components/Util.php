@@ -11,6 +11,7 @@ namespace App\Components;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use IcyApril\CryptoLib;
+use Carbon\Carbon;
 
 class Util
 {
@@ -50,5 +51,21 @@ class Util
             $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
         }
         return implode('_', $ret);
+    }
+
+    public static function getDayFromDate($date)
+    {
+        $day_map = [
+            1 => "monday",
+            2 =>  "tuesday",
+            3 => "wednesday",
+            4 => "thursday",
+            5 => "friday",
+            6 => "saturday",
+            0 => "sunday"
+        ];
+
+        $day = Carbon::createFromDate($date)->dayOfWeek;
+        return $day_map[$day];
     }
 }

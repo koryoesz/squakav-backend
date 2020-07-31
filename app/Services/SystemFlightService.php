@@ -22,6 +22,7 @@ use App\Components\Auth;
 use App\Components\Response as MyResponse;
 use App\Components\ErrorCode;
 use App\Components\Exception as MyException;
+use App\Components\Util;
 
 class SystemFlightService
 {
@@ -607,6 +608,9 @@ class SystemFlightService
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
         $date = $params['date'];
+
+        $day = Util::getDayFromDate($date);
+
         $flights = null;
 
         $user = Ais::find($auth->getId());
@@ -616,7 +620,6 @@ class SystemFlightService
                 $query->where('id', $user->state->id);
             });
         })->where('status_id', Status::APPROVED)
-            ->where('date', $date)
             ->orderBy('created_at', 'desc')->get();
 
         $flights = [];
@@ -629,8 +632,15 @@ class SystemFlightService
             if($flight->system_flight_types_id == SystemFightType::RPL){
 
                 if($temp_flight->departure_airport_id == $user->airport->id){
-                    foreach ($temp_flight->flights as $tmp){
-                        $flights[] = $tmp;
+                    foreach ($temp_flight->flights as $fl){
+
+                        $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
+                            $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
+                        })->get();
+
+                        if($query_temp->count() > 0){
+                            $flights[] = $fl;
+                        }
                     }
                 }
             }
@@ -671,6 +681,8 @@ class SystemFlightService
 
         $date = $params['date'];
 
+        $day = Util::getDayFromDate($date);
+
         $user = Ais::find($auth->getId());
 
         $flights_query = SystemFlight::whereHas('operator', function ($query) use ($user) {
@@ -678,7 +690,6 @@ class SystemFlightService
                 $query->where('id', $user->state->id);
             });
         })->where('status_id', Status::APPROVED)
-            ->where('date', $date)
             ->orderBy('created_at', 'desc')->get();
 
         $flights = [];
@@ -693,12 +704,25 @@ class SystemFlightService
                 foreach ($temp_flight->flights as $fl){
                     if(isset($fl->destination_airport_id)){
                         if($fl->destination_airport_id == $user->airport->id){
-                            $flights[] = $fl;
+
+                            $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
+                                $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
+                            })->get();
+
+                            if($query_temp->count() > 0){
+                                $flights[] = $fl;
+                            }
                         }
                     }
                     else {
                             if (isset($fl->destination) && $fl->destination == $user->airport->icao_code) {
-                                $flights[] = $fl;
+
+                                $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
+                                    $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
+                                })->get();
+                                if(!$query_temp->isEmpty()){
+                                    $flights[] = $fl;
+                                }
                             }
                         }
                     }
@@ -707,13 +731,16 @@ class SystemFlightService
                 if(isset($temp_flight->destination_airport_id) &&
                     $temp_flight->destination_airport_id == $user->airport->id)
                 {
-                    if($temp_flight->destination_airport_id == $user->airport->id){
+                    if($temp_flight->destination_airport_id == $user->airport->id
+                         && $temp_flight->flight_date == $date){
                         $flights[] = $temp_flight;
                     }
                 }
                 else{
                     if(isset($temp_flight->destination)
-                        && $temp_flight->destination == $user->airport->icao_code){
+                        && $temp_flight->destination == $user->airport->icao_code
+                        && $temp_flight->flight_date == $date
+                        ){
                         $flights[] = $temp_flight;
                     }
                 }

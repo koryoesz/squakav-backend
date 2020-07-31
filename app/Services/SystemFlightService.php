@@ -615,7 +615,11 @@ class SystemFlightService
 
         $user = Ais::find($auth->getId());
 
-        $flights_query = SystemFlight::where('status_id', Status::APPROVED)
+        $flights_query = SystemFlight::whereHas('operator', function ($query) use ($user) {
+            $query->whereHas('state', function ($query) use ($user) {
+                $query->where('id', $user->state->id);
+            });
+        })->where('status_id', Status::APPROVED)
             ->orderBy('created_at', 'desc')->get();
 
         $flights = [];

@@ -720,7 +720,7 @@ class SystemFlightService
                                 $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
                                     $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
                                 })->get();
-                                if(!$query_temp->isEmpty()){
+                                if(!$query_temp->count() > 0){
                                     $flights[] = $fl;
                                 }
                             }

@@ -615,11 +615,7 @@ class SystemFlightService
 
         $user = Ais::find($auth->getId());
 
-        $flights_query = SystemFlight::whereHas('operator', function ($query) use ($user) {
-            $query->whereHas('state', function ($query) use ($user) {
-                $query->where('id', $user->state->id);
-            });
-        })->where('status_id', Status::APPROVED)
+        $flights_query = SystemFlight::where('status_id', Status::APPROVED)
             ->orderBy('created_at', 'desc')->get();
 
         $flights = [];
@@ -685,11 +681,7 @@ class SystemFlightService
 
         $user = Ais::find($auth->getId());
 
-        $flights_query = SystemFlight::whereHas('operator', function ($query) use ($user) {
-            $query->whereHas('state', function ($query) use ($user) {
-                $query->where('id', $user->state->id);
-            });
-        })->where('status_id', Status::APPROVED)
+        $flights_query = SystemFlight::where('status_id', Status::APPROVED)
             ->orderBy('created_at', 'desc')->get();
 
         $flights = [];
@@ -729,12 +721,10 @@ class SystemFlightService
             }
             else{
                 if(isset($temp_flight->destination_airport_id) &&
-                    $temp_flight->destination_airport_id == $user->airport->id)
+                    $temp_flight->destination_airport_id == $user->airport->id
+                    && $temp_flight->flight_date == $date)
                 {
-                    if($temp_flight->destination_airport_id == $user->airport->id
-                         && $temp_flight->flight_date == $date){
-                        $flights[] = $temp_flight;
-                    }
+                    $flights[] = $temp_flight;
                 }
                 else{
                     if(isset($temp_flight->destination)

@@ -28,7 +28,7 @@ class SystemAirportService
         if(empty($system_airports))
         {
             if($auth->getType() == UserType::TYPE_OPERATOR){
-                $system_airports = DB::table('system_airports')->select(['id', 'name'])->get();
+                $system_airports = DB::table('system_airports')->select(['id', 'icao_code'])->get();
                 Cache::put('system_airports_operator', $system_airports, 180000);
             } else{
                 $system_airports = SystemAirport::all();

@@ -41,6 +41,6 @@ class CreateTowerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tower');
+        Schema::dropIfExists('towers');
     }
 }

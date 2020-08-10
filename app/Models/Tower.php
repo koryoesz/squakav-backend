@@ -40,4 +40,9 @@ class Tower extends User
     {
         return $this->hasOne('App\Models\State', 'id', 'state_id');
     }
+
+    public function airport()
+    {
+        return $this->hasOne('App\Models\SystemAirport', 'id', 'system_airport_id');
+    }
 }

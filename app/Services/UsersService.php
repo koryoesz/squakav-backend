@@ -19,7 +19,6 @@ class UsersService
     {
         if(!empty($auth))
         {
-
             $class_user = UserType::getClassById($auth->getType());
 
             if($auth->getType() == UserType::TYPE_OPERATOR){

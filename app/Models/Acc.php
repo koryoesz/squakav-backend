@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class Acc extends User
 {
     protected $table = "acc";
-    
+
     public static function getUsingLoginInfo($params)
     {
         return self::where(function ($query) use ($params){

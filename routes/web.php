@@ -80,11 +80,8 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
 // update Ats draft
     $router->post('flight/ats/draft/update/{flight_id}', 'FlightAtsController@updateDraft');
 
-    // SYstem Airports
+    // System Airports
     $router->get('system-airports', 'SystemAirportController@getAll');
-
-    // Get Authenticated User
-    $router->get('user', 'UsersController@getUserInfo');
 
     // Create, Draft Rpl Flight
     $router->post('flight/rpl/create', 'FlightRplController@create');
@@ -113,4 +110,16 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , func
     // Ais Calendar Listing
     $router->post('ais/flights/inbound', 'AisController@getInboundFlights');
     $router->post('ais/flights/outbound', 'AisController@getOutboundFlights');
+
+});
+
+
+$router->group(['prefix' => 'api', 'middleware' => ['auth:tower']] , function () use ($router) {
+    // Tower
+    $router->get('tower/day-to-day/inbound', 'TowerController@getDayToDayListingInbound');
+});
+
+$router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais&tower&acc']] , function () use ($router) {
+    // Get Authenticated User
+    $router->get('user', 'UsersController@getUserInfo');
 });

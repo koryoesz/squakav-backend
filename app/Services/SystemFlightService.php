@@ -23,6 +23,9 @@ use App\Components\Response as MyResponse;
 use App\Components\ErrorCode;
 use App\Components\Exception as MyException;
 use App\Components\Util;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use App\Models\Tower;
 
 class SystemFlightService
 {
@@ -752,5 +755,83 @@ class SystemFlightService
     public function getOverflyFlights(Auth $auth)
     {
 
+    }
+
+    /**
+     * @param Auth $auth
+     * @return array
+     * @throws MyException
+     */
+    public function getDayToDayListingInbound(Auth $auth)
+    {
+        if ($auth->getType() != UserType::TYPE_TOWER) {
+            throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
+        }
+
+        $today = Carbon::parse(Carbon::today())->format("Y-m-d");
+        $day = Util::getDayFromDate($today);
+
+        $user = Tower::find($auth->getId());
+
+        $flights_query = SystemFlight::where('status_id', Status::APPROVED)
+            ->orderBy('created_at', 'desc')->get();
+
+        $flights = [];
+
+        foreach($flights_query as $flight)
+        {
+            $flight_class = SystemFightType::getClassById($flight->system_flight_types_id);
+            $temp_flight = $flight_class::find($flight->flight_id);
+
+            if($flight->system_flight_types_id == SystemFightType::RPL){
+
+                foreach ($temp_flight->flights as $fl){
+                    if(isset($fl->destination_airport_id)){
+                        if($fl->destination_airport_id == $user->airport->id){
+
+                            $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
+                                $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
+                            })->get();
+
+                            if($query_temp->count() > 0){
+                                $flights[] = $fl;
+                            }
+                        }
+                    }
+                    else {
+                        if (isset($fl->destination) && $fl->destination == $user->airport->icao_code) {
+
+                            $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
+                                $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
+                            })->get();
+                            if(!$query_temp->count() > 0){
+                                $flights[] = $fl;
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                if(isset($temp_flight->destination_airport_id) &&
+                    $temp_flight->destination_airport_id == $user->airport->id
+                    && $temp_flight->flight_date == $today)
+                {
+                    $flights[] = $temp_flight;
+                }
+                else{
+                    if(isset($temp_flight->destination)
+                        && $temp_flight->destination == $user->airport->icao_code
+                        && $temp_flight->flight_date == $today
+                    ){
+                        $flights[] = $temp_flight;
+                    }
+                }
+            }
+        }
+
+        $collection = collect([$flights]);
+        $sorted = $collection->sortBy('time');
+
+        return $sorted->values()->all();
     }
 }

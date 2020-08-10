@@ -103,7 +103,7 @@ class CreateUserLogin extends Migration
             [
                 'id' => 2, 'state_id' => State::KANO, 'role_id' => 1, 'first_name' => 'Yomi',
                 'last_name' => 'Kolawole', 'avatar' => 'empty', 'system_airport_id' => 1,
-                'email' => 'clintonacc@email.com'],
+                'email' => 'yomiacc@email.com'],
         ]);
 
         DB::table('local_auth')->insert([

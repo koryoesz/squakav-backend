@@ -19,7 +19,7 @@ $router->get('/', function () use ($router) {
 
 $router->post('api/auth/local/{user_type}/authenticate', ['uses' => 'AuthController@authenticate']);
 
-$router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais']] , function () use ($router) {
+$router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais&tower']] , function () use ($router) {
     // Aircraft Type route
     $router->get('aircraftype/{codeIataAircraft}', 'AircraftTypeController@getAircraftType');
 

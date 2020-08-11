@@ -20,4 +20,10 @@ class TowerController extends Controller
         $flights = (new SystemFlightService())->getDayToDayListingInbound($auth);
         return JsonResponse::success($flights);
     }
+
+    public  function getDayToDayListingOutbound(Auth $auth)
+    {
+        $flights = (new SystemFlightService())->getDayToDayListingOutbound($auth);
+        return JsonResponse::success($flights);
+    }
 }

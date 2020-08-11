@@ -117,6 +117,8 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais&tower']] 
 $router->group(['prefix' => 'api', 'middleware' => ['auth:tower']] , function () use ($router) {
     // Tower
     $router->get('tower/day-to-day/inbound', 'TowerController@getDayToDayListingInbound');
+    $router->get('tower/day-to-day/outbound', 'TowerController@getDayToDayListingOutbound');
+
 });
 
 $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais&tower&acc']] , function () use ($router) {

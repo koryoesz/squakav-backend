@@ -876,13 +876,13 @@ class SystemFlightService
                     $temp_flight->departure_airport_id == $user->airport->id
                     && $temp_flight->flight_date == $today)
                 {
-                    $flights[] = $temp_flight;
+                    $flights[] = $temp_flight->with('operator')->get()[0];
                 }
                 else{
                     if(isset($temp_flight->destination)
                         && $temp_flight->destination == $user->airport->icao_code
                         && $temp_flight->flight_date == $today){
-                        $flights[] = $temp_flight;
+                        $flights[] = $temp_flight->with('operator')->get()[0];
                     }
                 }
             }

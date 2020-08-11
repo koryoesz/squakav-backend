@@ -20,4 +20,9 @@ class FlightRplFlight extends Model
     {
         return $this->hasOne('App\Models\FlightRplDay', 'id', 'flight_rpl_days_id');
     }
+
+    public function addressees()
+    {
+        return $this->hasMany('App\Models\FlightRplFlightsAddressees', 'flight_id');
+    }
 }

@@ -77,4 +77,9 @@ class FlightAts extends Model
         return $this->hasOne('App\Models\Operator', 'id', 'operator_id');
     }
 
+    public function addressees()
+    {
+        return $this->hasMany('App\Models\FlightAtsAddressees', 'flight_id');
+    }
+
 }

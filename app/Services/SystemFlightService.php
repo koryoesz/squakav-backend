@@ -816,14 +816,18 @@ class SystemFlightService
                     $temp_flight->destination_airport_id == $user->airport->id
                     && $temp_flight->flight_date == $today)
                 {
-                    $flights[] = $temp_flight->with('operator')->get()[0];
+                    $tmp = $temp_flight;
+                    $tmp->operator = $temp_flight->operator;
+                    $flights[] = $tmp;
                 }
                 else{
                     if(isset($temp_flight->destination)
                         && $temp_flight->destination == $user->airport->icao_code
                         && $temp_flight->flight_date == $today
                     ){
-                        $flights[] = $temp_flight->with('operator')->get()[0];;
+                        $tmp = $temp_flight;
+                        $tmp->operator = $temp_flight->operator;
+                        $flights[] = $tmp;
                     }
                 }
             }
@@ -876,13 +880,18 @@ class SystemFlightService
                     $temp_flight->departure_airport_id == $user->airport->id
                     && $temp_flight->flight_date == $today)
                 {
-                    $flights[] = $temp_flight->with('operator')->get()[0];
+                    $tmp = $temp_flight;
+                    $tmp->operator = $temp_flight->operator;
+                    $flights[] = $tmp;
                 }
                 else{
                     if(isset($temp_flight->departure)
                         && $temp_flight->departure == $user->airport->icao_code
-                        && $temp_flight->flight_date == $today){
-                        $flights[] = $temp_flight->with('operator')->get()[0];
+                        && $temp_flight->flight_date == $today)
+                    {
+                        $tmp = $temp_flight;
+                        $tmp->operator = $temp_flight->operator;
+                        $flights[] = $tmp;
                     }
                 }
             }

@@ -82,4 +82,11 @@ class FlightAts extends Model
         return $this->hasMany('App\Models\FlightAtsAddressees', 'flight_id');
     }
 
+    public function scopeApproved($query)
+    {
+        return $query->whereIn('status_id', [Status::APPROVED]);
+    }
+
+
+
 }

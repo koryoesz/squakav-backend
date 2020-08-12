@@ -13,4 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 class FlightAtsAddressees extends Model
 {
     protected $table = "flight_ats_addressees";
+
+    public function flight()
+    {
+        return $this->belongsTo('App\Models\FlightAts', 'flight_id', 'id');
+    }
 }

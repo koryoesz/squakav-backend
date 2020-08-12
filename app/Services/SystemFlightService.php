@@ -751,14 +751,6 @@ class SystemFlightService
 
     /**
      * @param Auth $auth
-     */
-    public function getOverflyFlights(Auth $auth)
-    {
-
-    }
-
-    /**
-     * @param Auth $auth
      * @return array
      * @throws MyException
      */

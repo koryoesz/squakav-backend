@@ -111,6 +111,8 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:operator&ais&tower']] 
     $router->post('ais/flights/inbound', 'AisController@getInboundFlights');
     $router->post('ais/flights/outbound', 'AisController@getOutboundFlights');
 
+    // overfly
+    $router->get('ais/flights/overfly', 'OverflyController@ais');
 });
 
 

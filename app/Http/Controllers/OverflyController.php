@@ -12,12 +12,13 @@ use App\Components\Auth;
 use App\Components\Response as JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\OverflyService;
+use App\Components\Util;
 
 class OverflyController
 {
-    public function ais(Auth $auth)
+    public function ais(Request $request, Auth $auth)
     {
-        $flights = (new OverflyService())->ais($auth);
+        $flights = (new OverflyService())->ais($auth, Util::getRequestBody($request));
         return JsonResponse::success($flights);
     }
 }

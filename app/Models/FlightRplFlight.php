@@ -25,4 +25,9 @@ class FlightRplFlight extends Model
     {
         return $this->hasMany('App\Models\FlightRplFlightsAddressees', 'flight_id');
     }
+
+    public function rplFlight()
+    {
+        return $this->belongsTo('App\Models\FlightRpl', 'flight_rpl_id', 'id');
+    }
 }

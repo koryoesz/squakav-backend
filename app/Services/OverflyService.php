@@ -71,7 +71,6 @@ class OverflyService
             })->get();
 
             if($query_temp->count() > 0){
-//                $temp_flight->depature = $temp_flight->rplFlight->operator->airport->name;
                 $flights[] = $temp_flight->with('rplFlight.operator.airport.system_airport')->get()[0];
             }
         }

@@ -652,11 +652,11 @@ class SystemFlightService
                     $temp_flight->departure_airport_id == $user->airport->id
                     && $temp_flight->flight_date == $date)
                 {
-                    $flights[] = $temp_flight;
+                    $flights[] = $temp_flight->with('otherInformation.relation')->get()[0];
                 }
                 else{
-                    if(isset($temp_flight->destination)
-                        && $temp_flight->destination == $user->airport->icao_code
+                    if(isset($temp_flight->departure)
+                        && $temp_flight->departure == $user->airport->icao_code
                         && $temp_flight->flight_date == $date){
                         $flights[] = $temp_flight;
                     }

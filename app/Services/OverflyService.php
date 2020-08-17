@@ -61,7 +61,7 @@ class OverflyService
                                                 ->get();
 
         foreach ($addrs as $addr){
-            $flights[] = $addr->flight;
+            $flights[] = $addr->flight->with('operator.airport.system_airport')->get()[0];
         }
 
         foreach ($addrsRpl as $addr){

@@ -23,6 +23,7 @@ class CreateFlightAtsTable extends Migration
             $table->unsignedInteger('operator_id');
             $table->unsignedInteger('wake_turbulence_category_id')->nullable();
             $table->unsignedSmallInteger('flight_type_id')->nullable();
+            $table->tinyInteger('type_id')->default(1);
             $table->unsignedInteger('destination_airport_id')->nullable();
             $table->unsignedInteger('departure_airport_id')->nullable();
             $table->string('departure', 4)->nullable();

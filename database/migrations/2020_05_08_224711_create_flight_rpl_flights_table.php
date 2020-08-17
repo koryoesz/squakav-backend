@@ -20,7 +20,7 @@ class CreateFlightRplFlightsTable extends Migration
             $table->unsignedBigInteger('flight_rpl_id');
             $table->unsignedBigInteger('flight_rpl_days_id');
             $table->unsignedSmallInteger('status_id')->default(1);
-            $table->unsignedSmallInteger('flight_type_id')->default(2);
+            $table->tinyInteger('type_id')->default(2);
             $table->unsignedInteger('destination_airport_id')->nullable();
             $table->string('aircraft_identification', 7)->nullable();
             $table->string('aircraft_reg', 10)->nullable();

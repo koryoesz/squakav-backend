@@ -810,8 +810,9 @@ class SystemFlightService
                     $temp_flight->destination_airport_id == $user->airport->id
                     && $temp_flight->flight_date == $today)
                 {
+                    $temp_flight = $temp_flight::where('id', $temp_flight->id)
+                        ->with(['operator', 'otherInformation.relation'])->get()[0];
                     $tmp = $temp_flight;
-                    $tmp->operator = $temp_flight->operator;
                     $flights[] = $tmp;
                 }
                 else{
@@ -819,8 +820,9 @@ class SystemFlightService
                         && $temp_flight->destination == $user->airport->icao_code
                         && $temp_flight->flight_date == $today
                     ){
+                        $temp_flight = $temp_flight::where('id', $temp_flight->id)
+                            ->with(['operator', 'otherInformation.relation'])->get()[0];
                         $tmp = $temp_flight;
-                        $tmp->operator = $temp_flight->operator;
                         $flights[] = $tmp;
                     }
                 }
@@ -874,8 +876,9 @@ class SystemFlightService
                     $temp_flight->departure_airport_id == $user->airport->id
                     && $temp_flight->flight_date == $today)
                 {
+                    $temp_flight = $temp_flight::where('id', $temp_flight->id)
+                        ->with(['operator', 'otherInformation.relation'])->get()[0];
                     $tmp = $temp_flight;
-                    $tmp->operator = $temp_flight->operator;
                     $flights[] = $tmp;
                 }
                 else{
@@ -883,8 +886,9 @@ class SystemFlightService
                         && $temp_flight->departure == $user->airport->icao_code
                         && $temp_flight->flight_date == $today)
                     {
+                        $temp_flight = $temp_flight::where('id', $temp_flight->id)
+                            ->with(['operator', 'otherInformation.relation'])->get()[0];
                         $tmp = $temp_flight;
-                        $tmp->operator = $temp_flight->operator;
                         $flights[] = $tmp;
                     }
                 }

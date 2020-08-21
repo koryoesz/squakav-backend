@@ -895,9 +895,6 @@ class SystemFlightService
             }
         }
 
-        $collection = collect($flights);
-        $sorted = $collection->sortBy('time');
-
-        return $sorted->values()->all();
+        return Util::arrangeFlightPerTime($flights);
     }
 }

@@ -77,7 +77,7 @@ class OverflyService
             }
         }
 
-        return $flights;
+        return Util::arrangeFlightPerTime($flights);
     }
 
     public function tower(Auth $auth)

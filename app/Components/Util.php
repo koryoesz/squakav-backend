@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use IcyApril\CryptoLib;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class Util
 {
@@ -67,5 +68,13 @@ class Util
 
         $day = Carbon::createFromDate($date)->dayOfWeek;
         return $day_map[$day];
+    }
+
+    public static function arrangeFlightPerTime(array $flights)
+    {
+        $collection = collect($flights);
+        $sorted = $collection->sortBy('time');
+
+        return $sorted->values()->all();
     }
 }

@@ -21,4 +21,9 @@ class OverflyController
         $flights = (new OverflyService())->ais($auth, Util::getRequestBody($request));
         return JsonResponse::success($flights);
     }
+
+    public function tower(Request $request, Auth $auth)
+    {
+
+    }
 }

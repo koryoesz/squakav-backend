@@ -120,6 +120,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['auth:tower']] , function ()
     // Tower
     $router->get('tower/day-to-day/inbound', 'TowerController@getDayToDayListingInbound');
     $router->get('tower/day-to-day/outbound', 'TowerController@getDayToDayListingOutbound');
+//    $router->post('tower/day-to-day/overfly', 'TowerController@getDayToDayListingOverfly');
 
 });
 

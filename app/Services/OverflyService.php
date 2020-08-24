@@ -82,16 +82,18 @@ class OverflyService
 
     public function tower(Auth $auth)
     {
-        if ($auth->getType() != UserType::TYPE_AIS) {
+        if ($auth->getType() != UserType::TYPE_TOWER) {
             throw new MyException('You are not Authorized.', ErrorCode::ACCESS_DENIED);
         }
 
+
         $flights = [];
+        $date = $this->today;
         $day = Util::getDayFromDate($this->today);
 
         $user = Ais::find($auth->getId());
-        $addrs = FlightAtsAddressees::whereHas('flight', function($query) {
-            $query->where('flight_date', $this->today);
+        $addrs = FlightAtsAddressees::whereHas('flight', function($query) use ($date) {
+            $query->where('flight_date', $date);
         })
             ->where('system_airport_id', $user->airport->id)
             ->get();
@@ -100,7 +102,8 @@ class OverflyService
             ->get();
 
         foreach ($addrs as $addr){
-            $flights[] = $addr->flight;
+            $flights[] = $addr->flight::where('id', $addr->flight->id)
+                ->with(['otherInformation.relation', 'operator.airport.system_airport'])->get()[0];
         }
 
         foreach ($addrsRpl as $addr){
@@ -110,10 +113,10 @@ class OverflyService
             })->get();
 
             if($query_temp->count() > 0){
-                $flights[] = $temp_flight;
+                $flights[] = $temp_flight->with('rplFlight.operator.airport.system_airport')->get()[0];
             }
         }
 
-        return $flights;
+        return Util::arrangeFlightPerTime($flights);
     }
 }

@@ -346,6 +346,9 @@ class FlightAtsService
                     $system_flight[0]->status_id = Status::APPROVED;
                     $flight->status_id = Status::APPROVED;
                     $flight->accepted_by = $auth->getId();
+                    if(isset($params['additional_addressees'])){
+                        $flight->additional_addressees = $params['additional_addressees'];
+                    }
 
                     $system_flight[0]->save();
                     $flight->save();

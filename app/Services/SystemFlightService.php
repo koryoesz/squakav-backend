@@ -791,7 +791,8 @@ class SystemFlightService
                             })->get();
 
                             if($query_temp->count() > 0){
-                                $flights[] = $fl;
+                                $flights[] = $fl::where('id', $query_temp[0]->id)
+                                    ->with('rplFlight.operator.airport.system_airport')->get()[0];
                             }
                         }
                     }
@@ -866,7 +867,8 @@ class SystemFlightService
                         })->get();
 
                         if($query_temp->count() > 0){
-                            $flights[] = $fl;
+                            $flights[] = $fl::where('id', $query_temp[0]->id)
+                                ->with('rplFlight.operator.airport.system_airport')->get()[0];
                         }
                     }
                 }

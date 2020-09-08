@@ -648,11 +648,11 @@ class SystemFlightService
 
                         $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
                             $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
-                        })->get();
+                        })->first();
 
-                        if($query_temp->count() > 0){
-                            $flights[] = $fl::where('id', $query_temp[0]->id)
-                                ->with('rplFlight.operator.airport.system_airport')->get()[0];
+                        if($query_temp != null){
+                            $flights[] =
+                                $fl->with('rplFlight.operator.airport.system_airport')->get()[0];
 
                         }
                     }
@@ -720,11 +720,12 @@ class SystemFlightService
 
                             $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
                                 $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
-                            })->get();
+                            })->first();
 
-                            if($query_temp->count() > 0){
-                                $flights[] = $fl::where('id', $query_temp[0]->id)
-                                    ->with('rplFlight.operator.airport.system_airport')->get()[0];
+                            if($query_temp != null){
+                                $flights[] =
+                                    $fl->with('rplFlight.operator.airport.system_airport')->get()[0];
+
                             }
                         }
                     }
@@ -797,11 +798,12 @@ class SystemFlightService
 
                             $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
                                 $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
-                            })->get();
+                            })->first();
 
-                            if($query_temp->count() > 0){
-                                $flights[] = $fl::where('id', $query_temp[0]->id)
-                                    ->with('rplFlight.operator.airport.system_airport')->get()[0];
+                            if($query_temp != null){
+                                $flights[] =
+                                    $fl->with('rplFlight.operator.airport.system_airport')->get()[0];
+
                             }
                         }
                     }
@@ -873,11 +875,12 @@ class SystemFlightService
 
                         $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
                             $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
-                        })->get();
+                        })->first();
 
-                        if($query_temp->count() > 0){
-                            $flights[] = $fl::where('id', $query_temp[0]->id)
-                                ->with('rplFlight.operator.airport.system_airport')->get()[0];
+                        if($query_temp != null){
+                            $flights[] =
+                                $fl->with('rplFlight.operator.airport.system_airport')->get()[0];
+
                         }
                     }
                 }

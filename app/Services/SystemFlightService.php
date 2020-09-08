@@ -562,6 +562,8 @@ class SystemFlightService
         throw_if($validator->fails(), ValidationException::class, $validator->errors());
 
         $date = $params['date'];
+        $day = Util::getDayFromDate($date);
+
         $flights = null;
 
         if($auth->getType() == UserType::TYPE_OPERATOR)
@@ -573,7 +575,6 @@ class SystemFlightService
             })->where('status_id', Status::APPROVED)
                 ->where('date', $date)->orderBy('created_at', 'desc')->get();
 
-
             foreach($flights_query as $flight)
             {
                 $flight_class = SystemFightType::getClassById($flight->system_flight_types_id);
@@ -582,7 +583,15 @@ class SystemFlightService
                 if($flight->system_flight_types_id == SystemFightType::RPL){
 
                     foreach ($temp_flight->flights as $fl){
-                        $flights[] = $fl;
+                        $query_temp = $fl->whereHas('days', function($query) use ($day, $fl){
+                            $query->where('id', $fl->flight_rpl_days_id)->where($day, 1);
+                        })->first();
+
+
+                        if($query_temp != null){
+                            $flights[] = $query_temp;
+
+                        }
                     }
                 }
                 else{

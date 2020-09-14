@@ -564,7 +564,7 @@ class SystemFlightService
         $date = $params['date'];
         $day = Util::getDayFromDate($date);
 
-        $flights = null;
+        $flights = [];
 
         if($auth->getType() == UserType::TYPE_OPERATOR)
         {
@@ -573,7 +573,7 @@ class SystemFlightService
                     $query->where('id', $auth->getOrganisationId());
                 });
             })->where('status_id', Status::APPROVED)
-                ->where('date', $date)->orderBy('created_at', 'desc')->get();
+                ->orderBy('created_at', 'desc')->get();
 
             foreach($flights_query as $flight)
             {
@@ -595,7 +595,9 @@ class SystemFlightService
                     }
                 }
                 else{
-                    $flights[] = $temp_flight;
+                    if($temp_flight->flight_date == $date){
+                        $flights[] = $temp_flight;
+                    }
                 }
             }
 

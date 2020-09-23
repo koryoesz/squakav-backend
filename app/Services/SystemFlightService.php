@@ -654,7 +654,7 @@ class SystemFlightService
 
                         if($query_temp != null){
                             $flights[] =
-                                $fl->with('rplFlight.operator.airport.system_airport')->get()[0];
+                                $query_temp->with('rplFlight.operator.airport.system_airport')->get()[0];
 
                         }
                     }
@@ -726,7 +726,7 @@ class SystemFlightService
 
                             if($query_temp != null){
                                 $flights[] =
-                                    $fl->with('rplFlight.operator.airport.system_airport')->get()[0];
+                                    $query_temp->with('rplFlight.operator.airport.system_airport')->get()[0];
 
                             }
                         }
@@ -804,7 +804,7 @@ class SystemFlightService
 
                             if($query_temp != null){
                                 $flights[] =
-                                    $fl->with('rplFlight.operator.airport.system_airport')->get()[0];
+                                    $query_temp->with('rplFlight.operator.airport.system_airport')->get()[0];
 
                             }
                         }
@@ -881,7 +881,7 @@ class SystemFlightService
 
                         if($query_temp != null){
                             $flights[] =
-                                $fl->with('rplFlight.operator.airport.system_airport')->get()[0];
+                                $query_temp->with('rplFlight.operator.airport.system_airport')->get()[0];
 
                         }
                     }

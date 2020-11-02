@@ -666,7 +666,7 @@ class SystemFlightService
                     && $temp_flight->flight_date == $date)
                 {
                     $flights[] = $temp_flight::where('id', $temp_flight->id)
-                        ->with('otherInformation.relation')->get()[0];
+                        ->with(['otherInformation.relation', 'operator.organisation'])->get()[0];
                 }
                 else{
                     if(isset($temp_flight->departure)
@@ -750,7 +750,7 @@ class SystemFlightService
                     && $temp_flight->flight_date == $date)
                 {
                     $flights[] = $temp_flight::where('id', $temp_flight->id)
-                        ->with('otherInformation.relation')->get()[0];
+                        ->with(['otherInformation.relation', 'operator.organisation'])->get()[0];
                 }
                 else{
                     if(isset($temp_flight->destination)
